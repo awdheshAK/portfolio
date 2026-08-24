@@ -220,16 +220,27 @@ input, textarea { font: inherit; }
    4. HEADER
    ------------------------------------------------------------------------- */
 .site-header {
+  /* Default state: solid. Every interior page (no full-bleed hero behind
+     the header) uses this as-is with zero JS. Only .site-header--overlay
+     (the homepage, over the hero slider) starts transparent instead. */
   position: fixed;
   inset: 0 0 auto 0;
   z-index: 500;
   height: var(--header-h);
   display: flex;
   align-items: center;
-  color: var(--color-white);
+  background: rgba(248, 246, 242, 0.92);
+  backdrop-filter: blur(10px);
+  color: var(--color-ink);
+  box-shadow: 0 1px 0 var(--color-line);
   transition: background-color var(--dur-base) var(--ease-out), color var(--dur-base) var(--ease-out), box-shadow var(--dur-base) var(--ease-out);
 }
-.site-header::before {
+.site-header--overlay {
+  background: transparent;
+  color: var(--color-white);
+  box-shadow: none;
+}
+.site-header--overlay::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -238,15 +249,15 @@ input, textarea { font: inherit; }
   opacity: 1;
   transition: opacity var(--dur-base) var(--ease-out);
 }
-.site-header.is-scrolled {
+.site-header--overlay.is-scrolled {
   background: rgba(248, 246, 242, 0.92);
   backdrop-filter: blur(10px);
   color: var(--color-ink);
   box-shadow: 0 1px 0 var(--color-line);
 }
-.site-header.is-scrolled::before { opacity: 0; }
-.site-header.nav-open { color: var(--color-ink); background: transparent; box-shadow: none; }
-.site-header.nav-open::before { opacity: 0; }
+.site-header--overlay.is-scrolled::before { opacity: 0; }
+.site-header--overlay.nav-open { color: var(--color-ink); background: transparent; box-shadow: none; }
+.site-header--overlay.nav-open::before { opacity: 0; }
 
 .site-header__inner {
   width: 100%;
@@ -388,6 +399,8 @@ input, textarea { font: inherit; }
 .site-nav__link:focus-visible .site-nav__arrow { opacity: 1; transform: translateX(0); background: var(--color-navy); color: var(--color-white); border-color: var(--color-navy); }
 .site-nav__link:hover .site-nav__text,
 .site-nav__link:focus-visible .site-nav__text { color: var(--color-gold); transform: translateX(6px); }
+.site-nav__link[aria-current="page"] .site-nav__text { color: var(--color-gold); }
+.site-nav__sublist a[aria-current="page"] { color: var(--color-ink); font-weight: 600; }
 
 .site-nav__sublist {
   overflow: hidden;
@@ -734,6 +747,295 @@ input, textarea { font: inherit; }
 .site-footer__legal a:focus-visible { color: var(--color-gold-light); }
 
 /* -------------------------------------------------------------------------
+   18. MULTI-PAGE COMPONENT SYSTEM
+   Shared building blocks used across every generated interior page.
+   ------------------------------------------------------------------------- */
+.section { padding: clamp(3.5rem, 8vh, 6rem) 0; }
+.section--ink { background: var(--color-navy); color: var(--color-white); }
+.section--center { text-align: center; }
+.container--article { max-width: 760px; }
+.container--form { max-width: 640px; }
+
+/* Breadcrumb */
+.breadcrumb { margin-bottom: 1.4rem; }
+.breadcrumb ol { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5em; font-size: 0.85rem; }
+.breadcrumb li { color: rgba(255, 255, 255, 0.6); }
+.breadcrumb li:not(:last-child)::after { content: '/'; margin-left: 0.5em; color: rgba(255, 255, 255, 0.3); }
+.breadcrumb a { color: rgba(255, 255, 255, 0.75); transition: color var(--dur-fast) var(--ease-out); }
+.breadcrumb a:hover, .breadcrumb a:focus-visible { color: var(--color-gold-light); }
+.breadcrumb li[aria-current="page"] { color: var(--color-gold-light); }
+
+/* Page header band (every interior page) */
+.page-header {
+  background: var(--color-navy);
+  color: var(--color-white);
+  padding: calc(var(--header-h) + 2.5rem) 0 3rem;
+}
+.page-header__heading {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4.4vw, 3.4rem);
+  font-weight: 500;
+  line-height: 1.15;
+  max-width: 24ch;
+}
+.page-header__lede {
+  margin-top: 0.9em;
+  max-width: 60ch;
+  font-size: 1.05rem;
+  color: rgba(255, 255, 255, 0.78);
+  line-height: 1.65;
+}
+
+/* Unified tile card — replaces the page-specific card variants so every
+   grid (businesses, products, projects, insights, careers, sustainability)
+   shares one component. */
+.tile-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: clamp(1.25rem, 2.5vw, 2rem);
+}
+.tile-card { display: flex; flex-direction: column; }
+.tile-card__frame {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  margin-bottom: 1.4rem;
+}
+.tile-card__frame img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-slow) var(--ease-out); }
+.tile-card:hover .tile-card__frame img,
+.tile-card:focus-visible .tile-card__frame img { transform: scale(1.08); }
+.tile-card__body { display: flex; flex-direction: column; gap: 0.5em; }
+.tile-card__category { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-gold); font-weight: 600; }
+.tile-card__title { font-family: var(--font-display); font-size: 1.25rem; line-height: 1.3; }
+.tile-card__text { color: var(--color-ink-muted); font-size: 0.95rem; line-height: 1.6; }
+.tile-card__cta { display: inline-flex; align-items: center; gap: 0.5em; margin-top: 0.4em; font-weight: 600; font-size: 0.9rem; }
+.tile-card__cta svg { width: 16px; height: 16px; transition: transform var(--dur-fast) var(--ease-out); }
+.tile-card:hover .tile-card__cta svg,
+.tile-card:focus-visible .tile-card__cta svg { transform: translateX(4px); }
+
+/* Standalone highlight list (reuses .why__item look outside the homepage) */
+.why__list--standalone { margin-bottom: 0; }
+
+/* Related-links list */
+.related-list { display: flex; flex-direction: column; gap: 0.9rem; margin-top: 1rem; }
+
+/* Static detail-page hero image band */
+.detail-hero { max-height: 52vh; overflow: hidden; }
+.detail-hero img { width: 100%; height: 100%; max-height: 52vh; object-fit: cover; }
+
+/* Article body */
+.article-body__meta { font-size: 0.85rem; color: var(--color-ink-muted); margin-bottom: 1.5rem; }
+.article-body { display: flex; flex-direction: column; gap: 1.4em; }
+.article-body__text { font-size: 1.05rem; line-height: 1.75; color: var(--color-ink); }
+
+/* Job meta */
+.job-meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1.5rem; margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--color-line); }
+.job-meta__item dt { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-ink-muted); margin-bottom: 0.3em; }
+.job-meta__item dd { font-weight: 600; }
+
+/* Contact page */
+.contact-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: clamp(2rem, 5vw, 4rem); align-items: start; }
+.contact-grid__info address { font-style: normal; font-size: 1.1rem; line-height: 1.7; margin: 0.8em 0 1.2em; }
+.contact-grid__link { display: block; font-weight: 600; font-size: 1.05rem; padding: 0.3em 0; }
+.contact-grid__link:hover, .contact-grid__link:focus-visible { color: var(--color-gold); }
+
+/* Forms */
+.contact-form { display: flex; flex-direction: column; gap: 1.3rem; }
+.form-field { display: flex; flex-direction: column; gap: 0.5em; }
+.form-field label { font-size: 0.85rem; font-weight: 600; color: var(--color-ink-muted); }
+.form-field input,
+.form-field textarea {
+  width: 100%;
+  padding: 0.85em 1em;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  background: var(--color-white);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  resize: vertical;
+  transition: border-color var(--dur-fast) var(--ease-out);
+}
+.form-field input:focus,
+.form-field textarea:focus { border-color: var(--color-gold); outline: none; }
+.contact-form .btn { align-self: flex-start; }
+.contact-form__note { font-size: 0.82rem; color: var(--color-ink-muted); }
+
+/* Office locations */
+.office-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.75rem; }
+.office-card { padding: 2rem; border: 1px solid var(--color-line); border-radius: var(--radius-md); display: flex; flex-direction: column; gap: 0.5em; }
+.office-card__name { font-family: var(--font-display); font-size: 1.2rem; margin-bottom: 0.2em; }
+.office-card__address { font-style: normal; color: var(--color-ink-muted); line-height: 1.6; margin-bottom: 0.4em; }
+.office-card a { font-weight: 600; }
+.office-card a:hover, .office-card a:focus-visible { color: var(--color-gold); }
+
+/* Legal pages */
+.legal-section { padding: 1.6rem 0; border-bottom: 1px solid var(--color-line); }
+.legal-section:last-child { border-bottom: none; }
+.legal-section h2 { font-family: var(--font-display); font-size: 1.3rem; margin-bottom: 0.6em; }
+.legal-section p { line-height: 1.7; color: var(--color-ink-muted); }
+
+/* HTML sitemap page */
+.sitemap-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2.5rem; }
+.sitemap-group h2 { font-family: var(--font-display); font-size: 1.15rem; margin-bottom: 1em; }
+.sitemap-group ul { display: flex; flex-direction: column; gap: 0.6rem; }
+.sitemap-group a { font-size: 0.95rem; color: var(--color-ink-muted); }
+.sitemap-group a:hover, .sitemap-group a:focus-visible { color: var(--color-gold); }
+
+/* -------------------------------------------------------------------------
+   19. HERO SLIDER (homepage only)
+   ------------------------------------------------------------------------- */
+.hero-slider {
+  position: relative;
+  min-height: 100svh;
+  overflow: hidden;
+  color: var(--color-white);
+}
+.hero-slider__slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 1s var(--ease-in-out), visibility 0s linear 1s;
+}
+.hero-slider__slide.is-active {
+  /* Stay position:absolute + inset:0 like every other slide — .hero-slider
+     already gets its height from min-height:100svh, not from an in-flow
+     child, so switching this to position:relative would drop inset:0's
+     sizing and let the slide collapse to its content's natural height. */
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 1s var(--ease-in-out);
+  z-index: 1;
+}
+.hero-slider__media { position: absolute; inset: 0; z-index: -1; }
+.hero-slider__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.06);
+  transition: transform 6s var(--ease-out);
+}
+.hero-slider__slide.is-active .hero-slider__media img { transform: scale(1); }
+.hero-slider__scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(13, 21, 38, 0.92) 0%, rgba(13, 21, 38, 0.4) 55%, rgba(13, 21, 38, 0.28) 100%);
+}
+.hero-slider__content {
+  position: relative;
+  width: 100%;
+  max-width: var(--container-w);
+  margin-inline: auto;
+  padding: 0 var(--gutter) clamp(4.5rem, 12vh, 8rem);
+}
+.hero-slider__eyebrow { color: var(--color-gold-light); }
+.hero-slider__headline {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 5.6vw, 4.6rem);
+  font-weight: 500;
+  line-height: 1.08;
+  max-width: 20ch;
+  margin-bottom: 0.55em;
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.8s var(--ease-out) 0.25s, transform 0.8s var(--ease-out) 0.25s;
+}
+.hero-slider__text {
+  font-size: clamp(1rem, 1.3vw, 1.15rem);
+  max-width: 44ch;
+  color: rgba(255, 255, 255, 0.82);
+  margin-bottom: 2em;
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.8s var(--ease-out) 0.35s, transform 0.8s var(--ease-out) 0.35s;
+}
+.hero-slider__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.8s var(--ease-out) 0.45s, transform 0.8s var(--ease-out) 0.45s;
+}
+.hero-slider__slide.is-active .hero-slider__headline,
+.hero-slider__slide.is-active .hero-slider__text,
+.hero-slider__slide.is-active .hero-slider__actions {
+  opacity: 1;
+  transform: none;
+}
+
+.hero-slider__controls {
+  position: absolute;
+  z-index: 2;
+  left: var(--gutter);
+  right: var(--gutter);
+  bottom: clamp(1.5rem, 4vh, 2.5rem);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+.hero-slider__nav { display: flex; gap: 0.75rem; }
+.hero-slider__nav-btn {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: var(--color-white);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
+}
+.hero-slider__nav-btn svg { width: 18px; height: 18px; }
+.hero-slider__nav-btn:hover, .hero-slider__nav-btn:focus-visible { background: var(--color-white); color: var(--color-navy); border-color: var(--color-white); }
+
+.hero-slider__indicators { display: flex; align-items: center; gap: 0.6rem; }
+.hero-slider__dot {
+  position: relative;
+  width: 40px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.3);
+  overflow: hidden;
+  border-radius: 2px;
+}
+.hero-slider__dot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--color-gold);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+.hero-slider__dot.is-active::after { transform: scaleX(1); transition: transform 6s linear; }
+.hero-slider__dot[aria-current="true"] { background: rgba(255, 255, 255, 0.55); }
+
+.hero-slider__count {
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.7);
+  font-variant-numeric: tabular-nums;
+}
+
+.hero-slider__pause {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: var(--color-white);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.hero-slider__pause svg { width: 15px; height: 15px; }
+.hero-slider__pause:hover, .hero-slider__pause:focus-visible { background: var(--color-white); color: var(--color-navy); border-color: var(--color-white); }
+
+/* -------------------------------------------------------------------------
    15. SCROLL-REVEAL ANIMATION SYSTEM
    ------------------------------------------------------------------------- */
 [data-reveal] {
@@ -766,6 +1068,7 @@ input, textarea { font: inherit; }
   .card-grid--insights { grid-template-columns: repeat(2, 1fr); }
   .site-nav__panel { grid-template-columns: 1fr; }
   .site-nav__col--visual { display: none; }
+  .contact-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 768px) {
@@ -778,6 +1081,8 @@ input, textarea { font: inherit; }
   .site-footer__top { grid-template-columns: 1fr; gap: 2rem; }
   .site-nav__link { font-size: clamp(1.4rem, 6vw, 1.9rem); }
   .sustainability { min-height: 60vh; }
+  .hero-slider__controls { flex-wrap: wrap; }
+  .hero-slider__nav-btn { width: 40px; height: 40px; }
 }
 
 @media (max-width: 576px) {

@@ -27,7 +27,10 @@
      of a scroll listener, so there is zero scroll-handler cost.
      ------------------------------------------------------------------- */
   function initHeaderScrollState() {
-    if (!header) return;
+    // Only the homepage's transparent-over-hero header needs a scroll
+    // state at all — every interior page's header is solid by default in
+    // CSS (.site-header), so there is nothing to observe there.
+    if (!header || !header.classList.contains('site-header--overlay')) return;
 
     var sentinel = document.createElement('div');
     sentinel.setAttribute('aria-hidden', 'true');

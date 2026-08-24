@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 1350" width="1100" height="1350" role="img" aria-label="MJO Why MJ Oswal — Placeholder">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 1350" width="1100" height="1350" role="img" aria-label="MJ Oswal Placeholder Image">
   <defs>
     <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="hsl(205, 32%, 16%)"/>
@@ -18,5 +18,5 @@
   <rect width="1100" height="1350" fill="url(#sheen)"/>
   <!-- Small corner watermark only — bottom-right, well clear of any real
        headline/caption text this image sits behind in the page layout. -->
-  <text x="1050" y="1300" text-anchor="end" dominant-baseline="auto" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#ffffff" fill-opacity="0.38" letter-spacing="1.5">MJO — Why MJ Oswal — Placeholder</text>
+  <text x="1050" y="1300" text-anchor="end" dominant-baseline="auto" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#ffffff" fill-opacity="0.38" letter-spacing="1.5">MJ Oswal — Placeholder Image</text>
 </svg>

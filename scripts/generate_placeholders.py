@@ -6,23 +6,31 @@ import os
 
 OUT_ROOT = os.path.join(os.path.dirname(__file__), "..", "assets", "images")
 
-# (relative_path, width, height, hue_start, hue_end, label, sublabel)
+# (relative_path, width, height, hue_start, hue_end)
+# Every image shares one category-neutral watermark ("MJ Oswal — Placeholder
+# Image") rather than a category-specific label. The site reuses this same
+# small image pool across many different page types (a business image may
+# appear on a careers or sustainability page, etc.), so a label naming one
+# specific category would end up wrong wherever the image is reused
+# elsewhere. A generic label stays accurate everywhere.
+LABEL = "MJ Oswal"
+SUBLABEL = "Placeholder Image"
 IMAGES = [
-    ("hero/hero-main.svg", 1600, 2000, 222, 258, "MJ OSWAL", "Hero Visual — Placeholder"),
-    ("intro/intro-visual.svg", 1200, 1500, 210, 240, "MJ", "Introduction Visual — Placeholder"),
-    ("business/business-01.svg", 900, 1100, 200, 230, "01", "Business Vertical — Placeholder"),
-    ("business/business-02.svg", 900, 1100, 215, 245, "02", "Business Vertical — Placeholder"),
-    ("business/business-03.svg", 900, 1100, 230, 260, "03", "Business Vertical — Placeholder"),
-    ("business/business-04.svg", 900, 1100, 195, 225, "04", "Business Vertical — Placeholder"),
-    ("why/why-visual.svg", 1100, 1350, 205, 235, "MJO", "Why MJ Oswal — Placeholder"),
-    ("projects/project-01.svg", 1400, 1000, 220, 250, "01", "Featured Project — Placeholder"),
-    ("projects/project-02.svg", 1400, 1000, 235, 260, "02", "Featured Project — Placeholder"),
-    ("projects/project-03.svg", 1400, 1000, 200, 228, "03", "Featured Project — Placeholder"),
-    ("sustainability/sustainability-visual.svg", 1600, 1100, 150, 190, "MJO", "Sustainability Visual — Placeholder"),
-    ("insights/insight-01.svg", 900, 700, 210, 240, "01", "Insights Article — Placeholder"),
-    ("insights/insight-02.svg", 900, 700, 225, 250, "02", "Insights Article — Placeholder"),
-    ("insights/insight-03.svg", 900, 700, 195, 220, "03", "Insights Article — Placeholder"),
-    ("cta/cta-visual.svg", 1800, 1000, 218, 248, "MJ OSWAL", "CTA Visual — Placeholder"),
+    ("hero/hero-main.svg", 1600, 2000, 222, 258),
+    ("intro/intro-visual.svg", 1200, 1500, 210, 240),
+    ("business/business-01.svg", 900, 1100, 200, 230),
+    ("business/business-02.svg", 900, 1100, 215, 245),
+    ("business/business-03.svg", 900, 1100, 230, 260),
+    ("business/business-04.svg", 900, 1100, 195, 225),
+    ("why/why-visual.svg", 1100, 1350, 205, 235),
+    ("projects/project-01.svg", 1400, 1000, 220, 250),
+    ("projects/project-02.svg", 1400, 1000, 235, 260),
+    ("projects/project-03.svg", 1400, 1000, 200, 228),
+    ("sustainability/sustainability-visual.svg", 1600, 1100, 150, 190),
+    ("insights/insight-01.svg", 900, 700, 210, 240),
+    ("insights/insight-02.svg", 900, 700, 225, 250),
+    ("insights/insight-03.svg", 900, 700, 195, 220),
+    ("cta/cta-visual.svg", 1800, 1000, 218, 248),
 ]
 
 SVG_TEMPLATE = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w} {h}" width="{w}" height="{h}" role="img" aria-label="{aria}">
@@ -49,7 +57,7 @@ SVG_TEMPLATE = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w} {h}" 
 </svg>
 """
 
-for rel, w, h, h1, h2, label, sublabel in IMAGES:
+for rel, w, h, h1, h2 in IMAGES:
     path = os.path.join(OUT_ROOT, rel)
     os.makedirs(os.path.dirname(path), exist_ok=True)
     small = max(14, min(w, h) // 42)
@@ -57,8 +65,8 @@ for rel, w, h, h1, h2, label, sublabel in IMAGES:
     py = h - max(20, min(w, h) // 22)
     svg = SVG_TEMPLATE.format(
         w=w, h=h, h1=h1, h2=h2, small=small, px=px, py=py,
-        label=label, sublabel=sublabel,
-        aria=f"{label} {sublabel}",
+        label=LABEL, sublabel=SUBLABEL,
+        aria=f"{LABEL} {SUBLABEL}",
     )
     with open(path, "w") as f:
         f.write(svg)
