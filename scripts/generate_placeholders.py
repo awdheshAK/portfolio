@@ -49,6 +49,9 @@ IMAGES = [
     ("products/product-innerwear-01.svg", 900, 1100, 212, 238),
 
     # Machines — 20 cards (see assets/data/machines.json)
+    # (catalog item images for /products/<category>/ galleries are appended
+    # programmatically below via PRODUCT_CATEGORY_HUES — one set of 3 per
+    # category, matching assets/data/catalog_items.json)
     ("machines/machine-stitching-01.svg", 900, 700, 210, 238),
     ("machines/machine-thread-cutting-01.svg", 900, 700, 220, 246),
     ("machines/machine-pressing-01.svg", 900, 700, 200, 228),
@@ -157,6 +160,22 @@ SVG_TEMPLATE = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w} {h}" 
   <text x="{px}" y="{py}" text-anchor="end" dominant-baseline="auto" font-family="Arial, Helvetica, sans-serif" font-size="{small}" fill="#ffffff" fill-opacity="0.38" letter-spacing="1.5">{label} — {sublabel}</text>
 </svg>
 """
+
+# Per-category product catalog images — 3 per category, used by the
+# /products/<category>/ gallery pages and their individual product pages
+# (see assets/data/catalog_items.json). Slugs must match the "category"
+# slugs used in assets/data/products.json.
+PRODUCT_CATEGORY_HUES = {
+    "mens": (210, 238), "womens": (220, 248), "kids": (200, 228),
+    "t-shirts": (230, 255), "lounge-wear": (205, 232), "nightwear": (215, 240),
+    "sweatshirts": (195, 220), "tracksuits": (225, 250), "lower": (208, 235),
+    "shorts": (218, 244), "co-ord-sets": (198, 226), "kurtis": (228, 252),
+    "innerwear": (212, 238),
+}
+for cat, (h1, h2) in PRODUCT_CATEGORY_HUES.items():
+    for i in (1, 2, 3):
+        offset = (i - 1) * 5
+        IMAGES.append((f"products/{cat}/{cat}-0{i}.svg", 900, 1100, h1 + offset, h2 + offset))
 
 logo_path = os.path.join(OUT_ROOT, "logo/mj-oswal-exports-logo.svg")
 os.makedirs(os.path.dirname(logo_path), exist_ok=True)

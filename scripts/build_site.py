@@ -40,11 +40,15 @@ def load_json(name):
 
 IMAGES = load_json("images.json")
 PRODUCTS = load_json("products.json")["items"]
+CATALOG_ITEMS = load_json("catalog_items.json")["items"]
 MACHINES = load_json("machines.json")["items"]
 CERTIFICATES = load_json("certificates.json")["items"]
 PARTNERS = load_json("partners.json")["items"]
 
 PRODUCTS_BY_SLUG = {p["slug"]: p for p in PRODUCTS}
+CATALOG_ITEMS_BY_CATEGORY = {}
+for _item in CATALOG_ITEMS:
+    CATALOG_ITEMS_BY_CATEGORY.setdefault(_item["category"], []).append(_item)
 
 # =============================================================================
 # NAV — top-level items per the requested structure. Every url is a real page.
@@ -66,6 +70,11 @@ NAV = [
         {"label": "Men's", "url": "/products/mens/"},
         {"label": "Women's", "url": "/products/womens/"},
         {"label": "Kids", "url": "/products/kids/"},
+        {"label": "Loungewear", "url": "/products/lounge-wear/"},
+        {"label": "Nightwear", "url": "/products/nightwear/"},
+        {"label": "T-Shirts", "url": "/products/t-shirts/"},
+        {"label": "Sweatshirts", "url": "/products/sweatshirts/"},
+        {"label": "Tracksuits", "url": "/products/tracksuits/"},
         {"label": "View all products", "url": "/products/"},
     ]},
     {"label": "Manufacturing", "url": "/manufacturing/", "card": "manufacturing", "children": [
@@ -106,6 +115,15 @@ NAV_CARD_IMAGES = {
     "contact": (IMAGES["facility"]["overview"]["src"], "Contact", "Get in touch"),
 }
 
+# Placeholder social links only — replace "#" with the real profile URL for
+# each platform once confirmed. Never invent a real-looking URL.
+SOCIAL_LINKS = [
+    ("LinkedIn", "#", '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.66 4.78 6.12V21h-4v-5.6c0-1.34-.02-3.07-1.87-3.07-1.87 0-2.16 1.46-2.16 2.97V21H9z"/></svg>'),
+    ("Instagram", "#", '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>'),
+    ("Facebook", "#", '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-8h2.7l.4-3.2h-3.1V7.7c0-.93.26-1.56 1.6-1.56H16.7V3.35A21 21 0 0 0 14.24 3.2c-2.45 0-4.13 1.5-4.13 4.24v2.36H7.4V12.8h2.7v8z"/></svg>'),
+    ("X", "#", '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 3l7.1 9.1L3.4 21H6l5.4-6.4L15.9 21H21l-7.4-9.5L20.3 3H17.7l-5 5.9L8.1 3z"/></svg>'),
+]
+
 FOOTER_COLUMNS = [
     ("Company", [
         ("About", "/about/"), ("Leadership", "/about/leadership/"),
@@ -113,8 +131,8 @@ FOOTER_COLUMNS = [
     ]),
     ("Products", [
         ("Men's", "/products/mens/"), ("Women's", "/products/womens/"), ("Kids", "/products/kids/"),
-        ("Loungewear", "/products/loungewear/"), ("Nightwear", "/products/nightwear/"),
-        ("T-Shirts", "/products/tshirts/"), ("Sweatshirts", "/products/sweatshirts/"), ("Tracksuits", "/products/tracksuits/"),
+        ("Loungewear", "/products/lounge-wear/"), ("Nightwear", "/products/nightwear/"),
+        ("T-Shirts", "/products/t-shirts/"), ("Sweatshirts", "/products/sweatshirts/"), ("Tracksuits", "/products/tracksuits/"),
     ]),
     ("Manufacturing", [
         ("Stitching", "/manufacturing/stitching/"), ("Cutting", "/manufacturing/cutting/"),
@@ -166,6 +184,10 @@ add(path="/about/company/", title="Company — About", kind="detail", category="
     body=[
         "MJ Oswal Exports manufactures wearing apparel and knitted, ready-made garments, with production spanning categories such as T-shirts, nightwear, loungewear, lowers, sweatshirts, tracksuits and kidswear.",
         "[Add additional verified company background, founding history and business scope here.]",
+        "Our vision is to be recognised as a dependable, quality-first apparel manufacturing partner for both domestic and export customers. [Add additional verified vision statement here.]",
+        "Our mission is to manufacture apparel that meets consistent quality and delivery standards, through an integrated production line that keeps design, cutting, printing, embroidery, stitching and dispatch under one roof. [Add additional verified mission statement here.]",
+        "We work by a set of values built into how our production floor runs day to day: consistency in sizing and finish, quality checks at multiple stages rather than only at the end of the line, and a production process organised so that every department feeds directly into the next. [Add additional verified company values here.]",
+        "Customers work with us for our integrated production line, our in-house design and pattern-making capability, and a quality approach that checks work in-line rather than only at final inspection. [Add further verified detail on why customers choose MJ Oswal Exports here.]",
     ],
     related=[{"title": "Leadership", "href": "/about/leadership/"}, {"title": "Our Facility", "href": "/facility/"}, {"title": "Our Manufacturing", "href": "/manufacturing/"}])
 
@@ -266,17 +288,24 @@ add(path="/products/", title="Products", kind="hub", category="products",
     lede="MJ Oswal Exports manufactures apparel across the following categories, produced through our integrated production departments.",
     children=[{"href": f"/products/{p['slug']}/", "title": p["name"], "text": p["description"],
                "category": p["category"], "image": p["image"]} for p in PRODUCTS])
+
+# Each product category becomes a real catalog/gallery page — a header,
+# a short description and a grid of product cards — rather than a single
+# large hero image with no products shown on it.
 for p in PRODUCTS:
-    others = [o for o in PRODUCTS if o["slug"] != p["slug"]][:3]
-    add(path=f"/products/{p['slug']}/", title=f"{p['name']} — Products", kind="detail", category="products",
+    catalog_items = CATALOG_ITEMS_BY_CATEGORY.get(p["slug"], [])
+    add(path=f"/products/{p['slug']}/", title=f"{p['name']} — Products", kind="catalog", category="products",
         heading=p["name"], eyebrow=f'{p["category"]} — Products', lede=p["description"], hero_image=p["image"],
-        highlights=[
-            {"title": "Category", "text": p["category"]},
-            {"title": "Manufactured At", "text": "Our Ludhiana facility"},
-            {"title": "Production Route", "text": "Fabric → Design → Cutting → Printing/Embroidery → Stitching → Finishing"},
-        ],
-        body=[f"[Add further verified detail on {p['name'].lower()} — fabric options, sizing range and minimum order quantities — here.]"],
-        related=[{"title": o["name"], "href": f"/products/{o['slug']}/"} for o in others])
+        catalog_items=catalog_items, category_slug=p["slug"])
+
+    # Every item inside a category gets its own product detail page.
+    for item in catalog_items:
+        others = [o for o in catalog_items if o["slug"] != item["slug"]]
+        add(path=f"/products/{p['slug']}/{item['slug']}/", title=f"{item['name']} — {p['name']} — Products",
+            kind="product", category="products", parent=(p["name"], f"/products/{p['slug']}/"),
+            heading=item["name"], eyebrow=f'{p["category"]} — Products', lede=item["description"],
+            hero_image=item["image"], item=item,
+            related=[{"title": o["name"], "href": f"/products/{p['slug']}/{o['slug']}/"} for o in others])
 
 # --- MANUFACTURING -----------------------------------------------------------------
 # Content sourced from an internal production planning document. All figures
@@ -777,7 +806,10 @@ def render_footer():
           <img src="{IMAGES['logo']['src']}" alt="{esc(IMAGES['logo']['alt'])}" width="150" height="50">
         </a>
         <p class="site-footer__tagline">Apparel manufacturing, built with discipline.</p>
-        <p class="site-footer__note">Contact details, social links and legal information on this footer are shown only once verified. <span class="placeholder">[Add verified address, phone, email and social links here.]</span></p>
+        <p class="site-footer__note">Contact details and legal information on this footer are shown only once verified. <span class="placeholder">[Add verified address, phone and email here.]</span></p>
+        <div class="site-footer__social placeholder" aria-label="Social media — placeholder links, not yet confirmed">
+{chr(10).join(f'          <a href="{href}" aria-label="{esc(label)}" rel="noopener">{icon}</a>' for label, href, icon in SOCIAL_LINKS)}
+        </div>
       </div>
 {chr(10).join(cols)}
     </div>
@@ -1015,6 +1047,88 @@ def product_carousel_item(p):
             </div>'''
 
 
+def catalog_item_carousel_item(item, category_label):
+    """Featured Products home slider card — links straight to one item's own
+    product detail page, e.g. /products/mens/mens-01/."""
+    return f'''            <div class="carousel__item">
+              <a class="tile-card" href="/products/{item['category']}/{item['slug']}/">
+                <span class="tile-card__frame"><img src="{item['image']}" alt="" width="900" height="1100" loading="lazy"></span>
+                <span class="tile-card__body">
+                  <span class="tile-card__category">{esc(category_label)}</span>
+                  <span class="tile-card__title">{esc(item['name'])}</span>
+                  <span class="tile-card__text">{esc(item['description'])}</span>
+                  <span class="tile-card__cta"><span>View Details</span>{ARROW_SVG}</span>
+                </span>
+              </a>
+            </div>'''
+
+
+# --- Product catalog grid (category page) + product detail gallery ---------------
+def block_product_grid(items, category_slug):
+    if not items:
+        return f'''    <section class="section">
+      <div class="container">
+        <p class="placeholder">[No products have been added to this category yet — add entries to assets/data/catalog_items.json.]</p>
+      </div>
+    </section>
+'''
+    cards = []
+    for i, item in enumerate(items):
+        cards.append(f'''        <a class="product-card" href="/products/{category_slug}/{item['slug']}/" data-reveal="fade-up" data-reveal-delay="{min(i, 4) * 70}">
+          <span class="product-card__frame">
+            <img src="{item['image']}" alt="" width="900" height="1100" loading="lazy">
+          </span>
+          <span class="product-card__body">
+            <span class="product-card__category">{esc(item['type'])}</span>
+            <span class="product-card__title">{esc(item['name'])}</span>
+            <span class="product-card__text">{esc(item['description'])}</span>
+            <span class="product-card__cta"><span>View Details</span>{ARROW_SVG}</span>
+          </span>
+        </a>''')
+    return f'''    <section class="section">
+      <div class="container">
+        <div class="product-grid">
+{chr(10).join(cards)}
+        </div>
+      </div>
+    </section>
+'''
+
+
+def block_product_gallery(item):
+    thumbs = "\n".join(
+        f'            <li><button type="button" class="product-gallery__thumb{" is-active" if i == 0 else ""}" data-gallery-thumb data-gallery-src="{img}"><img src="{img}" alt="" width="220" height="270" loading="lazy"></button></li>'
+        for i, img in enumerate(item.get("gallery") or [item["image"]]))
+    return f'''    <section class="section product-detail">
+      <div class="container product-detail__grid">
+        <div class="product-detail__media" data-gallery>
+          <div class="product-detail__frame">
+            <img src="{item['image']}" alt="" width="900" height="1100" loading="eager" fetchpriority="high" data-gallery-main>
+          </div>
+          <ul class="product-gallery__thumbs">
+{thumbs}
+          </ul>
+        </div>
+        <div class="product-detail__info">
+          <p class="eyebrow">{esc(item['type'])}</p>
+          <h2 class="product-detail__title">{esc(item['name'])}</h2>
+          <p class="product-detail__desc">{esc(item['description'])}</p>
+          <dl class="product-detail__meta">
+            <div><dt>Fabric</dt><dd class="placeholder">{esc(item['fabric'])}</dd></div>
+            <div><dt>Available Styles</dt><dd class="placeholder">{esc(item['styles'])}</dd></div>
+            <div><dt>Available Colours</dt><dd class="placeholder">{esc(item['colors'])}</dd></div>
+            <div><dt>Manufacturing Capability</dt><dd>{esc(item['capability'])}</dd></div>
+          </dl>
+          <div class="product-detail__actions">
+            <a href="/contact/" class="btn btn--primary" data-track="cta_click" data-track-label="product_enquiry"><span>Enquire About This Product</span>{ARROW_SVG}</a>
+            <a href="/contact/" class="btn btn--outline" data-track="cta_click" data-track-label="product_contact"><span>Contact Us</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+'''
+
+
 def certificate_carousel_item(c):
     return f'''            <div class="carousel__item">
               <div class="cert-card">
@@ -1133,6 +1247,20 @@ def body_detail(page):
     return out
 
 
+def body_catalog(page):
+    out = block_product_grid(page.get("catalog_items", []), page["category_slug"])
+    out += block_cta()
+    return out
+
+
+def body_product(page):
+    out = block_product_gallery(page["item"])
+    if page.get("related"):
+        out += block_related(page["related"], "More From This Category")
+    out += block_cta()
+    return out
+
+
 def body_article(page):
     out = block_hero_image(page["hero_image"])
     paras = "\n".join(f'          <p class="article-body__text">{esc(p)}</p>' for p in page["body"])
@@ -1174,6 +1302,7 @@ def body_legal(page):
 BODY_RENDERERS = {
     "hub": body_hub, "detail": body_detail, "article": body_article,
     "contact": body_contact, "legal": body_legal,
+    "catalog": body_catalog, "product": body_product,
 }
 
 
@@ -1366,7 +1495,10 @@ def body_home():
           </div>
           <a href="/products/" class="link-arrow" data-reveal="fade-up" data-reveal-delay="120"><span>View all products</span>''' + ARROW_SVG + '''</a>
         </div>'''
-    out += block_carousel("products", product_title, [product_carousel_item(p) for p in PRODUCTS],
+    product_category_label = {p["slug"]: p["category"] for p in PRODUCTS}
+    out += block_carousel("products", product_title,
+                           [catalog_item_carousel_item(item, product_category_label.get(item["category"], item["category"]))
+                            for item in CATALOG_ITEMS],
                            per_view="products", autoplay_ms=3500, aria_label="Featured Products")
 
     # 05 — Manufacturing Capabilities

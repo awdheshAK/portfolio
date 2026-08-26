@@ -13,11 +13,11 @@
     "image": "/assets/images/products/product-kids-01.svg",
     "description": "Kidswear manufactured with the same production discipline applied across every other category." },
 
-  { "slug": "tshirts", "name": "T-Shirts", "category": "Tops",
+  { "slug": "t-shirts", "name": "T-Shirts", "category": "Tops",
     "image": "/assets/images/products/product-tshirt-01.svg",
     "description": "Knitted T-shirts produced through our integrated cutting, printing, embroidery and stitching lines." },
 
-  { "slug": "loungewear", "name": "Loungewear", "category": "Loungewear",
+  { "slug": "lounge-wear", "name": "Loungewear", "category": "Loungewear",
     "image": "/assets/images/products/product-loungewear-01.svg",
     "description": "Comfort-first loungewear manufactured for everyday wear, from fabric sourcing through to finished garment." },
 

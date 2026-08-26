@@ -61,6 +61,12 @@
       perView = Math.min(itemsPerView(type), items.length);
       var gap = gapPx();
       var viewportWidth = viewport.getBoundingClientRect().width;
+      if (viewportWidth <= 0) {
+        // Not laid out yet (e.g. still hidden behind a reveal animation) —
+        // try again next frame instead of computing a broken 0/negative width.
+        window.requestAnimationFrame(layout);
+        return;
+      }
       var itemWidth = (viewportWidth - gap * (perView - 1)) / perView;
       root.style.setProperty('--carousel-item-w', itemWidth + 'px');
 
@@ -166,7 +172,16 @@
 
   function init() {
     var carousels = document.querySelectorAll('[data-carousel]');
-    carousels.forEach(initCarousel);
+    // Each carousel is initialized in its own try/catch: if one carousel's
+    // markup or data is malformed, it must never stop the others (or the
+    // hero slider / flip cards) from starting.
+    carousels.forEach(function (root) {
+      try {
+        initCarousel(root);
+      } catch (err) {
+        window.console && window.console.error('[carousel] failed to init', root, err);
+      }
+    });
     initFlipCards();
   }
 
