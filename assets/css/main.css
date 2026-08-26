@@ -712,7 +712,24 @@ input, textarea { font: inherit; }
 /* -------------------------------------------------------------------------
    14. FOOTER
    ------------------------------------------------------------------------- */
-.site-footer { background: var(--color-ink); color: rgba(255, 255, 255, 0.85); padding-top: clamp(4rem, 8vh, 6rem); }
+.site-footer {
+  position: relative;
+  background: var(--color-ink);
+  color: rgba(255, 255, 255, 0.85);
+  padding-top: clamp(4rem, 8vh, 6rem);
+}
+/* Thin accent band echoing the four colours of the MJO visiting-card mark —
+   the only place on the site this exact gradient is used, kept to 3px so it
+   reads as a brand nod rather than a loud stripe. */
+.site-footer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent-coral) 0%, var(--accent-blue) 34%, var(--accent-green) 64%, var(--accent-purple) 100%);
+}
 .site-footer__top {
   display: grid;
   grid-template-columns: 1.4fr repeat(3, 0.85fr) 1.1fr;
@@ -1343,11 +1360,13 @@ input, textarea { font: inherit; }
    primary navy/off-white palette. Never used as large fill areas.
    ------------------------------------------------------------------------- */
 :root {
-  --accent-blue: #a9c9e8;
-  --accent-pink: #e8b7c4;
-  --accent-green: #b3d8bd;
-  --accent-coral: #eab399;
-  --accent-purple: #c7b9dd;
+  /* Sampled from the M.J. Oswal Group visiting card's four-colour "MJO"
+     mark (coral / blue / green / purple-magenta on the pinwheel logo). */
+  --accent-blue: #7fa0d6;
+  --accent-pink: #e6b4c9;
+  --accent-green: #8fc47c;
+  --accent-coral: #ee9268;
+  --accent-purple: #b15aa0;
 }
 .product-grid .product-card:nth-child(5n+1) .product-card__category { color: #6f93b8; }
 .product-grid .product-card:nth-child(5n+2) .product-card__category { color: #bd7f92; }
