@@ -1,132 +1,133 @@
 #!/usr/bin/env python3
 """
-MJ Oswal static-site generator.
+MJ Oswal Exports static-site generator.
 
-This is the site's "component system" for a plain HTML/CSS/JS stack with no
-client-side framework: one canonical page manifest + a handful of shared
-render functions (head/header/nav/breadcrumb/footer + reusable content
-blocks) produce every page as a real, standalone HTML file. Re-run this
-script any time the manifest changes:
+One canonical page manifest + a handful of shared render functions
+(head/header/nav/breadcrumb/footer + reusable content blocks) produce every
+page as a real, standalone HTML file — no client-side framework involved.
+Content lives in plain, human-editable JSON files under /assets/data/ so a
+non-developer can update the site without touching this script:
+
+  assets/data/images.json        — every image path + alt text
+  assets/data/products.json      — product category cards
+  assets/data/machines.json      — machinery flip-card data
+  assets/data/certificates.json  — certification slider slots
+  assets/data/partners.json      — partner logo slider slots
+
+Re-run this file any time a JSON file or this script changes:
 
     python3 scripts/build_site.py
-
-Nothing at runtime depends on this script — the output is ordinary static
-HTML that works with JS disabled for content/navigation.
 """
+import json
 import os
 import re
 
 ROOT = os.path.join(os.path.dirname(__file__), "..")
-BASE_URL = "https://www.mjoswal.com"
-SITE_NAME = "MJ Oswal"
+DATA_DIR = os.path.join(ROOT, "assets", "data")
+
+# NOTE: no confirmed production domain was available when this site was
+# built — update BASE_URL to the real domain before launch.
+BASE_URL = "https://www.mjoswalexports.com"
+SITE_NAME = "MJ Oswal Exports"
+LEGAL_NAME = "M.J. Oswal Exports Private Limited"
+LOCATION = "Ludhiana, Punjab, India"
+
+
+def load_json(name):
+    with open(os.path.join(DATA_DIR, name), encoding="utf-8") as f:
+        return json.load(f)
+
+
+IMAGES = load_json("images.json")
+PRODUCTS = load_json("products.json")["items"]
+MACHINES = load_json("machines.json")["items"]
+CERTIFICATES = load_json("certificates.json")["items"]
+PARTNERS = load_json("partners.json")["items"]
+
+PRODUCTS_BY_SLUG = {p["slug"]: p for p in PRODUCTS}
 
 # =============================================================================
-# 1. IMAGE POOL — reuse the existing placeholder SVGs across all new pages
-# =============================================================================
-IMG = {
-    "hero": "/assets/images/hero/hero-main.svg",
-    "intro": "/assets/images/intro/intro-visual.svg",
-    "biz1": "/assets/images/business/business-01.svg",
-    "biz2": "/assets/images/business/business-02.svg",
-    "biz3": "/assets/images/business/business-03.svg",
-    "biz4": "/assets/images/business/business-04.svg",
-    "why": "/assets/images/why/why-visual.svg",
-    "proj1": "/assets/images/projects/project-01.svg",
-    "proj2": "/assets/images/projects/project-02.svg",
-    "proj3": "/assets/images/projects/project-03.svg",
-    "sustain": "/assets/images/sustainability/sustainability-visual.svg",
-    "insight1": "/assets/images/insights/insight-01.svg",
-    "insight2": "/assets/images/insights/insight-02.svg",
-    "insight3": "/assets/images/insights/insight-03.svg",
-    "cta": "/assets/images/cta/cta-visual.svg",
-}
-IMG_CYCLE = ["biz1", "biz2", "biz3", "biz4", "proj1", "proj2", "proj3",
-             "insight1", "insight2", "insight3", "intro", "why", "sustain"]
-
-def cycle_img(index):
-    return IMG[IMG_CYCLE[index % len(IMG_CYCLE)]]
-
-# =============================================================================
-# 2. TOP-LEVEL NAV — curated subset of children shown in the nav panel.
-#    Hub pages (below) list ALL children; this is just the quick-access menu.
+# NAV — top-level items per the requested structure. Every url is a real page.
 # =============================================================================
 NAV = [
     {"label": "Home", "url": "/", "card": "default"},
-    {"label": "About Us", "url": "/about/", "card": "about", "children": [
-        {"label": "Our Story", "url": "/about/our-story/"},
+    {"label": "About", "url": "/about/", "card": "about", "children": [
+        {"label": "Company", "url": "/about/company/"},
         {"label": "Leadership", "url": "/about/leadership/"},
-        {"label": "Our Values", "url": "/about/our-values/"},
-        {"label": "Milestones", "url": "/about/milestones/"},
+        {"label": "Our People", "url": "/about/our-people/"},
         {"label": "About overview", "url": "/about/"},
     ]},
-    {"label": "Our Businesses", "url": "/businesses/", "card": "businesses", "children": [
-        {"label": "[Business Vertical 01]", "url": "/businesses/business-01/"},
-        {"label": "[Business Vertical 02]", "url": "/businesses/business-02/"},
-        {"label": "[Business Vertical 03]", "url": "/businesses/business-03/"},
-        {"label": "View all businesses", "url": "/businesses/"},
+    {"label": "Businesses", "url": "/businesses/", "card": "businesses", "children": [
+        {"label": "Apparel", "url": "/businesses/apparel/"},
+        {"label": "Knitwear", "url": "/businesses/knitwear/"},
+        {"label": "Garments", "url": "/businesses/garments/"},
     ]},
-    {"label": "Products & Services", "url": "/products-services/", "card": "products", "children": [
-        {"label": "[Product Category 01]", "url": "/products-services/category-01/"},
-        {"label": "[Product Category 02]", "url": "/products-services/category-02/"},
-        {"label": "[Product Category 03]", "url": "/products-services/category-03/"},
-        {"label": "View all products & services", "url": "/products-services/"},
+    {"label": "Products", "url": "/products/", "card": "products", "children": [
+        {"label": "Men's", "url": "/products/mens/"},
+        {"label": "Women's", "url": "/products/womens/"},
+        {"label": "Kids", "url": "/products/kids/"},
+        {"label": "View all products", "url": "/products/"},
     ]},
-    {"label": "Projects", "url": "/projects/", "card": "projects", "children": [
-        {"label": "[Project Name 01]", "url": "/projects/project-01/"},
-        {"label": "[Project Name 02]", "url": "/projects/project-02/"},
-        {"label": "View all projects", "url": "/projects/"},
+    {"label": "Manufacturing", "url": "/manufacturing/", "card": "manufacturing", "children": [
+        {"label": "Stitching", "url": "/manufacturing/stitching/"},
+        {"label": "Cutting", "url": "/manufacturing/cutting/"},
+        {"label": "Printing", "url": "/manufacturing/printing/"},
+        {"label": "View all departments", "url": "/manufacturing/"},
     ]},
+    {"label": "Facility", "url": "/facility/", "card": "facility", "children": [
+        {"label": "Machinery", "url": "/facility/machinery/"},
+        {"label": "Production", "url": "/facility/production/"},
+        {"label": "Quality Control", "url": "/facility/quality-control/"},
+        {"label": "Facility overview", "url": "/facility/"},
+    ]},
+    {"label": "Quality", "url": "/quality/", "card": "quality"},
     {"label": "Sustainability", "url": "/sustainability/", "card": "sustainability", "children": [
         {"label": "Environment", "url": "/sustainability/environment/"},
-        {"label": "Community", "url": "/sustainability/community/"},
-        {"label": "People & Safety", "url": "/sustainability/people-safety/"},
-        {"label": "View all", "url": "/sustainability/"},
+        {"label": "People", "url": "/sustainability/people/"},
     ]},
-    {"label": "Insights", "url": "/insights/", "card": "insights", "children": [
-        {"label": "News", "url": "/insights/news/"},
-        {"label": "Blog", "url": "/insights/blog/"},
-        {"label": "Insights overview", "url": "/insights/"},
-    ]},
-    {"label": "Careers", "url": "/careers/", "card": "careers", "children": [
-        {"label": "Life at MJ Oswal", "url": "/careers/life-at-mj-oswal/"},
-        {"label": "Career Opportunities", "url": "/careers/opportunities/"},
-        {"label": "Employee Culture", "url": "/careers/culture/"},
-        {"label": "Careers overview", "url": "/careers/"},
-    ]},
-    {"label": "Contact Us", "url": "/contact/", "card": "contact"},
+    {"label": "Projects", "url": "/projects/", "card": "projects"},
+    {"label": "Insights", "url": "/insights/", "card": "insights"},
+    {"label": "Careers", "url": "/careers/", "card": "careers"},
+    {"label": "Contact", "url": "/contact/", "card": "contact"},
 ]
 
 NAV_CARD_IMAGES = {
-    "default": (IMG["hero"], "MJ Oswal", "Enterprise built on trust"),
-    "about": (IMG["intro"], "About Us", "Our story, leadership & governance"),
-    "businesses": (IMG["biz1"], "Our Businesses", "Diversified, disciplined, dependable"),
-    "products": (IMG["biz2"], "Products & Services", "Engineered for quality"),
-    "projects": (IMG["proj1"], "Projects", "A portfolio in progress"),
-    "sustainability": (IMG["sustain"], "Sustainability", "Growth, responsibly delivered"),
-    "insights": (IMG["insight1"], "Insights", "News & perspectives"),
-    "careers": (IMG["biz3"], "Careers", "Build your future with us"),
-    "contact": (IMG["why"], "Contact Us", "Let's start a conversation"),
+    "default": (IMAGES["hero"][0]["src"], "MJ Oswal Exports", "Apparel manufacturing, built for scale"),
+    "about": (IMAGES["team"]["our-people"]["src"], "About", "Who we are, in Ludhiana"),
+    "businesses": (IMAGES["businesses"]["apparel"]["src"], "Businesses", "Apparel, knitwear and garments"),
+    "products": (PRODUCTS[3]["image"], "Products", "Men's, women's and kids' apparel"),
+    "manufacturing": (IMAGES["manufacturing"]["stitching"]["src"], "Manufacturing", "Ten integrated departments"),
+    "facility": (IMAGES["facility"]["overview"]["src"], "Facility", "Our production floor in Ludhiana"),
+    "quality": (IMAGES["facility"]["quality-control"]["src"], "Quality", "Discipline at every stage"),
+    "sustainability": (IMAGES["team"]["production-team"]["src"], "Sustainability", "Responsible manufacturing"),
+    "projects": (IMAGES["projects"][0]["src"], "Projects", "Selected work"),
+    "insights": (IMAGES["insights"][0]["src"], "Insights", "News and updates"),
+    "careers": (IMAGES["team"]["manufacturing-team"]["src"], "Careers", "Build your career with us"),
+    "contact": (IMAGES["facility"]["overview"]["src"], "Contact", "Get in touch"),
 }
 
 FOOTER_COLUMNS = [
     ("Company", [
-        ("About Us", "/about/"), ("Leadership", "/about/leadership/"),
-        ("Our Values", "/about/our-values/"), ("Careers", "/careers/"),
+        ("About", "/about/"), ("Leadership", "/about/leadership/"),
+        ("Facility", "/facility/"), ("Quality", "/quality/"), ("Sustainability", "/sustainability/"),
     ]),
-    ("Businesses", [
-        ("[Business Vertical 01]", "/businesses/business-01/"),
-        ("[Business Vertical 02]", "/businesses/business-02/"),
-        ("[Business Vertical 03]", "/businesses/business-03/"),
-        ("View all businesses", "/businesses/"),
+    ("Products", [
+        ("Men's", "/products/mens/"), ("Women's", "/products/womens/"), ("Kids", "/products/kids/"),
+        ("Loungewear", "/products/loungewear/"), ("Nightwear", "/products/nightwear/"),
+        ("T-Shirts", "/products/tshirts/"), ("Sweatshirts", "/products/sweatshirts/"), ("Tracksuits", "/products/tracksuits/"),
+    ]),
+    ("Manufacturing", [
+        ("Stitching", "/manufacturing/stitching/"), ("Cutting", "/manufacturing/cutting/"),
+        ("Printing", "/manufacturing/printing/"), ("Embroidery", "/manufacturing/embroidery/"),
+        ("Designing", "/manufacturing/designing/"), ("Dispatch", "/manufacturing/dispatch/"),
     ]),
     ("Resources", [
-        ("Insights & News", "/insights/"), ("Projects", "/projects/"),
-        ("Sustainability", "/sustainability/"), ("Sitemap", "/sitemap/"),
+        ("Projects", "/projects/"), ("Insights", "/insights/"), ("Careers", "/careers/"), ("Contact", "/contact/"),
     ]),
 ]
 
 # =============================================================================
-# 3. PAGE MANIFEST
+# PAGE MANIFEST
 # =============================================================================
 PAGES = []
 
@@ -135,275 +136,380 @@ def add(**kw):
     PAGES.append(kw)
     return kw
 
-# --- HOME -------------------------------------------------------------------
-add(path="/", title="MJ Oswal — Building Enduring Value, Responsibly", kind="home",
-    category=None, heading="Enterprise built on trust.",
-    description="MJ Oswal is a diversified Indian business group building enduring value across industries through engineering discipline, quality and long-term trust.")
+# --- HOME --------------------------------------------------------------------
+add(path="/", title=f"{SITE_NAME} — Apparel Manufacturing in Ludhiana, Punjab", kind="home", category=None,
+    description=f"{SITE_NAME} is an apparel and garment manufacturing company based in Ludhiana, Punjab, India, with integrated stitching, cutting, printing, embroidery and dispatch capabilities.")
 
-# --- ABOUT --------------------------------------------------------------------
-add(path="/about/", title="About MJ Oswal", kind="hub", category="about",
-    heading="About MJ Oswal", eyebrow="About Us",
-    lede="A diversified Indian business group built on engineering discipline, quality and long-term trust. [Add verified company introduction here.]",
+# --- ABOUT ---------------------------------------------------------------------
+add(path="/about/", title="About Us", kind="hub", category="about",
+    heading="About MJ Oswal Exports", eyebrow="About Us",
+    lede=f"{LEGAL_NAME} is an apparel and garment manufacturing company based in {LOCATION}. [Add additional verified company background here.]",
     children=[
-        {"href": "/about/our-story/", "title": "Our Story", "text": "[How MJ Oswal was founded and how the group has grown over time.]"},
-        {"href": "/about/leadership/", "title": "Leadership", "text": "[Introduce the leadership team once verified profiles are available.]"},
-        {"href": "/about/our-values/", "title": "Our Values", "text": "[The principles that guide every MJ Oswal business.]"},
-        {"href": "/about/vision-mission/", "title": "Vision & Mission", "text": "[MJ Oswal's long-term vision and guiding mission statement.]"},
-        {"href": "/about/group-overview/", "title": "Group Overview", "text": "[A structural overview of the MJ Oswal group of companies.]"},
-        {"href": "/about/milestones/", "title": "Milestones", "text": "[Key milestones across the group's history.]"},
-        {"href": "/about/certifications/", "title": "Certifications", "text": "[Quality, safety and industry certifications held by the group.]"},
+        {"href": "/about/company/", "title": "Company", "text": "Who we are and what we manufacture.", "image": IMAGES["team"]["our-people"]["src"]},
+        {"href": "/about/leadership/", "title": "Leadership", "text": "The people leading MJ Oswal Exports.", "image": IMAGES["team"]["leadership"]["src"]},
+        {"href": "/about/our-people/", "title": "Our People", "text": "The teams across every department.", "image": IMAGES["team"]["production-team"]["src"]},
+        {"href": "/about/design-team/", "title": "Design Team", "text": "In-house design and pattern-making.", "image": IMAGES["team"]["design-team"]["src"]},
+        {"href": "/about/quality-team/", "title": "Quality Team", "text": "Quality control across every stage.", "image": IMAGES["team"]["quality-team"]["src"]},
+        {"href": "/about/production-team/", "title": "Production Team", "text": "Running the production floor daily.", "image": IMAGES["team"]["production-team"]["src"]},
+        {"href": "/about/manufacturing-team/", "title": "Manufacturing Team", "text": "Ten departments, one production line.", "image": IMAGES["team"]["manufacturing-team"]["src"]},
     ])
-ABOUT_SUB = [
-    ("our-story", "Our Story", "A legacy in motion", "[Add the verified history and founding story of MJ Oswal here — key dates, founders, and how the group has grown.]"),
-    ("leadership", "Leadership", "The people steering MJ Oswal", "[Add verified leadership profiles — names, titles and short biographies — once available.]"),
-    ("our-values", "Our Values", "What we stand for", "[Describe the core values that guide decision-making across every MJ Oswal business.]"),
-    ("vision-mission", "Vision & Mission", "Where we are headed", "[Add MJ Oswal's official vision and mission statements here.]"),
-    ("group-overview", "Group Overview", "How MJ Oswal is structured", "[Provide a structural overview of the group's businesses, subsidiaries and leadership.]"),
-    ("milestones", "Milestones", "A timeline of growth", "[List verified milestones — founding year, expansions, major achievements — in chronological order.]"),
-    ("certifications", "Certifications", "Quality and compliance", "[List verified certifications, accreditations and industry recognitions held by MJ Oswal.]"),
-]
-for slug, title, heading, lede in ABOUT_SUB:
-    add(path=f"/about/{slug}/", title=f"{title} — MJ Oswal", kind="detail", category="about",
-        heading=heading, eyebrow="About Us", lede=lede,
-        highlights=[
-            {"title": "[Highlight One]", "text": "[Short supporting detail once confirmed.]"},
-            {"title": "[Highlight Two]", "text": "[Short supporting detail once confirmed.]"},
-            {"title": "[Highlight Three]", "text": "[Short supporting detail once confirmed.]"},
-            {"title": "[Highlight Four]", "text": "[Short supporting detail once confirmed.]"},
-        ],
-        related=[{"title": t, "href": f"/about/{s}/"} for s, t, *_ in ABOUT_SUB if s != slug][:3])
 
-# --- BUSINESSES ---------------------------------------------------------------
-BIZ_COUNT = 8
+add(path="/about/company/", title="Company — About", kind="detail", category="about",
+    heading="Company", eyebrow="About Us", hero_image=IMAGES["team"]["our-people"]["src"],
+    lede=f"{LEGAL_NAME}, trading as {SITE_NAME}, is an apparel and garment manufacturing company based in {LOCATION}. The company is associated with the brand Sweet Touch.",
+    highlights=[
+        {"title": "Legal Name", "text": LEGAL_NAME},
+        {"title": "Location", "text": LOCATION},
+        {"title": "Industry", "text": "Apparel, garment and textile manufacturing"},
+        {"title": "Associated Brand", "text": "Sweet Touch"},
+    ],
+    body=[
+        "MJ Oswal Exports manufactures wearing apparel and knitted, ready-made garments, with production spanning categories such as T-shirts, nightwear, loungewear, lowers, sweatshirts, tracksuits and kidswear.",
+        "[Add additional verified company background, founding history and business scope here.]",
+    ],
+    related=[{"title": "Leadership", "href": "/about/leadership/"}, {"title": "Our Facility", "href": "/facility/"}, {"title": "Our Manufacturing", "href": "/manufacturing/"}])
+
+add(path="/about/leadership/", title="Leadership — About", kind="detail", category="about",
+    heading="Leadership", eyebrow="About Us", hero_image=IMAGES["team"]["leadership"]["src"],
+    lede="[Add verified leadership names, titles and biographies here. No names or positions are published until confirmed.]",
+    highlights=[
+        {"title": "[Leadership Name]", "text": "[Title / Role — to be confirmed]"},
+        {"title": "[Leadership Name]", "text": "[Title / Role — to be confirmed]"},
+    ],
+    body=["This page is ready to present verified leadership profiles. [Provide names, titles and short biographies to complete this page.]"],
+    related=[{"title": "Company", "href": "/about/company/"}, {"title": "Our People", "href": "/about/our-people/"}])
+
+add(path="/about/our-people/", title="Our People — About", kind="detail", category="about",
+    heading="Our People", eyebrow="About Us", hero_image=IMAGES["team"]["production-team"]["src"],
+    lede="Behind every garment is a team — from design and cutting through to stitching, quality control and dispatch.",
+    highlights=[
+        {"title": "Total Workforce", "text": "Approximately 500–700 people (current working estimate)"},
+        {"title": "Design & Pattern Making", "text": "Approximately 10 in-house designers and 3 tailors"},
+        {"title": "Graphic Design", "text": "Approximately 5 dedicated workstations"},
+        {"title": "Fabric Team", "text": "A dedicated 2-person team managing 50+ colours"},
+    ],
+    body=["Our people are organised across ten integrated manufacturing departments, described in full on our Manufacturing page. [Add further verified detail on team structure as it becomes available.]"],
+    related=[{"title": "Manufacturing Team", "href": "/about/manufacturing-team/"}, {"title": "Design Team", "href": "/about/design-team/"}, {"title": "Quality Team", "href": "/about/quality-team/"}])
+
+add(path="/about/design-team/", title="Design Team — About", kind="detail", category="about",
+    heading="Design Team", eyebrow="About Us", hero_image=IMAGES["team"]["design-team"]["src"],
+    lede="Our in-house design team takes garments from concept to production-ready pattern.",
+    highlights=[
+        {"title": "Designers", "text": "Approximately 10 in-house designers"},
+        {"title": "Tailors", "text": "Approximately 3 tailors supporting sample development"},
+        {"title": "Graphic Design", "text": "Approximately 5 PCs dedicated to graphic design"},
+        {"title": "Monthly Output", "text": "Current working estimate of 150+ new designs per month"},
+    ],
+    body=["The design team works from 2 dedicated work tables and 10 additional tables, supported by a conference room used for design review and sign-off. [Add further verified detail as available.]"],
+    related=[{"title": "Manufacturing: Designing", "href": "/manufacturing/designing/"}, {"title": "Quality Team", "href": "/about/quality-team/"}])
+
+add(path="/about/quality-team/", title="Quality Team — About", kind="detail", category="about",
+    heading="Quality Team", eyebrow="About Us", hero_image=IMAGES["team"]["quality-team"]["src"],
+    lede="Quality is checked at multiple stages of production, not only at the end of the line.",
+    highlights=[
+        {"title": "Focus", "text": "In-line and final quality checks"},
+        {"title": "Coverage", "text": "Applied across cutting, stitching and finishing"},
+        {"title": "Standards", "text": "[Add verified quality standards or benchmarks here.]"},
+    ],
+    body=["[Add verified detail on the quality team's structure, checkpoints and standards here.]"],
+    related=[{"title": "Quality", "href": "/quality/"}, {"title": "Facility: Quality Control", "href": "/facility/quality-control/"}])
+
+add(path="/about/production-team/", title="Production Team — About", kind="detail", category="about",
+    heading="Production Team", eyebrow="About Us", hero_image=IMAGES["team"]["production-team"]["src"],
+    lede="The production team runs the day-to-day floor across every manufacturing department.",
+    highlights=[
+        {"title": "Departments Covered", "text": "Ten integrated departments, from fabric to dispatch"},
+        {"title": "Styles Handled", "text": "Approximately 10–12 styles at a time (working estimate)"},
+        {"title": "Line Structure", "text": "Working estimate of ~4–5 units per stitching line"},
+    ],
+    body=["[Add further verified detail on production team structure and shift patterns as available.]"],
+    related=[{"title": "Manufacturing", "href": "/manufacturing/"}, {"title": "Facility: Production", "href": "/facility/production/"}])
+
+add(path="/about/manufacturing-team/", title="Manufacturing Team — About", kind="detail", category="about",
+    heading="Manufacturing Team", eyebrow="About Us", hero_image=IMAGES["team"]["manufacturing-team"]["src"],
+    lede="Ten integrated departments work in sequence to take a garment from fabric to finished, packed product.",
+    highlights=[
+        {"title": "Total Workforce", "text": "Approximately 500–700 people (current working estimate)"},
+        {"title": "Departments", "text": "Fabric, Designing, Cutting, Printing, Embroidery, Stitching, Heat Label, Pressing, Packing, Dispatch"},
+    ],
+    body=["Explore each department individually on our Manufacturing page for detailed, department-specific information."],
+    related=[{"title": "Manufacturing Overview", "href": "/manufacturing/"}, {"title": "Facility", "href": "/facility/"}])
+
+# --- BUSINESSES ------------------------------------------------------------------
 add(path="/businesses/", title="Our Businesses", kind="hub", category="businesses",
     heading="Our Businesses", eyebrow="What We Do",
-    lede="A diversified portfolio of enterprises, each held to the same standard of quality and long-term thinking.",
+    lede="MJ Oswal Exports manufactures wearing apparel and knitted, ready-made garments across three core business areas.",
     children=[
-        {"href": f"/businesses/business-{i:02d}/", "title": f"[Business Vertical {i:02d}]",
-         "text": "[Short description of this business vertical.]", "image": cycle_img(i)}
-        for i in range(1, BIZ_COUNT + 1)
+        {"href": "/businesses/apparel/", "title": "Apparel", "text": "Ready-made apparel manufactured across a wide range of categories.", "image": IMAGES["businesses"]["apparel"]["src"]},
+        {"href": "/businesses/knitwear/", "title": "Knitwear", "text": "Knitted garments produced through our integrated fabric and stitching lines.", "image": IMAGES["businesses"]["knitwear"]["src"]},
+        {"href": "/businesses/garments/", "title": "Garments", "text": "Full ready-made garment manufacturing, from fabric to finished product.", "image": IMAGES["businesses"]["garments"]["src"]},
     ])
-for i in range(1, BIZ_COUNT + 1):
-    slug = f"business-{i:02d}"
-    add(path=f"/businesses/{slug}/", title=f"[Business Vertical {i:02d}] — MJ Oswal", kind="detail", category="businesses",
-        heading=f"[Business Vertical {i:02d}]", eyebrow="Our Businesses",
-        lede="[Add a verified overview of this business vertical — what it does, its scale, and its market position.]",
-        highlights=[
-            {"title": "Focus Area", "text": "[Primary focus area of this business.]"},
-            {"title": "Capability", "text": "[Key capability or strength.]"},
-            {"title": "Reach", "text": "[Geographic or market reach.]"},
-            {"title": "Standards", "text": "[Quality or compliance standards followed.]"},
-        ],
-        related=[{"title": f"[Business Vertical {j:02d}]", "href": f"/businesses/business-{j:02d}/"}
-                 for j in range(1, BIZ_COUNT + 1) if j != i][:3],
-        hero_image=cycle_img(i))
-
-# --- PRODUCTS & SERVICES -------------------------------------------------------
-PROD_COUNT = 8
-add(path="/products-services/", title="Products & Services", kind="hub", category="products",
-    heading="Products & Services", eyebrow="What We Offer",
-    lede="Engineered products and services delivered to a consistent standard of quality across every category.",
-    children=[
-        {"href": f"/products-services/category-{i:02d}/", "title": f"[Product Category {i:02d}]",
-         "text": "[Short description of this product or service category.]", "image": cycle_img(i + 3)}
-        for i in range(1, PROD_COUNT + 1)
-    ])
-for i in range(1, PROD_COUNT + 1):
-    slug = f"category-{i:02d}"
-    add(path=f"/products-services/{slug}/", title=f"[Product Category {i:02d}] — MJ Oswal", kind="detail", category="products",
-        heading=f"[Product Category {i:02d}]", eyebrow="Products & Services",
-        lede="[Add a verified description of this product or service category, its applications, and its quality standards.]",
-        highlights=[
-            {"title": "Application", "text": "[Primary application or use case.]"},
-            {"title": "Quality", "text": "[Quality assurance approach.]"},
-            {"title": "Availability", "text": "[Markets or regions served.]"},
-            {"title": "Support", "text": "[Customer or technical support offered.]"},
-        ],
-        related=[{"title": f"[Product Category {j:02d}]", "href": f"/products-services/category-{j:02d}/"}
-                 for j in range(1, PROD_COUNT + 1) if j != i][:3],
-        hero_image=cycle_img(i + 3))
-
-# --- PROJECTS -------------------------------------------------------------------
-PROJ_COUNT = 7
-add(path="/projects/", title="Projects", kind="hub", category="projects",
-    heading="Featured Projects", eyebrow="Our Work",
-    lede="A growing portfolio of projects delivered with engineering discipline and long-term quality in mind.",
-    children=[
-        {"href": f"/projects/project-{i:02d}/", "title": f"[Project Name {i:02d}]",
-         "text": "[Short project description.]", "category": "[Sector]", "image": cycle_img(i + 6)}
-        for i in range(1, PROJ_COUNT + 1)
-    ])
-for i in range(1, PROJ_COUNT + 1):
-    slug = f"project-{i:02d}"
-    add(path=f"/projects/{slug}/", title=f"[Project Name {i:02d}] — MJ Oswal Projects", kind="detail", category="projects",
-        heading=f"[Project Name {i:02d}]", eyebrow="[Sector] — Projects",
-        lede="[Add a verified project overview — scope, location, timeline and outcome — once available.]",
-        highlights=[
-            {"title": "Location", "text": "[Project location.]"},
-            {"title": "Scope", "text": "[Scope of work.]"},
-            {"title": "Timeline", "text": "[Project timeline.]"},
-            {"title": "Outcome", "text": "[Key outcome or impact.]"},
-        ],
-        related=[{"title": f"[Project Name {j:02d}]", "href": f"/projects/project-{j:02d}/"}
-                 for j in range(1, PROJ_COUNT + 1) if j != i][:3],
-        hero_image=cycle_img(i + 6))
-
-# --- SUSTAINABILITY ---------------------------------------------------------------
-SUSTAIN_SUB = [
-    ("environment", "Environment", "Protecting the environment we build in", "[Describe MJ Oswal's environmental commitments and initiatives.]"),
-    ("responsible-manufacturing", "Responsible Manufacturing", "Manufacturing with discipline", "[Describe responsible-manufacturing practices and standards followed.]"),
-    ("energy-efficiency", "Energy & Efficiency", "Doing more with less", "[Describe energy-efficiency initiatives across operations.]"),
-    ("community", "Community", "Investing in the communities around us", "[Describe community engagement and development programmes.]"),
-    ("people-safety", "People & Safety", "People first, always", "[Describe workplace safety standards and people-first policies.]"),
-    ("governance", "Governance", "Governed with integrity", "[Describe governance structures and ethical business practices.]"),
-    ("initiatives", "Sustainability Initiatives", "Programmes in action", "[List specific sustainability programmes and initiatives once confirmed.]"),
+BUSINESS_SUB = [
+    ("apparel", "Apparel", "Ready-made apparel manufacturing", "We manufacture wearing apparel across categories including T-shirts, nightwear, loungewear, sweatshirts, tracksuits and more, produced through our integrated design, cutting, printing and stitching departments."),
+    ("knitwear", "Knitwear", "Knitted garment manufacturing", "Our knitwear production draws on a dedicated fabric team managing 50+ colours, feeding directly into our cutting and stitching lines."),
+    ("garments", "Garments", "End-to-end garment manufacturing", "From raw fabric through to a packed, dispatch-ready garment, our ten manufacturing departments work as one integrated production line."),
 ]
-add(path="/sustainability/", title="Sustainability", kind="hub", category="sustainability",
-    heading="Sustainability", eyebrow="Sustainability & Innovation",
-    lede="We believe growth and responsibility move together. [Add MJ Oswal's sustainability commitments here.]",
-    children=[{"href": f"/sustainability/{s}/", "title": t, "text": lede, "image": cycle_img(i)}
-              for i, (s, t, _, lede) in enumerate(SUSTAIN_SUB)])
-for i, (slug, title, heading, lede) in enumerate(SUSTAIN_SUB):
-    add(path=f"/sustainability/{slug}/", title=f"{title} — Sustainability — MJ Oswal", kind="detail", category="sustainability",
-        heading=heading, eyebrow="Sustainability",
-        lede=lede,
+for slug, title, heading, lede in BUSINESS_SUB:
+    add(path=f"/businesses/{slug}/", title=f"{title} — Businesses", kind="detail", category="businesses",
+        heading=heading, eyebrow="Our Businesses", lede=lede, hero_image=IMAGES["businesses"][slug]["src"],
         highlights=[
-            {"title": "Commitment", "text": "[A specific, verified commitment in this area.]"},
-            {"title": "Programme", "text": "[A named programme or initiative.]"},
-            {"title": "Progress", "text": "[Verified progress or metric, once available.]"},
-            {"title": "Partnership", "text": "[Partner organisations involved, if any.]"},
+            {"title": "Manufactured In-House", "text": "Design, cutting, printing, embroidery and stitching"},
+            {"title": "Fabric Range", "text": "50+ colours currently managed by our fabric team"},
+            {"title": "Scale", "text": "Approximately 10–12 styles handled at a time (working estimate)"},
         ],
-        related=[{"title": t, "href": f"/sustainability/{s}/"} for s, t, *_ in SUSTAIN_SUB if s != slug][:3],
-        hero_image=cycle_img(i))
+        body=[f"[Add further verified detail on the {title.lower()} business area here.]"],
+        related=[{"title": t, "href": f"/businesses/{s}/"} for s, t, *_ in BUSINESS_SUB if s != slug])
 
-# --- INSIGHTS ---------------------------------------------------------------------
+# --- PRODUCTS ---------------------------------------------------------------------
+add(path="/products/", title="Products", kind="hub", category="products",
+    heading="Products", eyebrow="What We Make",
+    lede="MJ Oswal Exports manufactures apparel across the following categories, produced through our integrated production departments.",
+    children=[{"href": f"/products/{p['slug']}/", "title": p["name"], "text": p["description"],
+               "category": p["category"], "image": p["image"]} for p in PRODUCTS])
+for p in PRODUCTS:
+    others = [o for o in PRODUCTS if o["slug"] != p["slug"]][:3]
+    add(path=f"/products/{p['slug']}/", title=f"{p['name']} — Products", kind="detail", category="products",
+        heading=p["name"], eyebrow=f'{p["category"]} — Products', lede=p["description"], hero_image=p["image"],
+        highlights=[
+            {"title": "Category", "text": p["category"]},
+            {"title": "Manufactured At", "text": "Our Ludhiana facility"},
+            {"title": "Production Route", "text": "Fabric → Design → Cutting → Printing/Embroidery → Stitching → Finishing"},
+        ],
+        body=[f"[Add further verified detail on {p['name'].lower()} — fabric options, sizing range and minimum order quantities — here.]"],
+        related=[{"title": o["name"], "href": f"/products/{o['slug']}/"} for o in others])
+
+# --- MANUFACTURING -----------------------------------------------------------------
+# Content sourced from an internal production planning document. All figures
+# are presented as approximate / working estimates, per that document's own
+# caveat that they are not final production numbers.
+MFG_PROCESS = ["Raw Material", "Fabric", "Design", "Cutting", "Printing / Embroidery",
+               "Stitching", "Heat Label", "Pressing", "Quality", "Packing", "Dispatch"]
+
+MFG_DEPTS = [
+    ("stitching", "Stitching", "Where every garment comes together",
+     "Our stitching department is the largest in the facility, running multiple styles at once across a large bank of machines.",
+     [("Stitching Machines", "Approximately 125 machines currently in operation"),
+      ("Thread Cutting Machines", "Approximately 10 machines"),
+      ("Pressing Machines", "Approximately 10 machines"),
+      ("Styles at a Time", "Approximately 10–12 styles (working estimate)"),
+      ("Line Structure", "Working estimate of ~4–5 units per line")]),
+
+    ("heat-label", "Heat Label", "Neck and care labelling",
+     "Our heat label department applies neck and care labels to finished garments, with labels organised by size ahead of application.",
+     [("Dedicated Machines", "Approximately 11 machines dedicated to neck labels"),
+      ("Process", "Labels are ranked and sorted by size before application")]),
+
+    ("fabric", "Fabric", "Sourcing and managing every colour",
+     "A dedicated fabric team manages colour stock and availability across our full production range.",
+     [("Team Size", "A dedicated 2-person team"),
+      ("Colour Range", "50+ colours currently managed"),
+      ("Software Systems", "2 dedicated software systems")]),
+
+    ("dispatch", "Dispatch", "From packed goods to delivery",
+     "Our dispatch department manages final packing, tagging and movement of finished goods ready for delivery.",
+     [("Packing Machines", "1 packing machine"),
+      ("Lifts", "2 lifts supporting the dispatch area"),
+      ("Dispatch Capacity", "Current working estimate of approximately 6,000–7,000 pieces per month"),
+      ("Software", "Great Eastern software, alongside an MRP tag system")]),
+
+    ("designing", "Designing", "From concept to production-ready pattern",
+     "Our in-house design team takes garments from concept through to a production-ready pattern, supported by a dedicated graphic design team.",
+     [("Designers", "Approximately 10 in-house designers"),
+      ("Tailors", "Approximately 3 tailors"),
+      ("Work Tables", "2 dedicated design work tables"),
+      ("Graphic Design", "Approximately 5 PCs, 10 tables and 1 conference room"),
+      ("Monthly Output", "Current working estimate of 150+ new designs per month")]),
+
+    ("embroidery", "Embroidery", "Detailed finishing work",
+     "Our embroidery department handles logos, motifs and detailed garment work across multiple simultaneous jobs.",
+     [("Machines", "Approximately 3–4 embroidery machines"),
+      ("Software", "Managed through Wings embroidery software"),
+      ("Jobs at a Time", "Approximately 10 jobs at a time (working estimate)")]),
+
+    ("cutting", "Cutting", "Precision from fabric to pattern",
+     "Our cutting department combines automated spreading equipment with CAD-driven pattern preparation.",
+     [("Spreading / Cutting Machines", "3 spider-type fabric spreading and cutting machines"),
+      ("Cutting Tables", "Approximately 4–8 cutting tables"),
+      ("Dedicated Cutter", "1 dedicated cutter machine"),
+      ("CAD System", "Audaces CAD")]),
+
+    ("printing", "Printing", "Colour, detail and finish",
+     "Our printing department runs a mix of automatic and manual equipment to support a wide range of print styles and colour counts.",
+     [("Automatic Printing Machines", "Approximately 11 machines"),
+      ("Manual Printing Machine", "1 machine"),
+      ("Curing Machine", "1 machine"),
+      ("Fusing Machines", "Approximately 4 machines"),
+      ("Colours per Print", "Up to 7–8 colours"),
+      ("Other Equipment", "DTP machine, plotter and supporting ERP systems")]),
+
+    ("pressing", "Pressing", "Setting the final finish",
+     "Pressing is carried out in-line within our stitching department to set seams and finish garments ahead of quality checks.",
+     [("Pressing Machines", "Approximately 10 machines, operating within the stitching department")]),
+
+    ("packing", "Packing", "Preparing garments for dispatch",
+     "Finished, quality-checked garments are packed ahead of tagging and dispatch.",
+     [("Packing Equipment", "1 dedicated packing machine"),
+      ("Tagging", "MRP tag system used to label finished goods")]),
+]
+
+add(path="/manufacturing/", title="Manufacturing", kind="hub", category="manufacturing",
+    heading="Manufacturing", eyebrow="How We Build",
+    lede="Ten integrated departments carry every garment from raw fabric through to a packed, dispatch-ready product. Figures below are approximate, current working estimates from our internal production planning — not final production numbers.",
+    children=[{"href": f"/manufacturing/{slug}/", "title": title, "text": lede2,
+               "image": IMAGES["manufacturing"][slug]["src"]} for slug, title, _, lede2, _ in MFG_DEPTS],
+    process=MFG_PROCESS)
+for slug, title, heading, lede, stats in MFG_DEPTS:
+    others = [(s, t) for s, t, *_ in MFG_DEPTS if s != slug][:3]
+    add(path=f"/manufacturing/{slug}/", title=f"{title} — Manufacturing", kind="detail", category="manufacturing",
+        heading=heading, eyebrow="Manufacturing", lede=lede, hero_image=IMAGES["manufacturing"][slug]["src"],
+        highlights=[{"title": k, "text": v} for k, v in stats],
+        body=["Figures on this page are approximate, current working estimates drawn from internal production planning — not final production numbers."],
+        related=[{"title": t, "href": f"/manufacturing/{s}/"} for s, t in others] + [{"title": "Facility", "href": "/facility/"}])
+
+# --- FACILITY ------------------------------------------------------------------
+FACILITY_SUB = [
+    ("overview", "Overview", "A single, integrated production facility", "Our Ludhiana facility houses every stage of production — from fabric and design through to packing and dispatch — under one roof."),
+    ("machinery", "Machinery", "Equipment across ten departments", "Our machinery spans stitching, cutting, printing, embroidery and dispatch equipment. Explore the full list on our Machinery showcase."),
+    ("production", "Production", "How a garment moves through our floor", "Production moves in sequence — fabric, design, cutting, printing or embroidery, stitching, heat label, pressing, quality, packing, dispatch."),
+    ("technology", "Technology", "Software behind the machines", "Our production is supported by CAD (Audaces), embroidery software (Wings), and dispatch/ERP systems (Great Eastern, MRP tagging)."),
+    ("capacity", "Capacity", "Current working estimates", "Capacity figures below are approximate, current working estimates — not final production numbers."),
+    ("quality-control", "Quality Control", "Checked at every stage, not just the end", "Quality is checked through the production line, from cutting accuracy through to final pressing and packing."),
+]
+add(path="/facility/", title="Facility", kind="hub", category="facility",
+    heading="Our Facility", eyebrow="Where We Manufacture",
+    lede=f"Our production facility is based in {LOCATION}, bringing together ten manufacturing departments under one roof.",
+    children=[{"href": f"/facility/{s}/", "title": t, "text": lede2, "image": IMAGES["facility"][s]["src"]}
+              for s, t, _, lede2 in FACILITY_SUB])
+for slug, title, heading, lede in FACILITY_SUB:
+    stats = {
+        "overview": [("Location", LOCATION), ("Departments", "10 integrated manufacturing departments"), ("Workforce", "Approximately 500–700 people (working estimate)")],
+        "machinery": [("Machine Types", "20+ distinct machine and system types"), ("Core Lines", "Stitching, cutting, printing, embroidery, dispatch")],
+        "production": [("Styles at a Time", "Approximately 10–12 (working estimate)"), ("Process", " → ".join(MFG_PROCESS))],
+        "technology": [("Cutting/Pattern", "Audaces CAD"), ("Embroidery", "Wings software"), ("Dispatch", "Great Eastern software, MRP tag system")],
+        "capacity": [("Dispatch Capacity", "Approximately 6,000–7,000 pieces/month (working estimate)"), ("Styles at a Time", "Approximately 10–12 (working estimate)"), ("Design Output", "150+ new designs/month (working estimate)")],
+        "quality-control": [("Checkpoints", "In-line and final inspection"), ("Coverage", "Cutting, stitching, pressing and packing")],
+    }[slug]
+    add(path=f"/facility/{slug}/", title=f"{title} — Facility", kind="detail", category="facility",
+        heading=heading, eyebrow="Facility", lede=lede, hero_image=IMAGES["facility"][slug]["src"],
+        highlights=[{"title": k, "text": v} for k, v in stats],
+        body=["[Add further verified facility detail here.]"],
+        related=[{"title": t2, "href": f"/facility/{s2}/"} for s2, t2, *_ in FACILITY_SUB if s2 != slug][:3])
+
+# --- QUALITY ----------------------------------------------------------------------
+add(path="/quality/", title="Quality", kind="detail", category=None,
+    heading="Quality", eyebrow="Quality", hero_image=IMAGES["facility"]["quality-control"]["src"],
+    lede="Quality is built into our process, not inspected in at the end — checked at cutting, at stitching, and again before packing.",
+    highlights=[
+        {"title": "In-Line Checks", "text": "Quality reviewed at multiple production stages"},
+        {"title": "Final Inspection", "text": "Checked again before packing and dispatch"},
+        {"title": "Consistency", "text": "Applied across every product category we manufacture"},
+        {"title": "Certifications", "text": "[Add verified certifications once confirmed — see our Certifications page.]"},
+    ],
+    body=["[Add further verified detail on quality standards, testing procedures or benchmarks here.]"],
+    related=[{"title": "Facility: Quality Control", "href": "/facility/quality-control/"}, {"title": "Certifications", "href": "/certifications/"}, {"title": "Quality Team", "href": "/about/quality-team/"}])
+
+# --- SUSTAINABILITY -----------------------------------------------------------------
+add(path="/sustainability/", title="Sustainability", kind="hub", category="sustainability",
+    heading="Sustainability", eyebrow="Sustainability",
+    lede="[Add MJ Oswal Exports' verified sustainability commitments and initiatives here. No specific achievements are claimed until confirmed.]",
+    children=[
+        {"href": "/sustainability/environment/", "title": "Environment", "text": "[Add verified environmental initiatives here.]", "image": IMAGES["facility"]["overview"]["src"]},
+        {"href": "/sustainability/people/", "title": "People", "text": "[Add verified people and workplace initiatives here.]", "image": IMAGES["team"]["our-people"]["src"]},
+    ])
+add(path="/sustainability/environment/", title="Environment — Sustainability", kind="detail", category="sustainability",
+    heading="Environment", eyebrow="Sustainability", hero_image=IMAGES["facility"]["overview"]["src"],
+    lede="[Add MJ Oswal Exports' verified environmental commitments and initiatives here.]",
+    highlights=[{"title": "[Initiative]", "text": "[Add verified detail once confirmed.]"}],
+    body=["No specific environmental claims are made until verified information is provided."],
+    related=[{"title": "People", "href": "/sustainability/people/"}, {"title": "Quality", "href": "/quality/"}])
+add(path="/sustainability/people/", title="People — Sustainability", kind="detail", category="sustainability",
+    heading="People", eyebrow="Sustainability", hero_image=IMAGES["team"]["our-people"]["src"],
+    lede="Our approximately 500–700-strong workforce (current working estimate) is at the centre of everything we manufacture.",
+    highlights=[
+        {"title": "Workforce", "text": "Approximately 500–700 people (working estimate)"},
+        {"title": "Departments", "text": "10 integrated manufacturing departments"},
+    ],
+    body=["[Add verified workplace, safety and people-development initiatives here.]"],
+    related=[{"title": "Environment", "href": "/sustainability/environment/"}, {"title": "Our People", "href": "/about/our-people/"}])
+
+# --- PROJECTS -----------------------------------------------------------------------
+PROJECTS_DATA = [
+    {"slug": "project-01", "title": "[Project Name 01]", "text": "[Short project description.]"},
+    {"slug": "project-02", "title": "[Project Name 02]", "text": "[Short project description.]"},
+]
+add(path="/projects/", title="Projects", kind="hub", category="projects",
+    heading="Projects", eyebrow="Our Work",
+    lede="[Add verified project or case-study information here once available.]",
+    children=[{"href": f"/projects/{pr['slug']}/", "title": pr["title"], "text": pr["text"],
+               "image": IMAGES["projects"][i]["src"]} for i, pr in enumerate(PROJECTS_DATA)])
+for i, pr in enumerate(PROJECTS_DATA):
+    add(path=f"/projects/{pr['slug']}/", title=f"{pr['title']} — Projects", kind="detail", category="projects",
+        heading=pr["title"], eyebrow="Projects", lede="[Add a verified project overview here.]",
+        hero_image=IMAGES["projects"][i]["src"],
+        highlights=[{"title": "Scope", "text": "[Add verified scope of work.]"}, {"title": "Category", "text": "[Add verified product category.]"}],
+        body=["[Add verified project detail here once available.]"],
+        related=[{"title": pr2["title"], "href": f"/projects/{pr2['slug']}/"} for pr2 in PROJECTS_DATA if pr2["slug"] != pr["slug"]])
+
+# --- CERTIFICATIONS / PARTNERS / EXPORTS ---------------------------------------------
+add(path="/certifications/", title="Certifications", kind="detail", category=None,
+    heading="Certifications", eyebrow="Certifications", hero_image=IMAGES["facility"]["quality-control"]["src"],
+    lede="This page is structured and ready to present our certifications. No certificate names, issuing bodies or years are shown until verified.",
+    highlights=[{"title": c["name"], "text": f'{c["issuer"]} · {c["year"]}'} for c in CERTIFICATES],
+    body=["[Add verified certification names, issuing organisations and years to complete this page.]"],
+    related=[{"title": "Quality", "href": "/quality/"}, {"title": "Facility: Quality Control", "href": "/facility/quality-control/"}])
+
+add(path="/partners/", title="Our Partners", kind="detail", category=None,
+    heading="Our Partners", eyebrow="Partners", hero_image=IMAGES["facility"]["overview"]["src"],
+    lede="This page is structured and ready to present our partners. No partner or client names are shown until verified and cleared for publication.",
+    highlights=[{"title": p["name"], "text": "[Verified relationship detail pending.]"} for p in PARTNERS[:4]],
+    body=["[Add verified, publication-cleared partner or client names and logos to complete this page.]"],
+    related=[{"title": "Exports", "href": "/exports/"}, {"title": "About", "href": "/about/"}])
+
+add(path="/exports/", title="Exports", kind="detail", category=None,
+    heading="Exports", eyebrow="Exports", hero_image=IMAGES["facility"]["overview"]["src"],
+    lede="MJ Oswal Exports is structured to serve both domestic and export requirements. [Add verified export markets, capacity and logistics detail here.]",
+    highlights=[
+        {"title": "Dispatch Capacity", "text": "Approximately 6,000–7,000 pieces/month (working estimate)"},
+        {"title": "Export Markets", "text": "[Add verified export markets once confirmed.]"},
+        {"title": "Logistics", "text": "[Add verified logistics and shipping detail here.]"},
+    ],
+    body=["No specific export countries, client names or volumes are claimed until verified."],
+    related=[{"title": "Facility: Capacity", "href": "/facility/capacity/"}, {"title": "Contact", "href": "/contact/"}])
+
+# --- INSIGHTS -----------------------------------------------------------------------
+INSIGHTS_DATA = [
+    {"slug": "article-01", "title": "[Insights Article 01]", "text": "[Short summary of this article.]"},
+    {"slug": "article-02", "title": "[Insights Article 02]", "text": "[Short summary of this article.]"},
+]
 add(path="/insights/", title="Insights", kind="hub", category="insights",
     heading="Insights", eyebrow="Insights",
-    lede="News, updates and perspectives from across MJ Oswal.",
-    children=[
-        {"href": "/insights/news/", "title": "News", "text": "[Company announcements and press coverage.]", "image": IMG["insight1"]},
-        {"href": "/insights/blog/", "title": "Blog", "text": "[Perspectives and long-form articles from MJ Oswal.]", "image": IMG["insight2"]},
-    ])
+    lede="News and updates from MJ Oswal Exports.",
+    children=[{"href": f"/insights/{a['slug']}/", "title": a["title"], "text": a["text"],
+               "image": IMAGES["insights"][i]["src"]} for i, a in enumerate(INSIGHTS_DATA)])
+for i, a in enumerate(INSIGHTS_DATA):
+    add(path=f"/insights/{a['slug']}/", title=f"{a['title']} — Insights", kind="article", category="insights",
+        heading=a["title"], eyebrow="[Category]", date="[Month Year]",
+        lede="[Opening summary of this article.]", hero_image=IMAGES["insights"][i]["src"],
+        body=["[Add the verified body copy for this article once available.]"],
+        related=[{"title": a2["title"], "href": f"/insights/{a2['slug']}/"} for a2 in INSIGHTS_DATA if a2["slug"] != a["slug"]])
 
-NEWS_COUNT = 3
-add(path="/insights/news/", title="News", kind="listing", category="insights", parent=("News", "/insights/news/"),
-    heading="News", eyebrow="Insights",
-    lede="The latest announcements and press coverage from MJ Oswal.",
-    items=[{"href": f"/insights/news/article-{i:02d}/", "title": f"[News Headline {i:02d}]",
-            "text": "[Short summary of this news item.]", "category": "[Category]",
-            "date": "[Month Year]", "image": cycle_img(i)} for i in range(1, NEWS_COUNT + 1)])
-for i in range(1, NEWS_COUNT + 1):
-    slug = f"article-{i:02d}"
-    add(path=f"/insights/news/{slug}/", title=f"[News Headline {i:02d}] — MJ Oswal News", kind="article", category="insights",
-        parent=("News", "/insights/news/"), heading=f"[News Headline {i:02d}]", eyebrow="[Category]",
-        date="[Month Year]",
-        lede="[Opening summary of this news article.]",
-        body=[
-            "[Add the verified body copy for this news article once available. This placeholder paragraph stands in for real, fact-checked content.]",
-            "[A second paragraph can expand on background, quotes, or additional context once supplied.]",
-        ],
-        related=[{"title": f"[News Headline {j:02d}]", "href": f"/insights/news/article-{j:02d}/"}
-                 for j in range(1, NEWS_COUNT + 1) if j != i],
-        hero_image=cycle_img(i))
-
-BLOG_COUNT = 3
-add(path="/insights/blog/", title="Blog", kind="listing", category="insights", parent=("Blog", "/insights/blog/"),
-    heading="Blog", eyebrow="Insights",
-    lede="Perspectives, ideas and long-form writing from across MJ Oswal.",
-    items=[{"href": f"/insights/blog/article-{i:02d}/", "title": f"[Blog Article {i:02d}]",
-            "text": "[Short summary of this article.]", "category": "[Topic]",
-            "date": "[Month Year]", "image": cycle_img(i + 5)} for i in range(1, BLOG_COUNT + 1)])
-for i in range(1, BLOG_COUNT + 1):
-    slug = f"article-{i:02d}"
-    add(path=f"/insights/blog/{slug}/", title=f"[Blog Article {i:02d}] — MJ Oswal Blog", kind="article", category="insights",
-        parent=("Blog", "/insights/blog/"), heading=f"[Blog Article {i:02d}]", eyebrow="[Topic]",
-        date="[Month Year]",
-        lede="[Opening summary of this blog article.]",
-        body=[
-            "[Add the verified body copy for this article once available. This placeholder paragraph stands in for real content.]",
-            "[A second paragraph can expand further once supplied.]",
-        ],
-        related=[{"title": f"[Blog Article {j:02d}]", "href": f"/insights/blog/article-{j:02d}/"}
-                 for j in range(1, BLOG_COUNT + 1) if j != i],
-        hero_image=cycle_img(i + 5))
-
-# --- CAREERS ------------------------------------------------------------------------
-add(path="/careers/", title="Careers", kind="hub", category="careers",
-    heading="Careers at MJ Oswal", eyebrow="Careers",
-    lede="Build your future with a diversified group that invests in its people. [Add verified careers overview here.]",
-    children=[
-        {"href": "/careers/life-at-mj-oswal/", "title": "Life at MJ Oswal", "text": "[What it's like to work across MJ Oswal's businesses.]", "image": IMG["biz3"]},
-        {"href": "/careers/opportunities/", "title": "Career Opportunities", "text": "[Current open positions across the group.]", "image": IMG["biz4"]},
-        {"href": "/careers/culture/", "title": "Employee Culture", "text": "[The culture and values that shape everyday work at MJ Oswal.]", "image": IMG["intro"]},
-    ])
-add(path="/careers/life-at-mj-oswal/", title="Life at MJ Oswal — Careers", kind="detail", category="careers",
-    heading="Life at MJ Oswal", eyebrow="Careers",
-    lede="[Describe day-to-day life, benefits, and what makes MJ Oswal a place to build a career.]",
+# --- CAREERS / CONTACT --------------------------------------------------------------
+add(path="/careers/", title="Careers", kind="detail", category=None,
+    heading="Careers", eyebrow="Careers", hero_image=IMAGES["team"]["manufacturing-team"]["src"],
+    lede="Build your career with a manufacturing team of approximately 500–700 people (current working estimate) across ten integrated departments.",
     highlights=[
-        {"title": "Growth", "text": "[Learning and career-growth opportunities.]"},
-        {"title": "Benefits", "text": "[Employee benefits once confirmed.]"},
-        {"title": "Culture", "text": "[What defines the day-to-day culture.]"},
-        {"title": "Community", "text": "[Employee community and engagement programmes.]"},
+        {"title": "Workforce", "text": "Approximately 500–700 people (working estimate)"},
+        {"title": "Departments", "text": "Design, cutting, printing, embroidery, stitching, dispatch and more"},
+        {"title": "Open Roles", "text": "[Add verified current openings here.]"},
     ],
-    related=[{"title": "Career Opportunities", "href": "/careers/opportunities/"},
-             {"title": "Employee Culture", "href": "/careers/culture/"}],
-    hero_image=IMG["biz3"])
-add(path="/careers/culture/", title="Employee Culture — Careers", kind="detail", category="careers",
-    heading="Employee Culture", eyebrow="Careers",
-    lede="[Describe the values and behaviours that define MJ Oswal's workplace culture.]",
-    highlights=[
-        {"title": "Collaboration", "text": "[How teams work together across the group.]"},
-        {"title": "Recognition", "text": "[How achievement is recognised.]"},
-        {"title": "Diversity", "text": "[Diversity and inclusion commitments.]"},
-        {"title": "Wellbeing", "text": "[Employee wellbeing initiatives.]"},
-    ],
-    related=[{"title": "Life at MJ Oswal", "href": "/careers/life-at-mj-oswal/"},
-             {"title": "Career Opportunities", "href": "/careers/opportunities/"}],
-    hero_image=IMG["intro"])
+    body=["[Add verified current job openings, application process and contact details here.]"],
+    related=[{"title": "Our People", "href": "/about/our-people/"}, {"title": "Contact", "href": "/contact/"}])
 
-JOB_COUNT = 2
-add(path="/careers/opportunities/", title="Career Opportunities", kind="listing", category="careers",
-    parent=("Career Opportunities", "/careers/opportunities/"),
-    heading="Career Opportunities", eyebrow="Careers",
-    lede="Current open positions across MJ Oswal's businesses. [Add verified openings as they become available.]",
-    items=[{"href": f"/careers/opportunities/job-{i:02d}/", "title": f"[Job Title {i:02d}]",
-            "text": "[Department] · [Location] · [Employment Type]", "category": "[Department]",
-            "date": "[Posted Month Year]", "image": cycle_img(i + 2)} for i in range(1, JOB_COUNT + 1)])
-for i in range(1, JOB_COUNT + 1):
-    slug = f"job-{i:02d}"
-    add(path=f"/careers/opportunities/{slug}/", title=f"[Job Title {i:02d}] — Careers — MJ Oswal", kind="job", category="careers",
-        parent=("Career Opportunities", "/careers/opportunities/"), heading=f"[Job Title {i:02d}]", eyebrow="[Department]",
-        meta=[("Location", "[Office Location]"), ("Type", "[Employment Type]"), ("Department", "[Department Name]")],
-        lede="[Add a verified role summary once this position is confirmed.]",
-        body=[
-            "[Add verified role responsibilities once available.]",
-            "[Add verified candidate requirements once available.]",
-        ],
-        hero_image=cycle_img(i + 2))
-
-# --- CONTACT ----------------------------------------------------------------------
-add(path="/contact/", title="Contact Us", kind="contact", category="contact",
+add(path="/contact/", title="Contact Us", kind="contact", category=None,
     heading="Contact Us", eyebrow="Get in Touch",
-    lede="We would love to hear from you. [Add verified contact details once confirmed.]")
-add(path="/contact/locations/", title="Offices & Locations — Contact", kind="locations", category="contact",
-    heading="Offices & Locations", eyebrow="Get in Touch",
-    lede="[Add verified office locations once confirmed.]",
-    offices=[
-        {"name": "[Head Office]", "address": "[Registered Office Address, City, State — PIN], India",
-         "phone": "+91 22 XXXX XXXX", "email": "info@mjoswal.com"},
-        {"name": "[Regional Office 01]", "address": "[Office Address, City, State — PIN], India",
-         "phone": "+91 XX XXXX XXXX", "email": "info@mjoswal.com"},
-        {"name": "[Regional Office 02]", "address": "[Office Address, City, State — PIN], India",
-         "phone": "+91 XX XXXX XXXX", "email": "info@mjoswal.com"},
-    ])
-add(path="/contact/enquiry/", title="General Enquiry — Contact", kind="enquiry", category="contact",
-    heading="General Enquiry", eyebrow="Get in Touch",
-    lede="Have a question for MJ Oswal? Send us a general enquiry and our team will get back to you.")
-add(path="/contact/thank-you/", title="Thank You — MJ Oswal", kind="thanks", category="contact",
-    heading="Thank you.", eyebrow="Get in Touch",
-    lede="Your message has been received. A member of the MJ Oswal team will be in touch shortly.")
+    lede=f"We would love to hear from you. MJ Oswal Exports is based in {LOCATION}. [Add verified address, phone and email here.]")
 
-# --- LEGAL / UTILITY ---------------------------------------------------------------
+# --- LEGAL / UTILITY ------------------------------------------------------------------
 add(path="/privacy-policy/", title="Privacy Policy", kind="legal", category="legal",
     heading="Privacy Policy", eyebrow="Legal",
     lede="[This is placeholder legal content and must be reviewed by qualified counsel before publication.]",
@@ -426,30 +532,31 @@ add(path="/terms-of-use/", title="Terms of Use", kind="legal", category="legal",
     ])
 
 # =============================================================================
-# Build a lookup + category metadata (label used in nav/breadcrumbs)
+# CATEGORY METADATA + LOOKUP
 # =============================================================================
 CATEGORY_LABEL = {
-    "about": "About Us", "businesses": "Our Businesses", "products": "Products & Services",
-    "projects": "Projects", "sustainability": "Sustainability", "insights": "Insights",
-    "careers": "Careers", "contact": "Contact Us", "legal": "Legal",
+    "about": "About Us", "businesses": "Our Businesses", "products": "Products",
+    "manufacturing": "Manufacturing", "facility": "Facility", "sustainability": "Sustainability",
+    "projects": "Projects", "insights": "Insights", "legal": "Legal",
 }
 CATEGORY_HUB = {
-    "about": "/about/", "businesses": "/businesses/", "products": "/products-services/",
-    "projects": "/projects/", "sustainability": "/sustainability/", "insights": "/insights/",
-    "careers": "/careers/", "contact": "/contact/",
+    "about": "/about/", "businesses": "/businesses/", "products": "/products/",
+    "manufacturing": "/manufacturing/", "facility": "/facility/", "sustainability": "/sustainability/",
+    "projects": "/projects/", "insights": "/insights/",
 }
 PAGES_BY_PATH = {p["path"]: p for p in PAGES}
 
 # =============================================================================
-# 4. HTML ESCAPE + SMALL HELPERS
+# HTML ESCAPE + SMALL HELPERS
 # =============================================================================
 def esc(s):
     return (str(s).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;"))
 
 ARROW_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+CHEVRON_LEFT_SVG = '<svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+CHEVRON_RIGHT_SVG = '<svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>'
 
 def breadcrumb_trail(page):
-    """Return list of (label, url|None) tuples, self last with url=None."""
     if page["kind"] == "home":
         return []
     trail = [("Home", "/")]
@@ -463,14 +570,14 @@ def breadcrumb_trail(page):
     return trail
 
 # =============================================================================
-# 5. SHARED SHELL: <head>, header, nav panel, footer
+# SHARED SHELL: <head>, header, nav panel, footer
 # =============================================================================
 def render_head(page):
     url = BASE_URL + page["path"]
-    title = page["title"] if page["kind"] == "home" else f'{page["title"]}'
+    title = page["title"] if page["kind"] == "home" else page["title"]
     desc = page.get("description") or page.get("lede") or f'{page.get("heading", SITE_NAME)} — {SITE_NAME}.'
     desc = re.sub(r"\s+", " ", desc).strip()
-    og_image = BASE_URL + page.get("hero_image", IMG["hero"])
+    og_image = BASE_URL + page.get("hero_image", IMAGES["hero"][0]["src"])
     is_home = page["kind"] == "home"
     robots = "noindex, follow" if page["path"] == "/404.html" else "index, follow"
 
@@ -480,26 +587,15 @@ def render_head(page):
   {
     "@context": "https://schema.org",
     "@type": "Corporation",
-    "name": "MJ Oswal",
+    "name": "%s",
+    "legalName": "%s",
     "url": "%s/",
-    "logo": "%s/favicon.svg",
-    "sameAs": [
-      "https://www.linkedin.com/company/mjoswal",
-      "https://www.instagram.com/mjoswal",
-      "https://x.com/mjoswal"
-    ],
+    "logo": "%s%s",
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "[Registered Office Address]",
-      "addressLocality": "[City]",
-      "addressRegion": "[State]",
-      "postalCode": "[PIN]",
+      "addressLocality": "Ludhiana",
+      "addressRegion": "Punjab",
       "addressCountry": "IN"
-    },
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "contactType": "customer service",
-      "email": "info@mjoswal.com"
     }
   }
   </script>
@@ -507,10 +603,10 @@ def render_head(page):
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "MJ Oswal",
+    "name": "%s",
     "url": "%s/"
   }
-  </script>""" % (BASE_URL, BASE_URL, BASE_URL))
+  </script>""" % (SITE_NAME, LEGAL_NAME, BASE_URL, BASE_URL, IMAGES["logo"]["src"], SITE_NAME, BASE_URL))
     else:
         trail = breadcrumb_trail(page)
         if trail:
@@ -542,7 +638,7 @@ def render_head(page):
   <link rel="canonical" href="{url}">
 
   <meta property="og:type" content="website">
-  <meta property="og:site_name" content="MJ Oswal">
+  <meta property="og:site_name" content="{SITE_NAME}">
   <meta property="og:title" content="{esc(title)}">
   <meta property="og:description" content="{esc(desc)}">
   <meta property="og:url" content="{url}">
@@ -554,13 +650,13 @@ def render_head(page):
   <meta name="twitter:description" content="{esc(desc)}">
   <meta name="twitter:image" content="{og_image}">
 
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="/favicon.svg">
+  <link rel="icon" href="{IMAGES['logo']['src']}" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="{IMAGES['logo']['src']}">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-{'  <link rel="preload" as="image" href="' + page.get("hero_image", IMG["hero"]) + '" fetchpriority="high">' if is_home else ''}
+{'  <link rel="preload" as="image" href="' + IMAGES["hero"][0]["src"] + '" fetchpriority="high">' if is_home else ''}
   <link rel="stylesheet" href="/assets/css/main.css">
 
   <!-- Google Tag Manager loads via assets/js/analytics.js (central GTM_ID/GA4_ID
@@ -611,17 +707,13 @@ def render_header(current_path="/", overlay=False):
   <!-- ============ HEADER ============ -->
   <header class="site-header{' site-header--overlay' if overlay else ''}" data-header>
     <div class="site-header__inner">
-      <a href="/" class="site-header__logo" aria-label="MJ Oswal — Home">
-        <svg class="site-header__mark" viewBox="0 0 40 40" aria-hidden="true">
-          <rect x="1" y="1" width="38" height="38" rx="9" fill="none" stroke="currentColor" stroke-width="1.5"/>
-          <path d="M10 27V13h3.1l4.4 9.4 4.4-9.4H25v14h-2.9V17.7l-3.9 8.3h-2.4l-3.9-8.3V27H10Z" fill="currentColor"/>
-        </svg>
-        <span class="site-header__wordmark">MJ Oswal</span>
+      <a href="/" class="site-header__logo" aria-label="{SITE_NAME} — Home">
+        <img class="site-header__logo-img" src="{IMAGES['logo']['src']}" alt="{esc(IMAGES['logo']['alt'])}" width="160" height="54">
       </a>
 
       <div class="site-header__actions">
         <a href="/contact/" class="btn btn--ghost site-header__cta" data-track="cta_click" data-track-label="header_contact">
-          <span>Contact Us</span>
+          <span>Contact</span>
         </a>
         <button type="button" class="menu-toggle" data-menu-toggle aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
           <span class="menu-toggle__box" aria-hidden="true">
@@ -645,16 +737,8 @@ def render_header(current_path="/", overlay=False):
         <div class="site-nav__meta">
           <div class="site-nav__meta-block">
             <p class="site-nav__meta-label">Get in touch</p>
-            <a href="mailto:info@mjoswal.com" data-track="email_click">info@mjoswal.com</a>
-            <a href="tel:+912200000000" data-track="phone_click">+91 22 XXXX XXXX</a>
-          </div>
-          <div class="site-nav__meta-block">
-            <p class="site-nav__meta-label">Follow</p>
-            <div class="site-nav__social">
-              <a href="https://www.linkedin.com/company/mjoswal" aria-label="MJ Oswal on LinkedIn" target="_blank" rel="noopener">LinkedIn</a>
-              <a href="https://www.instagram.com/mjoswal" aria-label="MJ Oswal on Instagram" target="_blank" rel="noopener">Instagram</a>
-              <a href="https://x.com/mjoswal" aria-label="MJ Oswal on X" target="_blank" rel="noopener">X</a>
-            </div>
+            <a href="/contact/" data-track="nav_contact">Contact us</a>
+            <span class="site-nav__meta-note">{LOCATION}</span>
           </div>
         </div>
       </div>
@@ -689,37 +773,20 @@ def render_footer():
   <footer class="site-footer" id="contact">
     <div class="container site-footer__top">
       <div class="site-footer__brand">
-        <a href="/" class="site-footer__logo" aria-label="MJ Oswal — Home">
-          <svg viewBox="0 0 40 40" aria-hidden="true">
-            <rect x="1" y="1" width="38" height="38" rx="9" fill="none" stroke="currentColor" stroke-width="1.5"/>
-            <path d="M10 27V13h3.1l4.4 9.4 4.4-9.4H25v14h-2.9V17.7l-3.9 8.3h-2.4l-3.9-8.3V27H10Z" fill="currentColor"/>
-          </svg>
-          <span>MJ Oswal</span>
+        <a href="/" class="site-footer__logo" aria-label="{SITE_NAME} — Home">
+          <img src="{IMAGES['logo']['src']}" alt="{esc(IMAGES['logo']['alt'])}" width="150" height="50">
         </a>
-        <p class="site-footer__tagline">Building enduring value, responsibly.</p>
-        <div class="site-footer__social">
-          <a href="https://www.linkedin.com/company/mjoswal" aria-label="MJ Oswal on LinkedIn" target="_blank" rel="noopener">LinkedIn</a>
-          <a href="https://www.instagram.com/mjoswal" aria-label="MJ Oswal on Instagram" target="_blank" rel="noopener">Instagram</a>
-          <a href="https://x.com/mjoswal" aria-label="MJ Oswal on X" target="_blank" rel="noopener">X</a>
-        </div>
+        <p class="site-footer__tagline">Apparel manufacturing, built with discipline.</p>
+        <p class="site-footer__note">Contact details, social links and legal information on this footer are shown only once verified. <span class="placeholder">[Add verified address, phone, email and social links here.]</span></p>
       </div>
 {chr(10).join(cols)}
-      <div class="site-footer__col site-footer__col--contact">
-        <h3>Contact</h3>
-        <address>
-          <span class="placeholder">[Registered Office Address, City, State — PIN]</span>, India<br>
-          <a href="tel:+912200000000" data-track="phone_click">+91 22 XXXX XXXX</a><br>
-          <a href="mailto:info@mjoswal.com" data-track="email_click">info@mjoswal.com</a>
-        </address>
-      </div>
     </div>
 
     <div class="container site-footer__bottom">
-      <p>&copy; <span data-current-year>2026</span> MJ Oswal. All rights reserved.</p>
+      <p>&copy; <span data-current-year>2026</span> {LEGAL_NAME}. All rights reserved.</p>
       <ul class="site-footer__legal">
         <li><a href="/privacy-policy/">Privacy Policy</a></li>
         <li><a href="/terms-of-use/">Terms of Use</a></li>
-        <li><a href="/sitemap/">Sitemap</a></li>
       </ul>
     </div>
   </footer>
@@ -734,6 +801,7 @@ def render_footer():
   <script src="/assets/js/smooth-scroll.js"></script>
   <script src="/assets/js/navigation.js"></script>
   <script src="/assets/js/hero-slider.js"></script>
+  <script src="/assets/js/carousel.js"></script>
   <script src="/assets/js/animations.js"></script>
   <script src="/assets/js/main.js"></script>
 </body>
@@ -766,21 +834,19 @@ def render_page_header(page):
     return f'''  <!-- ============ PAGE HEADER ============ -->
   <div class="page-header">
     <div class="container">
-{breadcrumb}      <p class="eyebrow">{esc(page.get("eyebrow", CATEGORY_LABEL.get(page.get("category"), "MJ Oswal")))}</p>
+{breadcrumb}      <p class="eyebrow">{esc(page.get("eyebrow", CATEGORY_LABEL.get(page.get("category"), SITE_NAME)))}</p>
       <h1 class="page-header__heading">{page.get("heading", page["title"])}</h1>{lede_html}
     </div>
   </div>
 '''
 
-
 # =============================================================================
-# 6. REUSABLE CONTENT BLOCKS
+# REUSABLE CONTENT BLOCKS
 # =============================================================================
-def block_tile_grid(items, columns=None):
-    cols_class = f" tile-grid--{columns}" if columns else ""
+def block_tile_grid(items):
     cards = []
     for i, it in enumerate(items):
-        img = it.get("image", cycle_img(i))
+        img = it.get("image", IMAGES["hero"][0]["src"])
         cat = f'<span class="tile-card__category placeholder">{esc(it["category"])}</span>' if it.get("category") else ""
         cards.append(f'''        <a class="tile-card" href="{it["href"]}" data-reveal="fade-up" data-reveal-delay="{min(i, 4) * 80}">
           <span class="tile-card__frame">
@@ -788,14 +854,14 @@ def block_tile_grid(items, columns=None):
           </span>
           <span class="tile-card__body">
             {cat}
-            <span class="tile-card__title placeholder">{esc(it["title"])}</span>
-            <span class="tile-card__text placeholder">{esc(it["text"])}</span>
+            <span class="tile-card__title">{esc(it["title"])}</span>
+            <span class="tile-card__text">{esc(it["text"])}</span>
             <span class="tile-card__cta"><span>Explore</span>{ARROW_SVG}</span>
           </span>
         </a>''')
     return f'''    <section class="section">
       <div class="container">
-        <div class="tile-grid{cols_class}">
+        <div class="tile-grid">
 {chr(10).join(cards)}
         </div>
       </div>
@@ -808,7 +874,7 @@ def block_highlights(items):
     for i, it in enumerate(items):
         lis.append(f'''          <li class="why__item" data-reveal="fade-up" data-reveal-delay="{i * 60}">
             <span class="why__item-title">{esc(it["title"])}</span>
-            <span class="why__item-text placeholder">{esc(it["text"])}</span>
+            <span class="why__item-text">{esc(it["text"])}</span>
           </li>''')
     return f'''    <section class="section section--ink">
       <div class="container">
@@ -820,11 +886,23 @@ def block_highlights(items):
 '''
 
 
+def block_body(paragraphs):
+    paras = "\n".join(f'          <p class="article-body__text">{esc(p)}</p>' for p in paragraphs)
+    return f'''    <section class="section">
+      <div class="container container--article">
+        <div class="article-body">
+{paras}
+        </div>
+      </div>
+    </section>
+'''
+
+
 def block_related(items, heading="Related"):
     if not items:
         return ""
     links = "\n".join(
-        f'          <li><a class="link-arrow" href="{it["href"]}"><span class="placeholder">{esc(it["title"])}</span>{ARROW_SVG}</a></li>'
+        f'          <li><a class="link-arrow" href="{it["href"]}"><span>{esc(it["title"])}</span>{ARROW_SVG}</a></li>'
         for it in items)
     return f'''    <section class="section">
       <div class="container">
@@ -837,10 +915,10 @@ def block_related(items, heading="Related"):
 '''
 
 
-def block_cta(heading="Let's build what's next.", text="Connect with the MJ Oswal team to explore partnerships, careers and opportunities.",
-              primary=("Contact Us", "/contact/"), secondary=("Careers", "/careers/")):
+def block_cta(heading="Let's talk production.", text="Get in touch with the MJ Oswal Exports team about your next order.",
+              primary=("Contact Us", "/contact/"), secondary=("Manufacturing", "/manufacturing/")):
     return f'''    <section class="cta-band">
-      <img class="cta-band__bg" src="{IMG['cta']}" alt="" width="1800" height="1000" loading="lazy">
+      <img class="cta-band__bg" src="{IMAGES['facility']['overview']['src']}" alt="" width="1800" height="1000" loading="lazy">
       <div class="container cta-band__content">
         <h2 class="cta-band__heading" data-reveal="fade-up">{esc(heading)}</h2>
         <p class="cta-band__text" data-reveal="fade-up" data-reveal-delay="80">{esc(text)}</p>
@@ -871,16 +949,10 @@ def form_field(label, name, type_="text", required=True, textarea=False):
           </div>'''
 
 
-def block_form(kind):
-    fields = [
-        form_field("Full Name", "name"),
-        form_field("Email Address", "email", "email"),
-        form_field("Phone Number", "phone", "tel", required=False),
-    ]
-    if kind == "enquiry":
-        fields.append(form_field("Subject", "subject"))
-    fields.append(form_field("Message", "message", textarea=True))
-    return f'''        <form class="contact-form" action="/contact/thank-you/" method="get" data-track-form="{kind}">
+def block_form():
+    fields = [form_field("Full Name", "name"), form_field("Email Address", "email", "email"),
+              form_field("Phone Number", "phone", "tel", required=False), form_field("Message", "message", textarea=True)]
+    return f'''        <form class="contact-form" action="/contact/thank-you/" method="get" data-track-form="contact">
 {chr(10).join(fields)}
           <button type="submit" class="btn btn--primary">
             <span>Send Message</span>{ARROW_SVG}
@@ -889,11 +961,160 @@ def block_form(kind):
         </form>
 '''
 
+
+def block_legal_sections(sections):
+    secs = []
+    for heading, text in sections:
+        secs.append(f'''        <div class="legal-section">
+          <h2>{esc(heading)}</h2>
+          <p>{esc(text)}</p>
+        </div>''')
+    return f'''    <section class="section">
+      <div class="container container--article">
+{chr(10).join(secs)}
+      </div>
+    </section>
+'''
+
+
+# --- Generic carousel (reused by Featured Products, Certifications, Partners) ------
+def block_carousel(track_id, title_html, items_html_list, *, per_view="products", autoplay_ms=3500, aria_label="Carousel"):
+    """items_html_list: list of already-rendered <div class="carousel__item">...</div> strings."""
+    items = "\n".join(items_html_list)
+    return f'''    <section class="section carousel-section" data-carousel-section>
+      <div class="container">
+{title_html}
+      </div>
+      <div class="carousel" data-carousel data-carousel-id="{track_id}" data-per-view="{per_view}" data-autoplay="{autoplay_ms}" aria-roledescription="carousel" aria-label="{esc(aria_label)}">
+        <div class="carousel__viewport">
+          <div class="carousel__track" data-carousel-track>
+{items}
+          </div>
+        </div>
+        <div class="carousel__controls">
+          <button type="button" class="carousel__nav-btn" data-carousel-prev aria-label="Previous">{CHEVRON_LEFT_SVG}</button>
+          <div class="carousel__dots" data-carousel-dots role="tablist" aria-label="Slide position"></div>
+          <button type="button" class="carousel__nav-btn" data-carousel-next aria-label="Next">{CHEVRON_RIGHT_SVG}</button>
+        </div>
+      </div>
+    </section>
+'''
+
+
+def product_carousel_item(p):
+    return f'''            <div class="carousel__item">
+              <a class="tile-card" href="/products/{p['slug']}/">
+                <span class="tile-card__frame"><img src="{p['image']}" alt="" width="900" height="1100" loading="lazy"></span>
+                <span class="tile-card__body">
+                  <span class="tile-card__category">{esc(p['category'])}</span>
+                  <span class="tile-card__title">{esc(p['name'])}</span>
+                  <span class="tile-card__text">{esc(p['description'])}</span>
+                  <span class="tile-card__cta"><span>View Products</span>{ARROW_SVG}</span>
+                </span>
+              </a>
+            </div>'''
+
+
+def certificate_carousel_item(c):
+    return f'''            <div class="carousel__item">
+              <div class="cert-card">
+                <span class="cert-card__frame"><img src="{c['image']}" alt="{esc(c['name'])}" width="900" height="700" loading="lazy"></span>
+                <span class="cert-card__name placeholder">{esc(c['name'])}</span>
+                <span class="cert-card__meta placeholder">{esc(c['issuer'])} · {esc(c['year'])}</span>
+              </div>
+            </div>'''
+
+
+def partner_carousel_item(p):
+    return f'''            <div class="carousel__item carousel__item--logo">
+              <div class="partner-card">
+                <img src="{p['logo']}" alt="{esc(p['name'])}" width="400" height="200" loading="lazy">
+              </div>
+            </div>'''
+
+
+# --- Machinery 3D flip-card slider ---------------------------------------------------
+# Maps a machine's category tag to the manufacturing department page its
+# "View Details" link should open.
+MACHINE_CATEGORY_TO_DEPT = {
+    "Stitching": "stitching", "Heat Label": "heat-label", "Fabric": "fabric",
+    "Dispatch": "dispatch", "Designing": "designing", "Embroidery": "embroidery",
+    "Cutting": "cutting", "Printing": "printing",
+}
+
+def block_machine_slider():
+    cards = []
+    for m in MACHINES:
+        dept_slug = MACHINE_CATEGORY_TO_DEPT.get(m["category"], "")
+        dept_href = f"/manufacturing/{dept_slug}/" if dept_slug else "/facility/machinery/"
+        cards.append(f'''            <div class="carousel__item">
+              <div class="flip-card" tabindex="0">
+                <div class="flip-card__inner">
+                  <div class="flip-card__face flip-card__face--front">
+                    <img src="{m['image']}" alt="" width="900" height="700" loading="lazy">
+                    <span class="flip-card__category">{esc(m['category'])}</span>
+                    <span class="flip-card__name">{esc(m['name'])}</span>
+                  </div>
+                  <div class="flip-card__face flip-card__face--back">
+                    <span class="flip-card__back-category">{esc(m['category'])}</span>
+                    <span class="flip-card__back-name">{esc(m['name'])}</span>
+                    <p class="flip-card__back-desc">{esc(m['description'])}</p>
+                    <p class="flip-card__back-details">{esc(m['details'])}</p>
+                    <a href="{dept_href}" class="flip-card__back-link">View Details{ARROW_SVG}</a>
+                  </div>
+                </div>
+              </div>
+            </div>''')
+    title = '''        <div class="section-head section-head--split">
+          <div>
+            <p class="eyebrow" data-reveal="fade-up">Our Machinery</p>
+            <h2 class="section-head__title" data-reveal="fade-up" data-reveal-delay="80">20+ Machines, One Production Line</h2>
+          </div>
+          <a href="/facility/machinery/" class="link-arrow" data-reveal="fade-up" data-reveal-delay="120"><span>View all machinery</span>''' + ARROW_SVG + '''</a>
+        </div>'''
+    return block_carousel("machines", title, cards, per_view="machines", autoplay_ms=4500, aria_label="Machinery")
+
+
+# --- Production process timeline ------------------------------------------------------
+PROCESS_LINKS = {
+    "Raw Material": "/manufacturing/fabric/", "Fabric": "/manufacturing/fabric/",
+    "Design": "/manufacturing/designing/", "Cutting": "/manufacturing/cutting/",
+    "Printing / Embroidery": "/manufacturing/printing/", "Stitching": "/manufacturing/stitching/",
+    "Heat Label": "/manufacturing/heat-label/", "Pressing": "/manufacturing/pressing/",
+    "Quality": "/facility/quality-control/", "Packing": "/manufacturing/packing/",
+    "Dispatch": "/manufacturing/dispatch/",
+}
+
+def block_process_timeline():
+    steps = []
+    for i, step in enumerate(MFG_PROCESS, start=1):
+        href = PROCESS_LINKS.get(step, "/manufacturing/")
+        steps.append(f'''        <a class="process-step" href="{href}" data-reveal="fade-up" data-reveal-delay="{min(i, 6) * 40}">
+          <span class="process-step__index">{i:02d}</span>
+          <span class="process-step__label">{esc(step)}</span>
+        </a>''')
+    return f'''    <section class="section process-section" aria-labelledby="process-heading">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow" data-reveal="fade-up">How We Build</p>
+          <h2 class="section-head__title" id="process-heading" data-reveal="fade-up" data-reveal-delay="80">Our Production Process</h2>
+          <p class="section-head__text" data-reveal="fade-up" data-reveal-delay="140">Every garment follows the same eleven-step process. Select any step to see that department in detail.</p>
+        </div>
+        <div class="process-timeline" role="list">
+{chr(10).join(steps)}
+        </div>
+      </div>
+    </section>
+'''
+
 # =============================================================================
-# 7. PER-KIND PAGE BODIES
+# PER-KIND PAGE BODIES
 # =============================================================================
 def body_hub(page):
-    out = block_tile_grid(page["children"])
+    out = ""
+    if page.get("process"):
+        out += block_process_timeline()
+    out += block_tile_grid(page["children"])
     out += block_cta()
     return out
 
@@ -904,15 +1125,11 @@ def body_detail(page):
         out += block_hero_image(page["hero_image"])
     if page.get("highlights"):
         out += block_highlights(page["highlights"])
+    if page.get("body"):
+        out += block_body(page["body"])
     if page.get("related"):
-        out += block_related(page["related"], f'More from {CATEGORY_LABEL.get(page.get("category"), "MJ Oswal")}')
+        out += block_related(page["related"], f'More from {CATEGORY_LABEL.get(page.get("category"), SITE_NAME)}')
     out += block_cta()
-    return out
-
-
-def body_listing(page):
-    out = block_tile_grid(page["items"])
-    out += block_cta(heading="Don't see what you're looking for?", text="Get in touch and our team will point you in the right direction.")
     return out
 
 
@@ -933,109 +1150,30 @@ def body_article(page):
     return out
 
 
-def body_job(page):
-    out = block_hero_image(page["hero_image"])
-    meta_items = "\n".join(f'          <div class="job-meta__item"><dt>{esc(k)}</dt><dd class="placeholder">{esc(v)}</dd></div>' for k, v in page["meta"])
-    paras = "\n".join(f'          <p class="article-body__text">{esc(p)}</p>' for p in page["body"])
-    out += f'''    <section class="section">
-      <div class="container container--article">
-        <dl class="job-meta">
-{meta_items}
-        </dl>
-        <div class="article-body">
-{paras}
-        </div>
-        <a href="mailto:careers@mjoswal.com?subject={esc(page["heading"])}" class="btn btn--primary" data-track="cta_click" data-track-label="job_apply">
-          <span>Apply for this Role</span>{ARROW_SVG}
-        </a>
-      </div>
-    </section>
-'''
-    out += block_cta(heading="Explore more opportunities", text="See every open position across MJ Oswal's businesses.",
-                      primary=("Career Opportunities", "/careers/opportunities/"), secondary=("Life at MJ Oswal", "/careers/life-at-mj-oswal/"))
-    return out
-
-
 def body_contact(page):
     return f'''    <section class="section">
       <div class="container contact-grid">
         <div class="contact-grid__info">
           <p class="eyebrow">Reach Us Directly</p>
-          <address>
-            <span class="placeholder">[Registered Office Address, City, State — PIN]</span>, India
-          </address>
-          <a href="tel:+912200000000" class="contact-grid__link" data-track="phone_click">+91 22 XXXX XXXX</a>
-          <a href="mailto:info@mjoswal.com" class="contact-grid__link" data-track="email_click">info@mjoswal.com</a>
-          <ul class="related-list">
-            <li><a class="link-arrow" href="/contact/locations/"><span>Offices &amp; Locations</span>{ARROW_SVG}</a></li>
-            <li><a class="link-arrow" href="/contact/enquiry/"><span>General Enquiry</span>{ARROW_SVG}</a></li>
-          </ul>
+          <address>{LOCATION}<br><span class="placeholder">[Add verified street address here.]</span></address>
+          <p class="contact-grid__note placeholder">[Add verified phone number and email address here.]</p>
         </div>
         <div class="contact-grid__form">
           <p class="eyebrow">Send a Message</p>
-{block_form("contact")}
-        </div>
-      </div>
-    </section>
-'''
-
-
-def body_locations(page):
-    cards = []
-    for o in page["offices"]:
-        cards.append(f'''        <div class="office-card">
-          <p class="office-card__name placeholder">{esc(o["name"])}</p>
-          <address class="office-card__address placeholder">{esc(o["address"])}</address>
-          <a href="tel:{esc(o["phone"].replace(" ", ""))}" data-track="phone_click">{esc(o["phone"])}</a>
-          <a href="mailto:{esc(o["email"])}" data-track="email_click">{esc(o["email"])}</a>
-        </div>''')
-    return f'''    <section class="section">
-      <div class="container">
-        <div class="office-grid">
-{chr(10).join(cards)}
+{block_form()}
         </div>
       </div>
     </section>
 ''' + block_cta()
 
 
-def body_enquiry(page):
-    return f'''    <section class="section">
-      <div class="container container--form">
-{block_form("enquiry")}
-      </div>
-    </section>
-'''
-
-
-def body_thanks(page):
-    return f'''    <section class="section section--center">
-      <div class="container">
-        <a href="/" class="btn btn--primary"><span>Return to Homepage</span>{ARROW_SVG}</a>
-      </div>
-    </section>
-'''
-
-
 def body_legal(page):
-    secs = []
-    for heading, text in page["sections"]:
-        secs.append(f'''        <div class="legal-section">
-          <h2>{esc(heading)}</h2>
-          <p class="placeholder">{esc(text)}</p>
-        </div>''')
-    return f'''    <section class="section">
-      <div class="container container--article">
-{chr(10).join(secs)}
-      </div>
-    </section>
-'''
+    return block_legal_sections(page["sections"])
+
 
 BODY_RENDERERS = {
-    "hub": body_hub, "detail": body_detail, "listing": body_listing,
-    "article": body_article, "job": body_job, "contact": body_contact,
-    "locations": body_locations, "enquiry": body_enquiry, "thanks": body_thanks,
-    "legal": body_legal,
+    "hub": body_hub, "detail": body_detail, "article": body_article,
+    "contact": body_contact, "legal": body_legal,
 }
 
 
@@ -1044,7 +1182,7 @@ def assemble_page(page, body_html):
 
 
 # =============================================================================
-# 8. WRITE FILES
+# WRITE FILES
 # =============================================================================
 def write_page(path, html):
     if path == "/":
@@ -1081,13 +1219,13 @@ def build_html_sitemap():
       </div>
     </section>
 '''
-    page = {"path": "/sitemap/", "title": "Sitemap — MJ Oswal", "kind": "detail", "category": None,
-            "heading": "Sitemap", "eyebrow": "MJ Oswal", "lede": "A complete index of every page on the MJ Oswal website."}
+    page = {"path": "/sitemap/", "title": f"Sitemap — {SITE_NAME}", "kind": "detail", "category": None,
+            "heading": "Sitemap", "eyebrow": SITE_NAME, "lede": f"A complete index of every page on the {SITE_NAME} website."}
     return page, body
 
 
 def build_404():
-    page = {"path": "/404.html", "title": "Page Not Found — MJ Oswal", "kind": "detail", "category": None,
+    page = {"path": "/404.html", "title": f"Page Not Found — {SITE_NAME}", "kind": "detail", "category": None,
             "heading": "Page not found.", "eyebrow": "Error 404",
             "lede": "The page you are looking for may have moved or no longer exists."}
     body = f'''    <section class="section section--center">
@@ -1099,6 +1237,314 @@ def build_404():
     return page, body
 
 
+# =============================================================================
+# HOMEPAGE — hero slider + 16-section structure
+# =============================================================================
+HERO_SLIDES = [
+    {"eyebrow": SITE_NAME, "headline": "Precision in<br>Every Stitch",
+     "text": "Advanced apparel manufacturing built around quality, consistency and scale.",
+     "primary": ("Our Manufacturing", "/manufacturing/"), "secondary": ("About Us", "/about/"), "image": IMAGES["hero"][0]["src"]},
+    {"eyebrow": "Design to Delivery", "headline": "Designed for<br>Modern Apparel",
+     "text": "From concept and design to finished garments.",
+     "primary": ("View Products", "/products/"), "secondary": ("Our Businesses", "/businesses/"), "image": IMAGES["hero"][1]["src"]},
+    {"eyebrow": "Integrated Production", "headline": "Built for Scale",
+     "text": "Integrated production capabilities across multiple departments.",
+     "primary": ("Our Facility", "/facility/"), "secondary": ("Machinery", "/facility/machinery/"), "image": IMAGES["hero"][2]["src"]},
+    {"eyebrow": "Domestic &amp; Export", "headline": "Quality That<br>Travels",
+     "text": "Reliable manufacturing for domestic and export requirements.",
+     "primary": ("Exports", "/exports/"), "secondary": ("Quality", "/quality/"), "image": IMAGES["hero"][3]["src"]},
+    {"eyebrow": "Ludhiana, Punjab", "headline": SITE_NAME,
+     "text": "Manufacturing apparel with discipline, technology and craftsmanship.",
+     "primary": ("Contact Us", "/contact/"), "secondary": ("Careers", "/careers/"), "image": IMAGES["hero"][4]["src"]},
+]
+
+
+def render_hero_slider():
+    slides = []
+    for i, s in enumerate(HERO_SLIDES):
+        active = " is-active" if i == 0 else ""
+        heading_tag = "h1" if i == 0 else "p"
+        slides.append(f'''      <div class="hero-slider__slide{active}" data-slide role="group" aria-roledescription="slide" aria-label="{i + 1} of {len(HERO_SLIDES)}">
+        <div class="hero-slider__media">
+          <img src="{s['image']}" alt="" width="1600" height="2000"{' fetchpriority="high"' if i == 0 else ' loading="lazy"'}>
+          <div class="hero-slider__scrim" aria-hidden="true"></div>
+        </div>
+        <div class="hero-slider__content">
+          <p class="eyebrow hero-slider__eyebrow">{s['eyebrow']}</p>
+          <{heading_tag} class="hero-slider__headline">{s['headline']}</{heading_tag}>
+          <p class="hero-slider__text">{s['text']}</p>
+          <div class="hero-slider__actions">
+            <a href="{s['primary'][1]}" class="btn btn--primary" data-track="cta_click" data-track-label="hero_slide_{i + 1}_primary"><span>{esc(s['primary'][0])}</span>{ARROW_SVG}</a>
+            <a href="{s['secondary'][1]}" class="btn btn--text" data-track="cta_click" data-track-label="hero_slide_{i + 1}_secondary"><span>{esc(s['secondary'][0])}</span></a>
+          </div>
+        </div>
+      </div>''')
+
+    dots = "\n".join(
+        f'          <button type="button" class="hero-slider__dot{" is-active" if i == 0 else ""}" data-slide-dot="{i}" aria-current="{"true" if i == 0 else "false"}" aria-label="Go to slide {i + 1}"></button>'
+        for i in range(len(HERO_SLIDES))
+    )
+
+    return f'''    <section class="hero-slider" data-hero-slider aria-roledescription="carousel" aria-label="{SITE_NAME} highlights">
+{chr(10).join(slides)}
+      <div class="hero-slider__controls">
+        <div class="hero-slider__nav">
+          <button type="button" class="hero-slider__nav-btn" data-slide-prev aria-label="Previous slide">{CHEVRON_LEFT_SVG}</button>
+          <button type="button" class="hero-slider__nav-btn" data-slide-next aria-label="Next slide">{CHEVRON_RIGHT_SVG}</button>
+        </div>
+        <div class="hero-slider__indicators" role="tablist" aria-label="Slide progress">
+{dots}
+        </div>
+        <span class="hero-slider__count"><span data-slide-current>01</span> / {len(HERO_SLIDES):02d}</span>
+        <button type="button" class="hero-slider__pause" data-slide-pause aria-label="Pause autoplay" aria-pressed="false">
+          <svg data-icon-pause viewBox="0 0 24 24"><path d="M8 5h3v14H8zM13 5h3v14h-3z" fill="currentColor"/></svg>
+          <svg data-icon-play viewBox="0 0 24 24" hidden><path d="M7 5l12 7-12 7V5z" fill="currentColor"/></svg>
+        </button>
+      </div>
+    </section>
+'''
+
+
+def body_home():
+    out = render_hero_slider()
+
+    # 02 — Company Introduction
+    out += f'''
+    <section class="intro" id="intro" aria-labelledby="intro-heading">
+      <div class="container intro__grid">
+        <div class="intro__copy">
+          <p class="eyebrow" data-reveal="fade-up">Who We Are</p>
+          <h2 class="intro__heading" id="intro-heading" data-reveal="fade-up" data-reveal-delay="80">
+            An apparel manufacturer built on discipline, in {LOCATION}.
+          </h2>
+          <p class="intro__text" data-reveal="fade-up" data-reveal-delay="160">
+            {LEGAL_NAME} manufactures wearing apparel and knitted, ready-made garments — from
+            fabric and design through cutting, printing, embroidery, stitching and dispatch, all under one roof.
+            <span class="placeholder">[Add further verified company introduction here.]</span>
+          </p>
+          <a href="/about/company/" class="link-arrow" data-reveal="fade-up" data-reveal-delay="220"><span>Learn more about us</span>{ARROW_SVG}</a>
+        </div>
+        <figure class="intro__visual" data-reveal="clip-up" data-reveal-delay="120">
+          <img src="{IMAGES['team']['our-people']['src']}" alt="{esc(IMAGES['team']['our-people']['alt'])}" width="1200" height="1500" loading="lazy">
+        </figure>
+      </div>
+    </section>
+'''
+
+    # 03 — Our Businesses
+    biz_items = [
+        {"href": "/businesses/apparel/", "title": "Apparel", "text": "Ready-made apparel across a wide range of categories.", "image": IMAGES["businesses"]["apparel"]["src"]},
+        {"href": "/businesses/knitwear/", "title": "Knitwear", "text": "Knitted garments produced through our integrated lines.", "image": IMAGES["businesses"]["knitwear"]["src"]},
+        {"href": "/businesses/garments/", "title": "Garments", "text": "Full ready-made garment manufacturing, fabric to finish.", "image": IMAGES["businesses"]["garments"]["src"]},
+    ]
+    biz_cards = "\n".join(f'''          <a class="tile-card" href="{it['href']}" data-reveal="fade-up" data-reveal-delay="{i * 80}">
+            <span class="tile-card__frame"><img src="{it['image']}" alt="" width="900" height="1100" loading="lazy"></span>
+            <span class="tile-card__body">
+              <span class="tile-card__title">{esc(it['title'])}</span>
+              <span class="tile-card__text">{esc(it['text'])}</span>
+              <span class="tile-card__cta"><span>Explore</span>{ARROW_SVG}</span>
+            </span>
+          </a>''' for i, it in enumerate(biz_items))
+    out += f'''    <section class="businesses" id="businesses" aria-labelledby="businesses-heading">
+      <div class="container">
+        <div class="section-head section-head--split">
+          <div><p class="eyebrow" data-reveal="fade-up">What We Do</p><h2 class="section-head__title" id="businesses-heading" data-reveal="fade-up" data-reveal-delay="80">Our Businesses</h2></div>
+          <a href="/businesses/" class="link-arrow" data-reveal="fade-up" data-reveal-delay="120"><span>View all businesses</span>{ARROW_SVG}</a>
+        </div>
+        <div class="tile-grid">
+{biz_cards}
+        </div>
+      </div>
+    </section>
+'''
+
+    # 04 — Featured Products (autoplay carousel)
+    product_title = '''        <div class="section-head section-head--split">
+          <div>
+            <p class="eyebrow" data-reveal="fade-up">What We Make</p>
+            <h2 class="section-head__title" data-reveal="fade-up" data-reveal-delay="80">Featured Products</h2>
+          </div>
+          <a href="/products/" class="link-arrow" data-reveal="fade-up" data-reveal-delay="120"><span>View all products</span>''' + ARROW_SVG + '''</a>
+        </div>'''
+    out += block_carousel("products", product_title, [product_carousel_item(p) for p in PRODUCTS],
+                           per_view="products", autoplay_ms=3500, aria_label="Featured Products")
+
+    # 05 — Manufacturing Capabilities
+    out += f'''    <section class="section section--ink" aria-labelledby="mfg-cap-heading">
+      <div class="container why__grid">
+        <figure class="why__visual" data-reveal="clip-up">
+          <img src="{IMAGES['manufacturing']['overview']['src']}" alt="{esc(IMAGES['manufacturing']['overview']['alt'])}" width="1100" height="1350" loading="lazy">
+        </figure>
+        <div class="why__content">
+          <p class="eyebrow" data-reveal="fade-up">Manufacturing Capabilities</p>
+          <h2 class="why__heading" id="mfg-cap-heading" data-reveal="fade-up" data-reveal-delay="80">Ten departments. One integrated line.</h2>
+          <p class="intro__text" data-reveal="fade-up" data-reveal-delay="140" style="color:rgba(255,255,255,.72);margin-bottom:1.6em;">
+            Fabric, design, cutting, printing, embroidery, stitching, heat label, pressing, packing and dispatch — every department works in sequence under one roof in {LOCATION}.
+          </p>
+          <a href="/manufacturing/" class="btn btn--outline btn--light" data-reveal="fade-up" data-reveal-delay="200"><span>Explore Manufacturing</span>{ARROW_SVG}</a>
+        </div>
+      </div>
+    </section>
+'''
+
+    # 06 — Machinery flip-card slider
+    out += block_machine_slider()
+
+    # 07 — Production Process
+    out += block_process_timeline()
+
+    # 08 — Facility / Factory Showcase
+    gallery = IMAGES["facility"]["gallery"]
+    gallery_html = "\n".join(f'''          <figure class="facility-gallery__item" data-reveal="fade-up" data-reveal-delay="{i * 60}">
+            <img src="{g['src']}" alt="{esc(g['alt'])}" width="900" height="700" loading="lazy">
+          </figure>''' for i, g in enumerate(gallery))
+    out += f'''    <section class="section" aria-labelledby="facility-heading">
+      <div class="container">
+        <div class="section-head section-head--split">
+          <div><p class="eyebrow" data-reveal="fade-up">Our Facility</p><h2 class="section-head__title" id="facility-heading" data-reveal="fade-up" data-reveal-delay="80">Inside the Factory</h2></div>
+          <a href="/facility/" class="link-arrow" data-reveal="fade-up" data-reveal-delay="120"><span>Explore our facility</span>{ARROW_SVG}</a>
+        </div>
+        <div class="facility-gallery">
+{gallery_html}
+        </div>
+      </div>
+    </section>
+'''
+
+    # 09 — Quality
+    out += f'''    <section class="sustainability" id="quality" aria-labelledby="quality-heading">
+      <figure class="sustainability__visual" data-reveal="clip-up">
+        <img src="{IMAGES['facility']['quality-control']['src']}" alt="{esc(IMAGES['facility']['quality-control']['alt'])}" width="1600" height="1100" loading="lazy">
+      </figure>
+      <div class="sustainability__content">
+        <p class="eyebrow" data-reveal="fade-up">Quality</p>
+        <h2 class="sustainability__heading" id="quality-heading" data-reveal="fade-up" data-reveal-delay="80">Checked at every stage, not just the end.</h2>
+        <p class="sustainability__text" data-reveal="fade-up" data-reveal-delay="160">Quality is reviewed through the production line — at cutting, at stitching, and again before packing and dispatch.</p>
+        <a href="/quality/" class="btn btn--outline btn--light" data-reveal="fade-up" data-reveal-delay="220"><span>Our Approach to Quality</span>{ARROW_SVG}</a>
+      </div>
+    </section>
+'''
+
+    # 10 — Certifications (auto slider)
+    cert_title = '''        <div class="section-head">
+          <p class="eyebrow" data-reveal="fade-up">Certifications</p>
+          <h2 class="section-head__title" data-reveal="fade-up" data-reveal-delay="80">Certifications</h2>
+          <p class="section-head__text" data-reveal="fade-up" data-reveal-delay="140">This section is ready to display verified certifications as they are confirmed.</p>
+        </div>'''
+    out += block_carousel("certificates", cert_title, [certificate_carousel_item(c) for c in CERTIFICATES],
+                           per_view="certificates", autoplay_ms=4000, aria_label="Certifications")
+
+    # 11 — Our Partners (auto slider)
+    partner_title = '''        <div class="section-head">
+          <p class="eyebrow" data-reveal="fade-up">Our Partners</p>
+          <h2 class="section-head__title" data-reveal="fade-up" data-reveal-delay="80">Our Partners</h2>
+          <p class="section-head__text" data-reveal="fade-up" data-reveal-delay="140">This section is ready to display verified, publication-cleared partner logos as they are confirmed.</p>
+        </div>'''
+    out += block_carousel("partners", partner_title, [partner_carousel_item(p) for p in PARTNERS],
+                           per_view="partners", autoplay_ms=3000, aria_label="Our Partners")
+
+    # 12 — Why MJ Oswal Exports
+    out += '''    <section class="why" aria-labelledby="why-heading">
+      <div class="container why__grid">
+        <figure class="why__visual" data-reveal="clip-up">
+          <img src="''' + IMAGES["facility"]["production"]["src"] + '''" alt="''' + esc(IMAGES["facility"]["production"]["alt"]) + '''" width="1100" height="1350" loading="lazy">
+        </figure>
+        <div class="why__content">
+          <p class="eyebrow" data-reveal="fade-up">Why MJ Oswal Exports</p>
+          <h2 class="why__heading" id="why-heading" data-reveal="fade-up" data-reveal-delay="80">Six commitments behind every garment.</h2>
+          <ul class="why__list">
+            <li class="why__item" data-reveal="fade-up" data-reveal-delay="0"><span class="why__item-title">Integrated Production</span><span class="why__item-text">Ten departments under one roof, from fabric to dispatch.</span></li>
+            <li class="why__item" data-reveal="fade-up" data-reveal-delay="60"><span class="why__item-title">Quality Discipline</span><span class="why__item-text">Checked in-line, not only at the end of the process.</span></li>
+            <li class="why__item" data-reveal="fade-up" data-reveal-delay="120"><span class="why__item-title">Design-Led</span><span class="why__item-text">An in-house design team taking concepts to production.</span></li>
+            <li class="why__item" data-reveal="fade-up" data-reveal-delay="180"><span class="why__item-title">Built for Scale</span><span class="why__item-text">125+ stitching machines supporting multi-style production.</span></li>
+            <li class="why__item" data-reveal="fade-up" data-reveal-delay="240"><span class="why__item-title">Technology-Backed</span><span class="why__item-text">CAD, ERP and embroidery software across every department.</span></li>
+            <li class="why__item" data-reveal="fade-up" data-reveal-delay="300"><span class="why__item-title">People-First</span><span class="why__item-text">Approximately 500–700 people across our production floor.</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+'''
+
+    # 13 — Numbers / Capabilities (approx figures from the PDF)
+    stats = [
+        ("125+", "Stitching Machines (approx.)"),
+        ("500–700", "People Employed (working estimate)"),
+        ("10", "Integrated Manufacturing Departments"),
+        ("50+", "Fabric Colours Currently Managed"),
+    ]
+    stat_html = "\n".join(f'''            <div class="stat-row__item"><dt class="stat-row__number">{esc(n)}</dt><dd class="stat-row__label">{esc(l)}</dd></div>'''
+                           for n, l in stats)
+    out += f'''    <section class="section section--ink">
+      <div class="container">
+        <p class="eyebrow" data-reveal="fade-up">Capabilities</p>
+        <h2 class="section-head__title" data-reveal="fade-up" data-reveal-delay="80" style="margin-bottom:1.4em;">By the Numbers</h2>
+        <dl class="stat-row" data-reveal="fade-up" data-reveal-delay="120">
+{stat_html}
+        </dl>
+        <p class="stat-row__note">Figures shown are approximate, current working estimates from internal production planning — not final production numbers.</p>
+      </div>
+    </section>
+'''
+
+    # 14 — Projects / Case Studies
+    proj_cards = "\n".join(f'''          <a class="tile-card" href="/projects/{pr['slug']}/" data-reveal="fade-up" data-reveal-delay="{i * 80}">
+            <span class="tile-card__frame"><img src="{IMAGES['projects'][i]['src']}" alt="" width="900" height="1100" loading="lazy"></span>
+            <span class="tile-card__body">
+              <span class="tile-card__title">{esc(pr['title'])}</span>
+              <span class="tile-card__text">{esc(pr['text'])}</span>
+              <span class="tile-card__cta"><span>View Project</span>{ARROW_SVG}</span>
+            </span>
+          </a>''' for i, pr in enumerate(PROJECTS_DATA))
+    out += f'''    <section class="section" aria-labelledby="projects-heading">
+      <div class="container">
+        <div class="section-head section-head--split">
+          <div><p class="eyebrow" data-reveal="fade-up">Our Work</p><h2 class="section-head__title" id="projects-heading" data-reveal="fade-up" data-reveal-delay="80">Projects &amp; Case Studies</h2></div>
+          <a href="/projects/" class="link-arrow" data-reveal="fade-up" data-reveal-delay="120"><span>View all projects</span>{ARROW_SVG}</a>
+        </div>
+        <div class="tile-grid">
+{proj_cards}
+        </div>
+      </div>
+    </section>
+'''
+
+    # 15 — Insights / News
+    insight_cards = "\n".join(f'''          <a class="tile-card" href="/insights/{a['slug']}/" data-reveal="fade-up" data-reveal-delay="{i * 80}">
+            <span class="tile-card__frame"><img src="{IMAGES['insights'][i]['src']}" alt="" width="900" height="700" loading="lazy"></span>
+            <span class="tile-card__body">
+              <span class="tile-card__title">{esc(a['title'])}</span>
+              <span class="tile-card__text">{esc(a['text'])}</span>
+              <span class="tile-card__cta"><span>Read more</span>{ARROW_SVG}</span>
+            </span>
+          </a>''' for i, a in enumerate(INSIGHTS_DATA))
+    out += f'''    <section class="section" aria-labelledby="insights-heading">
+      <div class="container">
+        <div class="section-head"><p class="eyebrow" data-reveal="fade-up">Insights</p><h2 class="section-head__title" id="insights-heading" data-reveal="fade-up" data-reveal-delay="80">News &amp; Insights</h2></div>
+        <div class="tile-grid">
+{insight_cards}
+        </div>
+      </div>
+    </section>
+'''
+
+    # 16 — Contact CTA
+    out += block_cta(heading="Let's talk about your next order.",
+                      text=f"MJ Oswal Exports is based in {LOCATION}. Reach out to discuss manufacturing, sourcing or partnership opportunities.",
+                      primary=("Contact Us", "/contact/"), secondary=("Careers", "/careers/"))
+
+    return out
+
+
+def assemble_home():
+    page = {"path": "/", "title": f"{SITE_NAME} — Apparel Manufacturing in Ludhiana, Punjab", "kind": "home",
+            "category": None, "hero_image": IMAGES["hero"][0]["src"],
+            "description": f"{SITE_NAME} is an apparel and garment manufacturing company based in {LOCATION}, with integrated stitching, cutting, printing, embroidery and dispatch capabilities."}
+    return render_head(page) + "<body>\n" + render_header("/", overlay=True) + '  <main id="main">\n' + body_home() + "  </main>\n" + render_footer()
+
+
+# =============================================================================
+# MAIN
+# =============================================================================
 def main():
     count = 0
     with open(os.path.join(ROOT, "index.html"), "w") as f:
@@ -1123,10 +1569,9 @@ def main():
         f.write(html_404)
     count += 1
 
-    # sitemap.xml — every generated page + hand-authored home
     urls = ["/"] + [p["path"] for p in PAGES if p["kind"] != "home"] + ["/sitemap/"]
     entries = "\n".join(
-        f'  <url>\n    <loc>{BASE_URL}{u}</loc>\n    <lastmod>2026-08-24</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>{"1.0" if u == "/" else "0.7"}</priority>\n  </url>'
+        f'  <url>\n    <loc>{BASE_URL}{u}</loc>\n    <lastmod>2026-08-26</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>{"1.0" if u == "/" else "0.7"}</priority>\n  </url>'
         for u in urls
     )
     sitemap_xml = f'''<?xml version="1.0" encoding="UTF-8"?>
@@ -1137,241 +1582,13 @@ def main():
     with open(os.path.join(ROOT, "sitemap.xml"), "w") as f:
         f.write(sitemap_xml)
 
+    with open(os.path.join(ROOT, "robots.txt"), "w") as f:
+        f.write(f"User-agent: *\nAllow: /\n\nSitemap: {BASE_URL}/sitemap.xml\n")
+
     print(f"Generated {count} pages + sitemap.xml ({len(urls)} URLs) + 404.html")
-
-
-# =============================================================================
-# 9. HOMEPAGE (hero slider + section rebuild, real internal links throughout)
-# =============================================================================
-HERO_SLIDES = [
-    {"eyebrow": "MJ Oswal", "headline": "Enterprise built on trust.<br>Vision built to last.",
-     "text": 'MJ Oswal is a diversified Indian business group building enduring value across <span class="placeholder">[core industries]</span> — engineered for quality, scaled for impact.',
-     "primary": ("Explore Our Businesses", "/businesses/"), "secondary": ("About MJ Oswal", "/about/"), "image": IMG["hero"]},
-    {"eyebrow": "Our Businesses", "headline": "A diversified portfolio.<br>One standard of quality.",
-     "text": "Every MJ Oswal business is held to the same standard of engineering discipline and long-term thinking.",
-     "primary": ("View Our Businesses", "/businesses/"), "secondary": ("Products & Services", "/products-services/"), "image": IMG["biz1"]},
-    {"eyebrow": "Engineering & Quality", "headline": "Precision engineering.<br>Proven discipline.",
-     "text": "From concept to delivery, quality is engineered in — not inspected in afterward.",
-     "primary": ("Our Projects", "/projects/"), "secondary": ("Products & Services", "/products-services/"), "image": IMG["proj1"]},
-    {"eyebrow": "Sustainability", "headline": "Growth and responsibility,<br>moving together.",
-     "text": "We believe long-term growth and environmental responsibility are not in conflict — they're the same goal.",
-     "primary": ("Our Approach to Sustainability", "/sustainability/"), "secondary": ("Read Insights", "/insights/"), "image": IMG["sustain"]},
-    {"eyebrow": "Careers", "headline": "Build your future<br>with MJ Oswal.",
-     "text": "Join a group that invests in engineering discipline, quality, and the people behind both.",
-     "primary": ("Explore Careers", "/careers/"), "secondary": ("Contact Us", "/contact/"), "image": IMG["biz3"]},
-]
-
-
-def render_hero_slider():
-    slides = []
-    for i, s in enumerate(HERO_SLIDES):
-        active = " is-active" if i == 0 else ""
-        # Exactly one <h1> per page: only the first (initially active) slide
-        # uses a real heading element — the rest use a <p> with the same
-        # class so styling is identical but the heading hierarchy stays valid.
-        heading_tag = "h1" if i == 0 else "p"
-        slides.append(f'''      <div class="hero-slider__slide{active}" data-slide role="group" aria-roledescription="slide" aria-label="{i + 1} of {len(HERO_SLIDES)}">
-        <div class="hero-slider__media">
-          <img src="{s['image']}" alt="" width="1600" height="2000"{' fetchpriority="high"' if i == 0 else ' loading="lazy"'}>
-          <div class="hero-slider__scrim" aria-hidden="true"></div>
-        </div>
-        <div class="hero-slider__content">
-          <p class="eyebrow hero-slider__eyebrow">{esc(s['eyebrow'])}</p>
-          <{heading_tag} class="hero-slider__headline">{s['headline']}</{heading_tag}>
-          <p class="hero-slider__text">{s['text']}</p>
-          <div class="hero-slider__actions">
-            <a href="{s['primary'][1]}" class="btn btn--primary" data-track="cta_click" data-track-label="hero_slide_{i + 1}_primary"><span>{esc(s['primary'][0])}</span>{ARROW_SVG}</a>
-            <a href="{s['secondary'][1]}" class="btn btn--text" data-track="cta_click" data-track-label="hero_slide_{i + 1}_secondary"><span>{esc(s['secondary'][0])}</span></a>
-          </div>
-        </div>
-      </div>''')
-
-    dots = "\n".join(
-        f'          <button type="button" class="hero-slider__dot{" is-active" if i == 0 else ""}" data-slide-dot="{i}" aria-current="{"true" if i == 0 else "false"}" aria-label="Go to slide {i + 1}"></button>'
-        for i in range(len(HERO_SLIDES))
-    )
-
-    return f'''    <section class="hero-slider" data-hero-slider aria-roledescription="carousel" aria-label="MJ Oswal highlights">
-{chr(10).join(slides)}
-      <div class="hero-slider__controls">
-        <div class="hero-slider__nav">
-          <button type="button" class="hero-slider__nav-btn" data-slide-prev aria-label="Previous slide">
-            <svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-          <button type="button" class="hero-slider__nav-btn" data-slide-next aria-label="Next slide">
-            <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-        </div>
-        <div class="hero-slider__indicators" role="tablist" aria-label="Slide progress">
-{dots}
-        </div>
-        <span class="hero-slider__count"><span data-slide-current>01</span> / {len(HERO_SLIDES):02d}</span>
-        <button type="button" class="hero-slider__pause" data-slide-pause aria-label="Pause autoplay" aria-pressed="false">
-          <svg data-icon-pause viewBox="0 0 24 24"><path d="M8 5h3v14H8zM13 5h3v14h-3z" fill="currentColor"/></svg>
-          <svg data-icon-play viewBox="0 0 24 24" hidden><path d="M7 5l12 7-12 7V5z" fill="currentColor"/></svg>
-        </button>
-      </div>
-    </section>
-'''
-
-
-def body_home():
-    biz_items = [{"href": f"/businesses/business-{i:02d}/", "title": f"[Business Vertical {i:02d}]",
-                  "text": "[Short description of this business vertical.]", "image": cycle_img(i)} for i in range(1, 5)]
-    insight_items = [{"href": "/insights/news/article-01/", "title": "[News Headline 01]", "text": "[Short summary of this news item.]", "category": "[Category]", "image": IMG["insight1"]},
-                      {"href": "/insights/news/article-02/", "title": "[News Headline 02]", "text": "[Short summary of this news item.]", "category": "[Category]", "image": IMG["insight2"]},
-                      {"href": "/insights/blog/article-01/", "title": "[Blog Article 01]", "text": "[Short summary of this article.]", "category": "[Topic]", "image": IMG["insight3"]}]
-
-    biz_cards = []
-    for i, it in enumerate(biz_items):
-        biz_cards.append(f'''          <a class="tile-card" href="{it["href"]}" data-reveal="fade-up" data-reveal-delay="{i * 80}">
-            <span class="tile-card__frame">
-              <img src="{it["image"]}" alt="" width="900" height="1100" loading="lazy">
-            </span>
-            <span class="tile-card__body">
-              <span class="tile-card__title placeholder">{esc(it["title"])}</span>
-              <span class="tile-card__text placeholder">{esc(it["text"])}</span>
-              <span class="tile-card__cta"><span>Explore</span>{ARROW_SVG}</span>
-            </span>
-          </a>''')
-    biz_cards_html = "\n".join(biz_cards)
-
-    project_cards = []
-    for i in range(1, 4):
-        project_cards.append(f'''        <a class="project-card" href="/projects/project-{i:02d}/" data-reveal="fade-up" data-reveal-delay="{(i - 1) * 80}">
-          <span class="project-card__frame"><img src="{cycle_img(i + 6)}" alt="" width="1400" height="1000" loading="lazy"></span>
-          <span class="project-card__meta">
-            <span class="project-card__category placeholder">[Sector]</span>
-            <span class="project-card__title placeholder">[Project Name {i:02d}]</span>
-            <span class="project-card__text placeholder">[Short project description.]</span>
-          </span>
-        </a>''')
-    project_cards_html = "\n".join(project_cards)
-
-    insight_cards = []
-    for i, it in enumerate(insight_items):
-        insight_cards.append(f'''          <a class="tile-card" href="{it["href"]}" data-reveal="fade-up" data-reveal-delay="{i * 80}">
-            <span class="tile-card__frame"><img src="{it["image"]}" alt="" width="900" height="700" loading="lazy"></span>
-            <span class="tile-card__body">
-              <span class="tile-card__category placeholder">{esc(it["category"])}</span>
-              <span class="tile-card__title placeholder">{esc(it["title"])}</span>
-              <span class="tile-card__text placeholder">{esc(it["text"])}</span>
-              <span class="tile-card__cta"><span>Read more</span>{ARROW_SVG}</span>
-            </span>
-          </a>''')
-    insight_cards_html = "\n".join(insight_cards)
-
-    return render_hero_slider() + f'''
-    <!-- ============ INTRODUCTION ============ -->
-    <section class="intro" id="intro" aria-labelledby="intro-heading">
-      <div class="container intro__grid">
-        <div class="intro__copy">
-          <p class="eyebrow" data-reveal="fade-up">Who We Are</p>
-          <h2 class="intro__heading" id="intro-heading" data-reveal="fade-up" data-reveal-delay="80">
-            A legacy in motion, built one enterprise at a time.
-          </h2>
-          <p class="intro__text" data-reveal="fade-up" data-reveal-delay="160">
-            For <span class="placeholder">[XX]</span> years, MJ Oswal has built businesses that stand
-            the test of time — combining engineering discipline with an entrepreneurial spirit.
-            <span class="placeholder">[Add verified company introduction and history here.]</span>
-          </p>
-          <a href="/about/" class="link-arrow" data-reveal="fade-up" data-reveal-delay="220"><span>Learn more about us</span>{ARROW_SVG}</a>
-        </div>
-        <figure class="intro__visual" data-reveal="clip-up" data-reveal-delay="120">
-          <img src="{IMG['intro']}" alt="Portrait-oriented editorial image representing MJ Oswal's people and craftsmanship" width="1200" height="1500" loading="lazy">
-        </figure>
-      </div>
-    </section>
-
-    <!-- ============ OUR BUSINESSES ============ -->
-    <section class="businesses" id="businesses" aria-labelledby="businesses-heading">
-      <div class="container">
-        <div class="section-head section-head--split">
-          <div>
-            <p class="eyebrow" data-reveal="fade-up">What We Do</p>
-            <h2 class="section-head__title" id="businesses-heading" data-reveal="fade-up" data-reveal-delay="80">Our Businesses</h2>
-          </div>
-          <a href="/businesses/" class="link-arrow" data-reveal="fade-up" data-reveal-delay="120"><span>View all businesses</span>{ARROW_SVG}</a>
-        </div>
-        <div class="tile-grid">
-{biz_cards_html}
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ WHY MJ OSWAL ============ -->
-    <section class="why" aria-labelledby="why-heading">
-      <div class="container why__grid">
-        <figure class="why__visual" data-reveal="clip-up">
-          <img src="{IMG['why']}" alt="Editorial image representing MJ Oswal's operational scale" width="1100" height="1350" loading="lazy">
-        </figure>
-        <div class="why__content">
-          <p class="eyebrow" data-reveal="fade-up">Why MJ Oswal</p>
-          <h2 class="why__heading" id="why-heading" data-reveal="fade-up" data-reveal-delay="80">Six commitments behind every enterprise we build.</h2>
-          <ul class="why__list">
-            <li class="why__item" data-reveal="fade-up" data-reveal-delay="0"><span class="why__item-title">Expertise</span><span class="why__item-text">Leadership steeped in operational depth across core industries.</span></li>
-            <li class="why__item" data-reveal="fade-up" data-reveal-delay="60"><span class="why__item-title">Quality</span><span class="why__item-text">Rigorous standards applied consistently, at every scale.</span></li>
-            <li class="why__item" data-reveal="fade-up" data-reveal-delay="120"><span class="why__item-title">Innovation</span><span class="why__item-text">Modern methods applied to enduring business fundamentals.</span></li>
-            <li class="why__item" data-reveal="fade-up" data-reveal-delay="180"><span class="why__item-title">Scale</span><span class="why__item-text">Infrastructure and reach built to support long-term growth.</span></li>
-            <li class="why__item" data-reveal="fade-up" data-reveal-delay="240"><span class="why__item-title">Trust</span><span class="why__item-text">Relationships with partners and communities built over time.</span></li>
-            <li class="why__item" data-reveal="fade-up" data-reveal-delay="300"><span class="why__item-title">Sustainability</span><span class="why__item-text">Growth pursued alongside environmental and social responsibility.</span></li>
-          </ul>
-          <dl class="stat-row" data-reveal="fade-up" data-reveal-delay="360">
-            <div class="stat-row__item"><dt class="stat-row__number placeholder">[XX]+</dt><dd class="stat-row__label">Years of Enterprise</dd></div>
-            <div class="stat-row__item"><dt class="stat-row__number placeholder">[XX]+</dt><dd class="stat-row__label">Projects Delivered</dd></div>
-            <div class="stat-row__item"><dt class="stat-row__number placeholder">[XX]+</dt><dd class="stat-row__label">People Employed</dd></div>
-            <div class="stat-row__item"><dt class="stat-row__number placeholder">[XX]</dt><dd class="stat-row__label">States Present In</dd></div>
-          </dl>
-          <p class="stat-row__note">Statistics shown are placeholders pending confirmed MJ Oswal business data.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ FEATURED PROJECTS ============ -->
-    <section class="projects" id="projects" aria-labelledby="projects-heading">
-      <div class="container">
-        <div class="section-head section-head--split">
-          <div><p class="eyebrow" data-reveal="fade-up">Our Work</p><h2 class="section-head__title" id="projects-heading" data-reveal="fade-up" data-reveal-delay="80">Featured Projects</h2></div>
-          <a href="/projects/" class="link-arrow" data-reveal="fade-up" data-reveal-delay="120"><span>View all projects</span>{ARROW_SVG}</a>
-        </div>
-      </div>
-      <div class="projects__track" data-projects-track>
-{project_cards_html}
-      </div>
-    </section>
-
-    <!-- ============ SUSTAINABILITY ============ -->
-    <section class="sustainability" id="sustainability" aria-labelledby="sustainability-heading">
-      <figure class="sustainability__visual" data-reveal="clip-up">
-        <img src="{IMG['sustain']}" alt="Wide editorial image representing MJ Oswal's sustainability commitments" width="1600" height="1100" loading="lazy">
-      </figure>
-      <div class="sustainability__content">
-        <p class="eyebrow" data-reveal="fade-up">Sustainability &amp; Innovation</p>
-        <h2 class="sustainability__heading" id="sustainability-heading" data-reveal="fade-up" data-reveal-delay="80">Growth and responsibility, moving together.</h2>
-        <p class="sustainability__text" data-reveal="fade-up" data-reveal-delay="160"><span class="placeholder">[Add MJ Oswal's sustainability commitments, ESG initiatives and impact focus areas here.]</span></p>
-        <a href="/sustainability/" class="btn btn--outline btn--light" data-reveal="fade-up" data-reveal-delay="220" data-track="cta_click" data-track-label="sustainability_approach"><span>Our Approach to Sustainability</span>{ARROW_SVG}</a>
-      </div>
-    </section>
-
-    <!-- ============ INSIGHTS ============ -->
-    <section class="insights" id="insights" aria-labelledby="insights-heading">
-      <div class="container">
-        <div class="section-head"><p class="eyebrow" data-reveal="fade-up">Insights</p><h2 class="section-head__title" id="insights-heading" data-reveal="fade-up" data-reveal-delay="80">News &amp; Perspectives</h2></div>
-        <div class="tile-grid">
-{insight_cards_html}
-        </div>
-      </div>
-    </section>
-
-''' + block_cta()
-
-
-def assemble_home():
-    page = {"path": "/", "title": "MJ Oswal — Building Enduring Value, Responsibly", "kind": "home",
-            "category": None, "hero_image": IMG["hero"],
-            "description": "MJ Oswal is a diversified Indian business group building enduring value across industries through engineering discipline, quality and long-term trust."}
-    return render_head(page) + "<body>\n" + render_header("/", overlay=True) + '  <main id="main">\n' + body_home() + "  </main>\n" + render_footer()
+    print(f"Manifest: {len(PAGES)} pages | {len(PRODUCTS)} products | {len(MACHINES)} machines | {len(CERTIFICATES)} certificate slots | {len(PARTNERS)} partner slots")
 
 
 if __name__ == "__main__":
     main()
+

@@ -1,0 +1,56 @@
+{
+"_readme": "To add product #14: copy one object inside 'items' below, give it a unique 'slug', and re-run scripts/build_site.py. That's it — the /products/ hub, the product's own page, and the homepage Featured Products slider all update automatically.",
+"items": [
+  { "slug": "mens", "name": "Men's Apparel", "category": "Men's",
+    "image": "/assets/images/products/product-mens-01.svg",
+    "description": "Men's ready-made apparel manufactured across knitted and woven categories to consistent sizing and quality standards." },
+
+  { "slug": "womens", "name": "Women's Apparel", "category": "Women's",
+    "image": "/assets/images/products/product-womens-01.svg",
+    "description": "Women's ready-made apparel, including everyday and loungewear-oriented styles, produced at scale." },
+
+  { "slug": "kids", "name": "Kidswear", "category": "Kids",
+    "image": "/assets/images/products/product-kids-01.svg",
+    "description": "Kidswear manufactured with the same production discipline applied across every other category." },
+
+  { "slug": "tshirts", "name": "T-Shirts", "category": "Tops",
+    "image": "/assets/images/products/product-tshirt-01.svg",
+    "description": "Knitted T-shirts produced through our integrated cutting, printing, embroidery and stitching lines." },
+
+  { "slug": "loungewear", "name": "Loungewear", "category": "Loungewear",
+    "image": "/assets/images/products/product-loungewear-01.svg",
+    "description": "Comfort-first loungewear manufactured for everyday wear, from fabric sourcing through to finished garment." },
+
+  { "slug": "nightwear", "name": "Nightwear", "category": "Nightwear",
+    "image": "/assets/images/products/product-nightwear-01.svg",
+    "description": "Nightwear produced in soft knitted fabrics with attention to comfort and consistent fit across sizes." },
+
+  { "slug": "sweatshirts", "name": "Sweatshirts", "category": "Outerwear",
+    "image": "/assets/images/products/product-sweatshirt-01.svg",
+    "description": "Sweatshirts manufactured across our stitching and printing lines, from basic to embellished styles." },
+
+  { "slug": "tracksuits", "name": "Tracksuits", "category": "Activewear",
+    "image": "/assets/images/products/product-tracksuit-01.svg",
+    "description": "Co-ordinated tracksuit sets manufactured end-to-end, from fabric to finished, packed garment." },
+
+  { "slug": "lower", "name": "Lowers", "category": "Bottoms",
+    "image": "/assets/images/products/product-lower-01.svg",
+    "description": "Men's and women's lowers manufactured across a range of knitted fabric weights and fits." },
+
+  { "slug": "shorts", "name": "Shorts", "category": "Bottoms",
+    "image": "/assets/images/products/product-shorts-01.svg",
+    "description": "Shorts manufactured for everyday and activewear use, produced across our stitching lines." },
+
+  { "slug": "co-ord-sets", "name": "Co-ord Sets", "category": "Sets",
+    "image": "/assets/images/products/product-coord-set-01.svg",
+    "description": "Matching co-ord sets manufactured as coordinated pairs, from shared fabric lots to finished packing." },
+
+  { "slug": "kurtis", "name": "Kurtis", "category": "Ethnic",
+    "image": "/assets/images/products/product-kurti-01.svg",
+    "description": "Kurtis manufactured across our cutting, printing and stitching departments to consistent quality standards." },
+
+  { "slug": "innerwear", "name": "Innerwear", "category": "Innerwear",
+    "image": "/assets/images/products/product-innerwear-01.svg",
+    "description": "Innerwear manufactured with close attention to fabric quality, fit consistency and finishing." }
+]
+}

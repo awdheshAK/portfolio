@@ -1,0 +1,9 @@
+{
+"_readme": "No verified certificate names, issuing bodies or years were available when this site was built — do NOT invent them. Each item below is a real image slot with an editable placeholder name. Once you have a verified certificate: replace 'name', 'issuer' and 'year' with the real values, drop the certificate image into /assets/images/certificates/ using the same filename (or update 'image'), and re-run scripts/build_site.py. To add certificate #5, copy one object inside 'items' and give it a unique image.",
+"items": [
+  { "image": "/assets/images/certificates/certificate-01.svg", "name": "[Certificate Name]", "issuer": "[Issuing Organisation]", "year": "[Year]" },
+  { "image": "/assets/images/certificates/certificate-02.svg", "name": "[Certificate Name]", "issuer": "[Issuing Organisation]", "year": "[Year]" },
+  { "image": "/assets/images/certificates/certificate-03.svg", "name": "[Certificate Name]", "issuer": "[Issuing Organisation]", "year": "[Year]" },
+  { "image": "/assets/images/certificates/certificate-04.svg", "name": "[Certificate Name]", "issuer": "[Issuing Organisation]", "year": "[Year]" }
+]
+}

@@ -1,0 +1,109 @@
+{
+"_readme": "To add machine #21: copy one object inside 'items' below, keep every key, and re-run scripts/build_site.py. The homepage flip-card slider picks it up automatically. All quantities below come from an internal production planning document and are described as approximate / working estimates, not final production figures.",
+"items": [
+  { "name": "Stitching Machine", "category": "Stitching",
+    "image": "/assets/images/machines/machine-stitching-01.svg",
+    "description": "The core of our stitching lines, run across multiple simultaneous production styles.",
+    "details": "Approximately 125 stitching machines currently in operation, organised to handle around 10–12 styles at a time (working estimate of ~4–5 units per line)." },
+
+  { "name": "Thread Cutting Machine", "category": "Stitching",
+    "image": "/assets/images/machines/machine-thread-cutting-01.svg",
+    "description": "Trims excess thread from finished stitched panels ahead of pressing.",
+    "details": "Approximately 10 thread-cutting machines support the stitching department." },
+
+  { "name": "Pressing Machine (Stitching)", "category": "Stitching",
+    "image": "/assets/images/machines/machine-pressing-01.svg",
+    "description": "In-line pressing to set seams and finish stitched garments.",
+    "details": "Approximately 10 pressing machines operate within the stitching department." },
+
+  { "name": "Neck / Heat Label Machine", "category": "Heat Label",
+    "image": "/assets/images/machines/machine-heat-label-01.svg",
+    "description": "Applies heat-sealed neck and care labels to finished garments.",
+    "details": "Approximately 11 machines dedicated to neck labelling; labels are sorted and ranked by size before application." },
+
+  { "name": "Fabric Spreading Machine (Spider)", "category": "Cutting",
+    "image": "/assets/images/machines/machine-fabric-spreading-01.svg",
+    "description": "Spreads fabric layers evenly ahead of cutting for accuracy and minimal waste.",
+    "details": "Approximately 3 spider-type spreading and cutting machines in the cutting department." },
+
+  { "name": "Cutting Table Setup", "category": "Cutting",
+    "image": "/assets/images/machines/machine-cutting-table-01.svg",
+    "description": "Dedicated cutting tables supporting manual and machine-assisted fabric cutting.",
+    "details": "Approximately 4–8 cutting tables in current use, alongside a dedicated cutter machine." },
+
+  { "name": "Automatic Printing Machine", "category": "Printing",
+    "image": "/assets/images/machines/machine-printing-auto-01.svg",
+    "description": "High-volume automated printing across our core garment categories.",
+    "details": "Approximately 11 automatic printing machines, supporting prints of up to 7–8 colours." },
+
+  { "name": "Manual Printing Machine", "category": "Printing",
+    "image": "/assets/images/machines/machine-printing-manual-01.svg",
+    "description": "Used for smaller runs, sampling and specialised print placements.",
+    "details": "1 manual printing machine currently in operation." },
+
+  { "name": "Curing Machine", "category": "Printing",
+    "image": "/assets/images/machines/machine-curing-01.svg",
+    "description": "Cures and sets printed designs to ensure wash durability.",
+    "details": "1 curing machine dedicated to the printing department." },
+
+  { "name": "Fusing Machine", "category": "Printing",
+    "image": "/assets/images/machines/machine-fusing-01.svg",
+    "description": "Fuses interlinings and reinforcement layers into garment panels.",
+    "details": "Approximately 4 fusing machines in current use." },
+
+  { "name": "DTP Machine", "category": "Printing",
+    "image": "/assets/images/machines/machine-dtp-01.svg",
+    "description": "Digital transfer printing for detailed, multi-colour designs.",
+    "details": "Part of the printing department's equipment, supporting prints of up to 7–8 colours." },
+
+  { "name": "Plotter", "category": "Printing",
+    "image": "/assets/images/machines/machine-plotter-01.svg",
+    "description": "Outputs printed patterns and markers used across cutting and printing.",
+    "details": "Used alongside our CAD systems to prepare production-ready pattern outputs." },
+
+  { "name": "Embroidery Machine", "category": "Embroidery",
+    "image": "/assets/images/machines/machine-embroidery-01.svg",
+    "description": "Multi-head embroidery for logos, motifs and detailed garment work.",
+    "details": "Approximately 3–4 embroidery machines, managed through Wings embroidery software and typically running around 10 jobs at a time." },
+
+  { "name": "Packing Machine", "category": "Dispatch",
+    "image": "/assets/images/machines/machine-packing-01.svg",
+    "description": "Final packing stage before goods move to dispatch.",
+    "details": "1 packing machine, supporting a current working estimate of approximately 6,000–7,000 pieces dispatched per month." },
+
+  { "name": "Dispatch Lifts", "category": "Dispatch",
+    "image": "/assets/images/machines/machine-packing-01.svg",
+    "description": "Moves packed goods between floors ahead of dispatch.",
+    "details": "2 lifts currently support the dispatch area." },
+
+  { "name": "Audaces CAD System", "category": "Cutting",
+    "image": "/assets/images/machines/machine-cad-system-01.svg",
+    "description": "Computer-aided pattern making and marker planning ahead of cutting.",
+    "details": "Audaces CAD software is used across the cutting department's pattern preparation." },
+
+  { "name": "Great Eastern ERP System", "category": "Dispatch",
+    "image": "/assets/images/machines/machine-erp-system-01.svg",
+    "description": "Production and dispatch planning software used across the dispatch team.",
+    "details": "Great Eastern software supports dispatch planning, alongside our MRP tagging system." },
+
+  { "name": "MRP Tag System", "category": "Dispatch",
+    "image": "/assets/images/machines/machine-mrp-system-01.svg",
+    "description": "Tags and tracks finished goods through packing and dispatch.",
+    "details": "Used in combination with Great Eastern software to manage dispatch records." },
+
+  { "name": "Design Work Table Setup", "category": "Designing",
+    "image": "/assets/images/machines/machine-design-table-01.svg",
+    "description": "Pattern drafting and sample-making workstations for the design team.",
+    "details": "2 dedicated work tables support our in-house design and tailoring team of approximately 10 designers and 3 tailors." },
+
+  { "name": "Graphic Design Workstation", "category": "Designing",
+    "image": "/assets/images/machines/machine-graphic-workstation-01.svg",
+    "description": "Digital design workstations for artwork, prints and embroidery files.",
+    "details": "Approximately 5 PCs dedicated to graphic design, alongside 10 tables and 1 conference room supporting the design process (current working estimate of 150+ new designs per month)." },
+
+  { "name": "Fabric Management System", "category": "Fabric",
+    "image": "/assets/images/machines/machine-erp-system-01.svg",
+    "description": "Software used to track fabric colour stock and availability.",
+    "details": "2 software systems support our dedicated fabric team, currently managing a working library of 50+ colours." }
+]
+}

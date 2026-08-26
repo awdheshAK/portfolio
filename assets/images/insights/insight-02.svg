@@ -1,9 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700" width="900" height="700" role="img" aria-label="MJ Oswal Placeholder Image">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700" width="900" height="700" role="img" aria-label="MJ Oswal Exports Placeholder Image">
   <defs>
     <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="hsl(225, 32%, 16%)"/>
-      <stop offset="55%" stop-color="hsl(250, 38%, 24%)"/>
-      <stop offset="100%" stop-color="hsl(225, 30%, 10%)"/>
+      <stop offset="0%" stop-color="hsl(195, 32%, 16%)"/>
+      <stop offset="55%" stop-color="hsl(222, 38%, 24%)"/>
+      <stop offset="100%" stop-color="hsl(195, 30%, 10%)"/>
     </linearGradient>
     <linearGradient id="sheen" x1="0%" y1="0%" x2="0%" y2="100%">
       <stop offset="0%" stop-color="#ffffff" stop-opacity="0.06"/>
@@ -18,5 +18,5 @@
   <rect width="900" height="700" fill="url(#sheen)"/>
   <!-- Small corner watermark only — bottom-right, well clear of any real
        headline/caption text this image sits behind in the page layout. -->
-  <text x="869" y="669" text-anchor="end" dominant-baseline="auto" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#ffffff" fill-opacity="0.38" letter-spacing="1.5">MJ Oswal — Placeholder Image</text>
+  <text x="869" y="669" text-anchor="end" dominant-baseline="auto" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#ffffff" fill-opacity="0.38" letter-spacing="1.5">MJ Oswal Exports — Placeholder Image</text>
 </svg>

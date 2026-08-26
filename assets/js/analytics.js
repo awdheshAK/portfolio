@@ -1,9 +1,8 @@
 /**
  * analytics.js
- * MJ Oswal's own GTM container + GA4-through-GTM wiring. This is an
- * ORIGINAL configuration — replace the placeholder IDs below with MJ
- * Oswal's actual container/measurement IDs before launch. Do not reuse
- * any reference site's container ID.
+ * MJ Oswal Exports' own GTM container + GA4-through-GTM wiring. Replace
+ * the placeholder IDs below with the real container/measurement IDs
+ * before launch.
  *
  * GA4 is expected to be configured as a tag *inside* the GTM container
  * (not loaded separately here) so there is exactly one analytics script

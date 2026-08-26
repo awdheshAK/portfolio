@@ -279,6 +279,7 @@ input, textarea { font: inherit; }
   letter-spacing: 0.01em;
 }
 .site-header__mark { width: 34px; height: 34px; color: var(--color-gold); flex-shrink: 0; }
+.site-header__logo-img { height: 40px; width: auto; max-width: 180px; object-fit: contain; display: block; }
 
 .site-header__actions { display: flex; align-items: center; gap: 1.75rem; }
 .site-header__cta { padding: 0.75em 1.4em; font-size: 0.85rem; }
@@ -435,6 +436,7 @@ input, textarea { font: inherit; }
 .site-nav__meta-block a { display: block; font-weight: 500; padding: 0.15em 0; }
 .site-nav__meta-block a:hover,
 .site-nav__meta-block a:focus-visible { color: var(--color-gold); }
+.site-nav__meta-note { display: block; font-size: 0.9rem; color: var(--color-ink-muted); }
 .site-nav__social { display: flex; gap: 1.25rem; }
 
 .site-nav__col--visual {
@@ -720,6 +722,8 @@ input, textarea { font: inherit; }
 }
 .site-footer__logo { display: inline-flex; align-items: center; gap: 0.6em; font-family: var(--font-display); font-size: 1.2rem; color: var(--color-white); margin-bottom: 1rem; }
 .site-footer__logo svg { width: 30px; height: 30px; color: var(--color-gold); }
+.site-footer__logo img { height: 36px; width: auto; max-width: 170px; object-fit: contain; display: block; }
+.site-footer__note { font-size: 0.85rem; color: rgba(255, 255, 255, 0.5); line-height: 1.6; max-width: 30ch; }
 .site-footer__tagline { font-size: 0.92rem; color: rgba(255, 255, 255, 0.55); margin-bottom: 1.4rem; max-width: 28ch; }
 .site-footer__social { display: flex; gap: 1rem; font-size: 0.85rem; }
 .site-footer__social a:hover,
@@ -840,6 +844,7 @@ input, textarea { font: inherit; }
 .contact-grid__info address { font-style: normal; font-size: 1.1rem; line-height: 1.7; margin: 0.8em 0 1.2em; }
 .contact-grid__link { display: block; font-weight: 600; font-size: 1.05rem; padding: 0.3em 0; }
 .contact-grid__link:hover, .contact-grid__link:focus-visible { color: var(--color-gold); }
+.contact-grid__note { color: var(--color-ink-muted); font-style: italic; }
 
 /* Forms */
 .contact-form { display: flex; flex-direction: column; gap: 1.3rem; }
@@ -1036,6 +1041,225 @@ input, textarea { font: inherit; }
 .hero-slider__pause:hover, .hero-slider__pause:focus-visible { background: var(--color-white); color: var(--color-navy); border-color: var(--color-white); }
 
 /* -------------------------------------------------------------------------
+   20. GENERIC CAROUSEL
+   One reusable multi-item carousel, configured per instance via
+   data-per-view ("products" | "certificates" | "partners" | "machines")
+   and data-autoplay (ms). Used by Featured Products, Machinery,
+   Certifications and Our Partners. See assets/js/carousel.js.
+   ------------------------------------------------------------------------- */
+.carousel-section { overflow: hidden; }
+.carousel { position: relative; padding: 0 var(--gutter); margin-top: clamp(2rem, 4vw, 3rem); }
+.carousel__viewport { overflow: hidden; }
+.carousel__track {
+  display: flex;
+  gap: clamp(1rem, 2vw, 1.75rem);
+  will-change: transform;
+}
+.carousel__track.is-dragging { transition: none !important; }
+.carousel__item { flex: 0 0 auto; width: var(--carousel-item-w, 320px); }
+.carousel__item--logo { width: var(--carousel-item-w, 220px); }
+
+.carousel__controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+.carousel__nav-btn {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1px solid var(--color-line);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
+}
+.carousel__nav-btn svg { width: 18px; height: 18px; }
+.carousel__nav-btn:hover, .carousel__nav-btn:focus-visible { background: var(--color-navy); color: var(--color-white); border-color: var(--color-navy); }
+.carousel__nav-btn:disabled { opacity: 0.35; pointer-events: none; }
+
+.carousel__dots { display: flex; align-items: center; gap: 0.55rem; }
+.carousel__dot { width: 8px; height: 8px; border-radius: 50%; background: var(--color-line); transition: background var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out); }
+.carousel__dot.is-active { background: var(--color-gold); transform: scale(1.3); }
+
+/* Certificate + partner cards riding inside the same carousel */
+.cert-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6em;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  height: 100%;
+}
+.cert-card__frame { aspect-ratio: 4 / 3; overflow: hidden; }
+.cert-card__frame img { width: 100%; height: 100%; object-fit: cover; }
+.cert-card__name { font-family: var(--font-display); font-size: 1.05rem; padding: 0 1rem; }
+.cert-card__meta { font-size: 0.85rem; color: var(--color-ink-muted); padding: 0 1rem 1rem; }
+
+.partner-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 120px;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+}
+.partner-card img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  filter: grayscale(1);
+  opacity: 0.65;
+  transition: filter var(--dur-fast) var(--ease-out), opacity var(--dur-fast) var(--ease-out);
+}
+.partner-card:hover img { filter: grayscale(0); opacity: 1; }
+
+/* -------------------------------------------------------------------------
+   21. MACHINERY 3D FLIP CARD
+   ------------------------------------------------------------------------- */
+.flip-card {
+  position: relative;
+  height: 380px;
+  perspective: 1400px;
+  border-radius: var(--radius-md);
+}
+.flip-card__inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.7s var(--ease-in-out);
+  transform-style: preserve-3d;
+  border-radius: var(--radius-md);
+}
+.flip-card:hover .flip-card__inner,
+.flip-card:focus-within .flip-card__inner,
+.flip-card.is-flipped .flip-card__inner { transform: rotateY(180deg); }
+
+.flip-card__face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+.flip-card__face--front { display: flex; flex-direction: column; justify-content: flex-end; }
+.flip-card__face--front img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; }
+.flip-card__face--front::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(13, 21, 38, 0.9) 0%, rgba(13, 21, 38, 0.15) 60%);
+}
+.flip-card__category {
+  position: relative;
+  z-index: 1;
+  margin: 0 1.25rem 0.2rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-gold-light);
+  font-weight: 600;
+}
+.flip-card__name {
+  position: relative;
+  z-index: 1;
+  margin: 0 1.25rem 1.25rem;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  color: var(--color-white);
+  line-height: 1.3;
+}
+
+.flip-card__face--back {
+  background: var(--color-navy);
+  color: var(--color-white);
+  transform: rotateY(180deg);
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6em;
+  overflow-y: auto;
+}
+.flip-card__back-category { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-gold-light); font-weight: 600; }
+.flip-card__back-name { font-family: var(--font-display); font-size: 1.2rem; line-height: 1.3; }
+.flip-card__back-desc { font-size: 0.9rem; color: rgba(255, 255, 255, 0.82); line-height: 1.55; }
+.flip-card__back-details { font-size: 0.82rem; color: rgba(255, 255, 255, 0.6); line-height: 1.5; }
+.flip-card__back-link {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--color-gold-light);
+}
+.flip-card__back-link svg { width: 16px; height: 16px; transition: transform var(--dur-fast) var(--ease-out); }
+.flip-card__back-link:hover svg, .flip-card__back-link:focus-visible svg { transform: translateX(4px); }
+
+/* -------------------------------------------------------------------------
+   22. PRODUCTION PROCESS TIMELINE
+   ------------------------------------------------------------------------- */
+.process-timeline {
+  display: flex;
+  overflow-x: auto;
+  gap: 0;
+  padding-bottom: 0.5rem;
+  scroll-snap-type: x proximity;
+}
+.process-step {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  width: 140px;
+  padding: 1.25rem 0.75rem;
+  text-align: center;
+  position: relative;
+}
+.process-step::after {
+  content: '';
+  position: absolute;
+  top: 2.35rem;
+  left: 50%;
+  width: 100%;
+  height: 1px;
+  background: var(--color-line);
+  z-index: -1;
+}
+.process-step:last-child::after { display: none; }
+.process-step__index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--color-line);
+  background: var(--color-paper);
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
+}
+.process-step__label { font-size: 0.85rem; font-weight: 600; line-height: 1.35; }
+.process-step:hover .process-step__index,
+.process-step:focus-visible .process-step__index { background: var(--color-navy); color: var(--color-white); border-color: var(--color-navy); }
+
+/* -------------------------------------------------------------------------
+   23. FACILITY GALLERY
+   ------------------------------------------------------------------------- */
+.facility-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+.facility-gallery__item { aspect-ratio: 4 / 3; border-radius: var(--radius-md); overflow: hidden; }
+.facility-gallery__item img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-slow) var(--ease-out); }
+.facility-gallery__item:hover img { transform: scale(1.06); }
+
+/* -------------------------------------------------------------------------
    15. SCROLL-REVEAL ANIMATION SYSTEM
    ------------------------------------------------------------------------- */
 [data-reveal] {
@@ -1069,6 +1293,7 @@ input, textarea { font: inherit; }
   .site-nav__panel { grid-template-columns: 1fr; }
   .site-nav__col--visual { display: none; }
   .contact-grid { grid-template-columns: 1fr; }
+  .site-footer__top { grid-template-columns: 1fr 1fr; }
 }
 
 @media (max-width: 768px) {
@@ -1083,16 +1308,26 @@ input, textarea { font: inherit; }
   .sustainability { min-height: 60vh; }
   .hero-slider__controls { flex-wrap: wrap; }
   .hero-slider__nav-btn { width: 40px; height: 40px; }
+  .flip-card { height: 340px; }
+
+  /* Production process becomes a vertical timeline on mobile, per spec. */
+  .process-timeline { flex-direction: column; overflow-x: visible; align-items: flex-start; }
+  .process-step { flex-direction: row; width: 100%; text-align: left; padding: 0.85rem 0; }
+  .process-step::after { top: 0; left: 1.25rem; width: 1px; height: 100%; }
+  .process-step__label { flex: 1; }
 }
 
 @media (max-width: 576px) {
-  .hero__actions { flex-direction: column; align-items: stretch; }
-  .hero__actions .btn { justify-content: center; }
-  .hero__scroll-cue { display: none; }
+  .hero-slider__actions { flex-direction: column; align-items: stretch; }
+  .hero-slider__actions .btn { justify-content: center; }
   .project-card { flex-basis: 86vw; }
   .cta-band__actions { flex-direction: column; align-items: stretch; }
   .cta-band__actions .btn { justify-content: center; }
   .site-footer__bottom { flex-direction: column; align-items: flex-start; }
+  .flip-card { height: 380px; }
+  .carousel { padding: 0 var(--gutter); }
+  .carousel__item,
+  .carousel__item--logo { width: calc(100vw - (2 * var(--gutter)) - 3rem); }
 }
 
 /* -------------------------------------------------------------------------

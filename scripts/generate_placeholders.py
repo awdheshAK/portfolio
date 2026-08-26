@@ -1,37 +1,138 @@
 #!/usr/bin/env python3
-"""One-off dev utility: generates original SVG placeholder imagery for the
-MJ Oswal homepage build (gradient field + monogram + label). Not part of the
-shipped site; safe to delete once real photography is supplied."""
+"""
+Dev utility: generates placeholder imagery for MJ Oswal Exports into the
+exact folder structure the site expects (see /assets/data/images.json).
+Not part of the shipped site — safe to re-run or delete once real photos
+are supplied.
+
+HOW TO REPLACE A PLACEHOLDER WITH A REAL PHOTO:
+  1. Save your photo into the matching folder under /assets/images/
+     using the SAME filename this script writes (e.g. hero-01.jpg).
+  2. If your file extension differs (.jpg/.png instead of .svg), update
+     the matching "src" path in /assets/data/images.json (or
+     /assets/data/machines.json for machine photos) to match.
+  3. Re-run `python3 scripts/build_site.py` if you changed any .json
+     data file — the HTML pages are generated from that data.
+No other code changes are needed.
+"""
 import os
 
 OUT_ROOT = os.path.join(os.path.dirname(__file__), "..", "assets", "images")
+LABEL = "MJ Oswal Exports"
+SUBLABEL = "Placeholder Image"
 
 # (relative_path, width, height, hue_start, hue_end)
-# Every image shares one category-neutral watermark ("MJ Oswal — Placeholder
-# Image") rather than a category-specific label. The site reuses this same
-# small image pool across many different page types (a business image may
-# appear on a careers or sustainability page, etc.), so a label naming one
-# specific category would end up wrong wherever the image is reused
-# elsewhere. A generic label stays accurate everywhere.
-LABEL = "MJ Oswal"
-SUBLABEL = "Placeholder Image"
 IMAGES = [
-    ("hero/hero-main.svg", 1600, 2000, 222, 258),
-    ("intro/intro-visual.svg", 1200, 1500, 210, 240),
-    ("business/business-01.svg", 900, 1100, 200, 230),
-    ("business/business-02.svg", 900, 1100, 215, 245),
-    ("business/business-03.svg", 900, 1100, 230, 260),
-    ("business/business-04.svg", 900, 1100, 195, 225),
-    ("why/why-visual.svg", 1100, 1350, 205, 235),
-    ("projects/project-01.svg", 1400, 1000, 220, 250),
-    ("projects/project-02.svg", 1400, 1000, 235, 260),
-    ("projects/project-03.svg", 1400, 1000, 200, 228),
-    ("sustainability/sustainability-visual.svg", 1600, 1100, 150, 190),
-    ("insights/insight-01.svg", 900, 700, 210, 240),
-    ("insights/insight-02.svg", 900, 700, 225, 250),
-    ("insights/insight-03.svg", 900, 700, 195, 220),
-    ("cta/cta-visual.svg", 1800, 1000, 218, 248),
+    # Logo
+    ("logo/mj-oswal-exports-logo.svg", 480, 160, 222, 250),
+
+    # Hero slider — 5 slides
+    ("hero/hero-01.svg", 1600, 2000, 222, 250),
+    ("hero/hero-02.svg", 1600, 2000, 205, 235),
+    ("hero/hero-03.svg", 1600, 2000, 235, 260),
+    ("hero/hero-04.svg", 1600, 2000, 195, 222),
+    ("hero/hero-05.svg", 1600, 2000, 215, 245),
+
+    # Products — one per category
+    ("products/product-mens-01.svg", 900, 1100, 210, 238),
+    ("products/product-womens-01.svg", 900, 1100, 220, 248),
+    ("products/product-kids-01.svg", 900, 1100, 200, 228),
+    ("products/product-tshirt-01.svg", 900, 1100, 230, 255),
+    ("products/product-loungewear-01.svg", 900, 1100, 205, 232),
+    ("products/product-nightwear-01.svg", 900, 1100, 215, 240),
+    ("products/product-sweatshirt-01.svg", 900, 1100, 195, 220),
+    ("products/product-tracksuit-01.svg", 900, 1100, 225, 250),
+    ("products/product-lower-01.svg", 900, 1100, 208, 235),
+    ("products/product-shorts-01.svg", 900, 1100, 218, 244),
+    ("products/product-coord-set-01.svg", 900, 1100, 198, 226),
+    ("products/product-kurti-01.svg", 900, 1100, 228, 252),
+    ("products/product-innerwear-01.svg", 900, 1100, 212, 238),
+
+    # Machines — 20 cards (see assets/data/machines.json)
+    ("machines/machine-stitching-01.svg", 900, 700, 210, 238),
+    ("machines/machine-thread-cutting-01.svg", 900, 700, 220, 246),
+    ("machines/machine-pressing-01.svg", 900, 700, 200, 228),
+    ("machines/machine-heat-label-01.svg", 900, 700, 230, 255),
+    ("machines/machine-fabric-spreading-01.svg", 900, 700, 205, 232),
+    ("machines/machine-cutting-table-01.svg", 900, 700, 215, 240),
+    ("machines/machine-printing-auto-01.svg", 900, 700, 195, 220),
+    ("machines/machine-printing-manual-01.svg", 900, 700, 225, 250),
+    ("machines/machine-curing-01.svg", 900, 700, 208, 235),
+    ("machines/machine-fusing-01.svg", 900, 700, 218, 244),
+    ("machines/machine-dtp-01.svg", 900, 700, 198, 226),
+    ("machines/machine-plotter-01.svg", 900, 700, 228, 252),
+    ("machines/machine-embroidery-01.svg", 900, 700, 212, 238),
+    ("machines/machine-packing-01.svg", 900, 700, 222, 248),
+    ("machines/machine-cad-system-01.svg", 900, 700, 202, 230),
+    ("machines/machine-erp-system-01.svg", 900, 700, 232, 256),
+    ("machines/machine-embroidery-software-01.svg", 900, 700, 206, 233),
+    ("machines/machine-design-table-01.svg", 900, 700, 216, 242),
+    ("machines/machine-graphic-workstation-01.svg", 900, 700, 196, 224),
+    ("machines/machine-mrp-system-01.svg", 900, 700, 226, 250),
+
+    # Manufacturing departments — 10 + overview
+    ("manufacturing/manufacturing-overview-01.svg", 1600, 1000, 218, 246),
+    ("manufacturing/manufacturing-stitching-01.svg", 1400, 1000, 210, 238),
+    ("manufacturing/manufacturing-cutting-01.svg", 1400, 1000, 220, 246),
+    ("manufacturing/manufacturing-printing-01.svg", 1400, 1000, 200, 228),
+    ("manufacturing/manufacturing-embroidery-01.svg", 1400, 1000, 230, 255),
+    ("manufacturing/manufacturing-heat-label-01.svg", 1400, 1000, 205, 232),
+    ("manufacturing/manufacturing-fabric-01.svg", 1400, 1000, 215, 240),
+    ("manufacturing/manufacturing-pressing-01.svg", 1400, 1000, 195, 220),
+    ("manufacturing/manufacturing-packing-01.svg", 1400, 1000, 225, 250),
+    ("manufacturing/manufacturing-dispatch-01.svg", 1400, 1000, 208, 235),
+    ("manufacturing/manufacturing-designing-01.svg", 1400, 1000, 218, 244),
+
+    # Facility
+    ("facility/facility-overview-01.svg", 1600, 1000, 218, 246),
+    ("facility/facility-machinery-01.svg", 1400, 1000, 210, 238),
+    ("facility/facility-production-01.svg", 1400, 1000, 220, 246),
+    ("facility/facility-technology-01.svg", 1400, 1000, 200, 228),
+    ("facility/facility-capacity-01.svg", 1400, 1000, 230, 255),
+    ("facility/facility-quality-control-01.svg", 1400, 1000, 205, 232),
+    ("facility/facility-gallery-01.svg", 900, 700, 215, 240),
+    ("facility/facility-gallery-02.svg", 900, 700, 195, 220),
+    ("facility/facility-gallery-03.svg", 900, 700, 225, 250),
+    ("facility/facility-gallery-04.svg", 900, 700, 208, 235),
+
+    # Certificates — placeholder slots only, no names implied
+    ("certificates/certificate-01.svg", 900, 700, 220, 246),
+    ("certificates/certificate-02.svg", 900, 700, 210, 238),
+    ("certificates/certificate-03.svg", 900, 700, 230, 255),
+    ("certificates/certificate-04.svg", 900, 700, 200, 228),
+
+    # Partners — placeholder logo slots only
+    ("partners/partner-01.svg", 400, 200, 218, 244),
+    ("partners/partner-02.svg", 400, 200, 208, 234),
+    ("partners/partner-03.svg", 400, 200, 228, 252),
+    ("partners/partner-04.svg", 400, 200, 198, 224),
+    ("partners/partner-05.svg", 400, 200, 212, 238),
+    ("partners/partner-06.svg", 400, 200, 222, 248),
+
+    # Team
+    ("team/team-leadership-01.svg", 1000, 1000, 215, 240),
+    ("team/team-design-01.svg", 1000, 1000, 205, 232),
+    ("team/team-quality-01.svg", 1000, 1000, 225, 250),
+    ("team/team-production-01.svg", 1000, 1000, 195, 220),
+    ("team/team-manufacturing-01.svg", 1000, 1000, 218, 244),
+    ("team/team-people-01.svg", 1200, 1500, 208, 235),
+
+    # Projects
+    ("projects/project-01.svg", 1400, 1000, 220, 248),
+    ("projects/project-02.svg", 1400, 1000, 200, 228),
+
+    # Insights
+    ("insights/insight-01.svg", 900, 700, 215, 240),
+    ("insights/insight-02.svg", 900, 700, 195, 222),
 ]
+
+LOGO_SVG = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 160" width="480" height="160" role="img" aria-label="MJ Oswal Exports logo placeholder">
+  <rect x="1" y="1" width="478" height="158" rx="16" fill="#0d1526"/>
+  <text x="40" y="98" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="56" fill="#c9a35b">MJ</text>
+  <text x="130" y="98" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="30" fill="#ffffff" letter-spacing="1">OSWAL EXPORTS</text>
+  <text x="130" y="122" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#c9a35b" letter-spacing="3">LUDHIANA · INDIA</text>
+</svg>
+"""
 
 SVG_TEMPLATE = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w} {h}" width="{w}" height="{h}" role="img" aria-label="{aria}">
   <defs>
@@ -57,7 +158,15 @@ SVG_TEMPLATE = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w} {h}" 
 </svg>
 """
 
+logo_path = os.path.join(OUT_ROOT, "logo/mj-oswal-exports-logo.svg")
+os.makedirs(os.path.dirname(logo_path), exist_ok=True)
+with open(logo_path, "w") as f:
+    f.write(LOGO_SVG)
+print("wrote", logo_path)
+
 for rel, w, h, h1, h2 in IMAGES:
+    if rel == "logo/mj-oswal-exports-logo.svg":
+        continue  # handled above with dedicated markup
     path = os.path.join(OUT_ROOT, rel)
     os.makedirs(os.path.dirname(path), exist_ok=True)
     small = max(14, min(w, h) // 42)
