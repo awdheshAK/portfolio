@@ -737,7 +737,8 @@ def render_header(current_path="/", overlay=False):
   <header class="site-header{' site-header--overlay' if overlay else ''}" data-header>
     <div class="site-header__inner">
       <a href="/" class="site-header__logo" aria-label="{SITE_NAME} — Home">
-        <img class="site-header__logo-img" src="{IMAGES['logo']['src']}" alt="{esc(IMAGES['logo']['alt'])}" width="160" height="54">
+        <img class="site-header__logo-mark" src="{IMAGES['logo']['src']}" alt="" width="44" height="44">
+        <span class="site-header__logo-text">MJ Oswal Exports</span>
       </a>
 
       <div class="site-header__actions">
@@ -803,7 +804,8 @@ def render_footer():
     <div class="container site-footer__top">
       <div class="site-footer__brand">
         <a href="/" class="site-footer__logo" aria-label="{SITE_NAME} — Home">
-          <img src="{IMAGES['logo']['src']}" alt="{esc(IMAGES['logo']['alt'])}" width="150" height="50">
+          <img class="site-footer__logo-mark" src="{IMAGES['logo']['src']}" alt="" width="40" height="40">
+          <span>MJ Oswal Exports</span>
         </a>
         <p class="site-footer__tagline">Apparel manufacturing, built with discipline.</p>
         <p class="site-footer__note">Contact details and legal information on this footer are shown only once verified. <span class="placeholder">[Add verified address, phone and email here.]</span></p>
@@ -834,6 +836,7 @@ def render_footer():
   <script src="/assets/js/navigation.js"></script>
   <script src="/assets/js/hero-slider.js"></script>
   <script src="/assets/js/carousel.js"></script>
+  <script src="/assets/js/lightbox.js"></script>
   <script src="/assets/js/animations.js"></script>
   <script src="/assets/js/main.js"></script>
 </body>
@@ -1099,15 +1102,34 @@ def block_product_gallery(item):
     thumbs = "\n".join(
         f'            <li><button type="button" class="product-gallery__thumb{" is-active" if i == 0 else ""}" data-gallery-thumb data-gallery-src="{img}"><img src="{img}" alt="" width="220" height="270" loading="lazy"></button></li>'
         for i, img in enumerate(item.get("gallery") or [item["image"]]))
+    close_svg = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>'
     return f'''    <section class="section product-detail">
       <div class="container product-detail__grid">
         <div class="product-detail__media" data-gallery>
-          <div class="product-detail__frame">
+          <button type="button" class="product-detail__frame" data-lightbox-open aria-label="Open full-screen gallery for {esc(item['name'])}">
             <img src="{item['image']}" alt="" width="900" height="1100" loading="eager" fetchpriority="high" data-gallery-main>
-          </div>
+            <span class="product-detail__expand" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 4H4v5M15 4h5v5M9 20H4v-5M15 20h5v-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </button>
           <ul class="product-gallery__thumbs">
 {thumbs}
           </ul>
+
+          <!-- Full-screen sliding gallery — opened by clicking the main image
+               above. Auto-advances like every other slider on the site, with
+               prev/next, a thumbnail strip (built from the same image list
+               by assets/js/lightbox.js), swipe and keyboard support. -->
+          <div class="lightbox" data-lightbox hidden>
+            <div class="lightbox__backdrop" data-lightbox-close></div>
+            <div class="lightbox__dialog" role="dialog" aria-modal="true" aria-label="{esc(item['name'])} image gallery">
+              <button type="button" class="lightbox__close" data-lightbox-close aria-label="Close gallery">{close_svg}</button>
+              <div class="lightbox__stage">
+                <button type="button" class="lightbox__nav lightbox__nav--prev" data-lightbox-prev aria-label="Previous image">{CHEVRON_LEFT_SVG}</button>
+                <img data-lightbox-image src="" alt="{esc(item['name'])}">
+                <button type="button" class="lightbox__nav lightbox__nav--next" data-lightbox-next aria-label="Next image">{CHEVRON_RIGHT_SVG}</button>
+              </div>
+              <ul class="lightbox__thumbs" data-lightbox-thumbs></ul>
+            </div>
+          </div>
         </div>
         <div class="product-detail__info">
           <p class="eyebrow">{esc(item['type'])}</p>

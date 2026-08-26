@@ -2,8 +2,8 @@
   "_comment": "Central image config. To swap a placeholder for a real photo: save your photo into the SAME folder using the SAME filename (or update the 'src' below to match your new filename), then re-run scripts/build_site.py. Every 'alt' is what screen readers and search engines see — keep it descriptive.",
 
   "logo": {
-    "src": "/assets/images/logo/mj-oswal-exports-logo.svg",
-    "alt": "MJ Oswal Exports logo"
+    "src": "/assets/images/logo/mj-oswal-exports-mark.svg",
+    "alt": "MJO — M.J. Oswal Group logo mark"
   },
 
   "hero": [

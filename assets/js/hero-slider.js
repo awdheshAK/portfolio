@@ -29,6 +29,12 @@
   var timer = null;
   var userPaused = prefersReducedMotion;
   var hovered = false;
+  var hoverResumeTimer = null;
+  // A visitor's cursor often just rests over the hero while they read it —
+  // that must never look like a broken/frozen slider. Pausing on hover is
+  // still honoured for a few seconds, then autoplay resumes anyway even if
+  // the cursor never actually leaves.
+  var HOVER_RESUME_MS = 4000;
 
   function restartDotProgress(dot) {
     dot.classList.remove('is-active');
@@ -95,11 +101,27 @@
   }
 
   // Pause on hover/focus anywhere in the slider; resume on leave, unless
-  // the visitor explicitly paused it via the pause button.
-  root.addEventListener('mouseenter', function () { hovered = true; stopTimer(); });
-  root.addEventListener('mouseleave', function () { hovered = false; startTimer(); });
-  root.addEventListener('focusin', function () { hovered = true; stopTimer(); });
-  root.addEventListener('focusout', function () { hovered = false; startTimer(); });
+  // the visitor explicitly paused it via the pause button. If the cursor
+  // simply stays put over the slider, autoplay resumes anyway after
+  // HOVER_RESUME_MS so it never looks stuck.
+  function onHoverStart() {
+    hovered = true;
+    stopTimer();
+    window.clearTimeout(hoverResumeTimer);
+    hoverResumeTimer = window.setTimeout(function () {
+      hovered = false;
+      startTimer();
+    }, HOVER_RESUME_MS);
+  }
+  function onHoverEnd() {
+    hovered = false;
+    window.clearTimeout(hoverResumeTimer);
+    startTimer();
+  }
+  root.addEventListener('mouseenter', onHoverStart);
+  root.addEventListener('mouseleave', onHoverEnd);
+  root.addEventListener('focusin', onHoverStart);
+  root.addEventListener('focusout', onHoverEnd);
 
   // Keyboard: left/right arrows while focus is anywhere in the slider.
   root.addEventListener('keydown', function (event) {

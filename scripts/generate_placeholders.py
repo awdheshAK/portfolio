@@ -23,9 +23,6 @@ SUBLABEL = "Placeholder Image"
 
 # (relative_path, width, height, hue_start, hue_end)
 IMAGES = [
-    # Logo
-    ("logo/mj-oswal-exports-logo.svg", 480, 160, 222, 250),
-
     # Hero slider — 5 slides
     ("hero/hero-01.svg", 1600, 2000, 222, 250),
     ("hero/hero-02.svg", 1600, 2000, 205, 235),
@@ -129,11 +126,17 @@ IMAGES = [
     ("insights/insight-02.svg", 900, 700, 195, 222),
 ]
 
-LOGO_SVG = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 160" width="480" height="160" role="img" aria-label="MJ Oswal Exports logo placeholder">
-  <rect x="1" y="1" width="478" height="158" rx="16" fill="#0d1526"/>
-  <text x="40" y="98" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="56" fill="#c9a35b">MJ</text>
-  <text x="130" y="98" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="30" fill="#ffffff" letter-spacing="1">OSWAL EXPORTS</text>
-  <text x="130" y="122" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#c9a35b" letter-spacing="3">LUDHIANA · INDIA</text>
+# Reproduces the real M.J. Oswal Group visiting-card mark: a four-colour
+# "MJO" pinwheel (coral / blue / purple-magenta / green wedges). To use a
+# real photo/vector of the logo instead, save it as this same filename and
+# skip re-running this script (or delete this LOGO_SVG block).
+LOGO_SVG = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="MJO — M.J. Oswal Group logo mark">
+  <circle cx="100" cy="100" r="94" fill="#ffffff"/>
+  <path d="M100,100 L8.00,100.00 A92,92 0 0 1 146.00,20.33 Z" fill="#ee9268"/>
+  <path d="M100,100 L146.00,20.33 A92,92 0 0 1 192.00,100.00 Z" fill="#7fa0d6"/>
+  <path d="M100,100 L192.00,100.00 A92,92 0 0 1 20.33,146.00 Z" fill="#b15aa0"/>
+  <path d="M100,100 L20.33,146.00 A92,92 0 0 1 8.00,100.00 Z" fill="#8fc47c"/>
+  <text x="100" y="138" text-anchor="middle" font-family="'Arial Black', Arial, Helvetica, sans-serif" font-weight="900" font-size="84" letter-spacing="-4" fill="#141c2e">MJO</text>
 </svg>
 """
 
@@ -177,15 +180,13 @@ for cat, (h1, h2) in PRODUCT_CATEGORY_HUES.items():
         offset = (i - 1) * 5
         IMAGES.append((f"products/{cat}/{cat}-0{i}.svg", 900, 1100, h1 + offset, h2 + offset))
 
-logo_path = os.path.join(OUT_ROOT, "logo/mj-oswal-exports-logo.svg")
+logo_path = os.path.join(OUT_ROOT, "logo/mj-oswal-exports-mark.svg")
 os.makedirs(os.path.dirname(logo_path), exist_ok=True)
 with open(logo_path, "w") as f:
     f.write(LOGO_SVG)
 print("wrote", logo_path)
 
 for rel, w, h, h1, h2 in IMAGES:
-    if rel == "logo/mj-oswal-exports-logo.svg":
-        continue  # handled above with dedicated markup
     path = os.path.join(OUT_ROOT, rel)
     os.makedirs(os.path.dirname(path), exist_ok=True)
     small = max(14, min(w, h) // 42)

@@ -51,6 +51,10 @@
     var pageCount = 1;
     var timer = null;
     var hovered = false;
+    var hoverResumeTimer = null;
+    // A resting cursor over the row must never look like a frozen slider —
+    // honour pause-on-hover briefly, then resume even if still hovered.
+    var HOVER_RESUME_MS = 4000;
 
     function gapPx() {
       var styles = window.getComputedStyle(track);
@@ -129,10 +133,24 @@
     if (prevBtn) prevBtn.addEventListener('click', function () { prev(); restartAutoplay(); });
     if (nextBtn) nextBtn.addEventListener('click', function () { next(); restartAutoplay(); });
 
-    root.addEventListener('mouseenter', function () { hovered = true; stopAutoplay(); });
-    root.addEventListener('mouseleave', function () { hovered = false; startAutoplay(); });
-    root.addEventListener('focusin', function () { hovered = true; stopAutoplay(); });
-    root.addEventListener('focusout', function () { hovered = false; startAutoplay(); });
+    function onHoverStart() {
+      hovered = true;
+      stopAutoplay();
+      window.clearTimeout(hoverResumeTimer);
+      hoverResumeTimer = window.setTimeout(function () {
+        hovered = false;
+        startAutoplay();
+      }, HOVER_RESUME_MS);
+    }
+    function onHoverEnd() {
+      hovered = false;
+      window.clearTimeout(hoverResumeTimer);
+      startAutoplay();
+    }
+    root.addEventListener('mouseenter', onHoverStart);
+    root.addEventListener('mouseleave', onHoverEnd);
+    root.addEventListener('focusin', onHoverStart);
+    root.addEventListener('focusout', onHoverEnd);
 
     // Touch / swipe.
     var touchStartX = null;

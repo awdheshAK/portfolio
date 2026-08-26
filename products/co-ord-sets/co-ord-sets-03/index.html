@@ -21,8 +21,8 @@
   <meta name="twitter:description" content="Printed Co-ord Set manufactured through our integrated cutting, stitching and finishing lines at our Ludhiana facility.">
   <meta name="twitter:image" content="https://www.mjoswalexports.com/assets/images/products/co-ord-sets/co-ord-sets-03.svg">
 
-  <link rel="icon" href="/assets/images/logo/mj-oswal-exports-logo.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="/assets/images/logo/mj-oswal-exports-logo.svg">
+  <link rel="icon" href="/assets/images/logo/mj-oswal-exports-mark.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/assets/images/logo/mj-oswal-exports-mark.svg">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -54,7 +54,8 @@
   <header class="site-header" data-header>
     <div class="site-header__inner">
       <a href="/" class="site-header__logo" aria-label="MJ Oswal Exports — Home">
-        <img class="site-header__logo-img" src="/assets/images/logo/mj-oswal-exports-logo.svg" alt="MJ Oswal Exports logo" width="160" height="54">
+        <img class="site-header__logo-mark" src="/assets/images/logo/mj-oswal-exports-mark.svg" alt="" width="44" height="44">
+        <span class="site-header__logo-text">MJ Oswal Exports</span>
       </a>
 
       <div class="site-header__actions">
@@ -322,14 +323,32 @@
     <section class="section product-detail">
       <div class="container product-detail__grid">
         <div class="product-detail__media" data-gallery>
-          <div class="product-detail__frame">
+          <button type="button" class="product-detail__frame" data-lightbox-open aria-label="Open full-screen gallery for Printed Co-ord Set">
             <img src="/assets/images/products/co-ord-sets/co-ord-sets-03.svg" alt="" width="900" height="1100" loading="eager" fetchpriority="high" data-gallery-main>
-          </div>
+            <span class="product-detail__expand" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 4H4v5M15 4h5v5M9 20H4v-5M15 20h5v-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </button>
           <ul class="product-gallery__thumbs">
             <li><button type="button" class="product-gallery__thumb is-active" data-gallery-thumb data-gallery-src="/assets/images/products/co-ord-sets/co-ord-sets-03.svg"><img src="/assets/images/products/co-ord-sets/co-ord-sets-03.svg" alt="" width="220" height="270" loading="lazy"></button></li>
             <li><button type="button" class="product-gallery__thumb" data-gallery-thumb data-gallery-src="/assets/images/products/co-ord-sets/co-ord-sets-01.svg"><img src="/assets/images/products/co-ord-sets/co-ord-sets-01.svg" alt="" width="220" height="270" loading="lazy"></button></li>
             <li><button type="button" class="product-gallery__thumb" data-gallery-thumb data-gallery-src="/assets/images/products/co-ord-sets/co-ord-sets-02.svg"><img src="/assets/images/products/co-ord-sets/co-ord-sets-02.svg" alt="" width="220" height="270" loading="lazy"></button></li>
           </ul>
+
+          <!-- Full-screen sliding gallery — opened by clicking the main image
+               above. Auto-advances like every other slider on the site, with
+               prev/next, a thumbnail strip (built from the same image list
+               by assets/js/lightbox.js), swipe and keyboard support. -->
+          <div class="lightbox" data-lightbox hidden>
+            <div class="lightbox__backdrop" data-lightbox-close></div>
+            <div class="lightbox__dialog" role="dialog" aria-modal="true" aria-label="Printed Co-ord Set image gallery">
+              <button type="button" class="lightbox__close" data-lightbox-close aria-label="Close gallery"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+              <div class="lightbox__stage">
+                <button type="button" class="lightbox__nav lightbox__nav--prev" data-lightbox-prev aria-label="Previous image"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                <img data-lightbox-image src="" alt="Printed Co-ord Set">
+                <button type="button" class="lightbox__nav lightbox__nav--next" data-lightbox-next aria-label="Next image"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              </div>
+              <ul class="lightbox__thumbs" data-lightbox-thumbs></ul>
+            </div>
+          </div>
         </div>
         <div class="product-detail__info">
           <p class="eyebrow">Printed Co-ord Set</p>
@@ -374,7 +393,8 @@
     <div class="container site-footer__top">
       <div class="site-footer__brand">
         <a href="/" class="site-footer__logo" aria-label="MJ Oswal Exports — Home">
-          <img src="/assets/images/logo/mj-oswal-exports-logo.svg" alt="MJ Oswal Exports logo" width="150" height="50">
+          <img class="site-footer__logo-mark" src="/assets/images/logo/mj-oswal-exports-mark.svg" alt="" width="40" height="40">
+          <span>MJ Oswal Exports</span>
         </a>
         <p class="site-footer__tagline">Apparel manufacturing, built with discipline.</p>
         <p class="site-footer__note">Contact details and legal information on this footer are shown only once verified. <span class="placeholder">[Add verified address, phone and email here.]</span></p>
@@ -450,6 +470,7 @@
   <script src="/assets/js/navigation.js"></script>
   <script src="/assets/js/hero-slider.js"></script>
   <script src="/assets/js/carousel.js"></script>
+  <script src="/assets/js/lightbox.js"></script>
   <script src="/assets/js/animations.js"></script>
   <script src="/assets/js/main.js"></script>
 </body>
