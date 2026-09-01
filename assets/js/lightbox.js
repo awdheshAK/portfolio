@@ -1,10 +1,11 @@
 /**
  * lightbox.js
- * Full-screen sliding image gallery for product detail pages. Clicking the
- * main product image opens an overlay showing every image in that
- * product's gallery, with its own auto-slide, prev/next, thumbnail strip,
- * swipe and keyboard support — the same interaction pattern as every other
- * slider on the site. No-ops on any page without a [data-gallery] block.
+ * Full-screen sliding image gallery for product detail pages. The page
+ * shows every product image as its own grid tile; clicking any tile opens
+ * a full-screen overlay starting at that exact image, with its own
+ * auto-slide, prev/next, thumbnail strip, swipe and keyboard support — the
+ * same interaction pattern as every other slider on the site. No-ops on
+ * any page without a [data-gallery] block.
  */
 (function (window, document) {
   'use strict';
@@ -15,9 +16,8 @@
 
   function initLightbox(mediaRoot) {
     var lightbox = mediaRoot.querySelector('[data-lightbox]');
-    var openTrigger = mediaRoot.querySelector('[data-lightbox-open]');
     var inlineThumbs = Array.prototype.slice.call(mediaRoot.querySelectorAll('[data-gallery-thumb]'));
-    if (!lightbox || !openTrigger || !inlineThumbs.length) return;
+    if (!lightbox || !inlineThumbs.length) return;
 
     var sources = inlineThumbs.map(function (t) { return t.getAttribute('data-gallery-src'); });
     var stageImg = lightbox.querySelector('[data-lightbox-image]');
@@ -104,7 +104,10 @@
       if (lastFocused && lastFocused.focus) lastFocused.focus();
     }
 
-    openTrigger.addEventListener('click', function () { open(0); });
+    // Every grid tile opens the lightbox at its own index.
+    inlineThumbs.forEach(function (tile, i) {
+      tile.addEventListener('click', function () { open(i); });
+    });
     closeEls.forEach(function (el) { el.addEventListener('click', close); });
     if (prevBtn) prevBtn.addEventListener('click', function () { prev(); restartTimer(); });
     if (nextBtn) nextBtn.addEventListener('click', function () { next(); restartTimer(); });

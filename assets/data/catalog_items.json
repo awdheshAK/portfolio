@@ -1,5 +1,5 @@
 {
-  "_readme": "To add a new product: copy one object inside 'items' below, give it a unique 'slug' and set its 'category' to one of the subcategory slugs in assets/data/product_subcategories.json (and 'gender' to match that subcategory). Each product's 'gallery' list can hold as many images as you like \u2014 add more entries under /assets/images/products/<category>/ and list them here to grow the gallery. Re-run scripts/build_site.py after editing.",
+  "_readme": "To add a new product: copy one object inside 'items' below, give it a unique 'slug' and set its 'category' to one of the subcategory slugs in assets/data/product_subcategories.json (and 'gender' to match). Each product's 'gallery' list can hold as many images as you like \u2014 add files under /assets/images/products/<category>/ and list them here. Re-run scripts/build_site.py after editing.",
   "items": [
     {
       "slug": "mens-lounge-wear-01",
@@ -39,6 +39,48 @@
         "/assets/images/products/mens-lounge-wear/mens-lounge-wear-01.svg",
         "/assets/images/products/mens-lounge-wear/mens-lounge-wear-03.svg",
         "/assets/images/products/mens-lounge-wear/mens-lounge-wear-04.svg",
+        "/assets/images/products/mens-lounge-wear/mens-lounge-wear-05.svg",
+        "/assets/images/products/mens-lounge-wear/mens-lounge-wear-06.svg"
+      ]
+    },
+    {
+      "slug": "mens-lounge-wear-03",
+      "category": "mens-lounge-wear",
+      "gender": "mens",
+      "name": "Men's Lounge Full Sleeve Set",
+      "type": "Men's Lounge Full Sleeve Set",
+      "description": "Men's Lounge Full Sleeve Set, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
+      "fabric": "[Add verified fabric composition here.]",
+      "styles": "[Add available style options here.]",
+      "colors": "[Add available colour options here.]",
+      "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
+      "image": "/assets/images/products/mens-lounge-wear/mens-lounge-wear-03.svg",
+      "gallery": [
+        "/assets/images/products/mens-lounge-wear/mens-lounge-wear-03.svg",
+        "/assets/images/products/mens-lounge-wear/mens-lounge-wear-01.svg",
+        "/assets/images/products/mens-lounge-wear/mens-lounge-wear-02.svg",
+        "/assets/images/products/mens-lounge-wear/mens-lounge-wear-04.svg",
+        "/assets/images/products/mens-lounge-wear/mens-lounge-wear-05.svg",
+        "/assets/images/products/mens-lounge-wear/mens-lounge-wear-06.svg"
+      ]
+    },
+    {
+      "slug": "mens-lounge-wear-04",
+      "category": "mens-lounge-wear",
+      "gender": "mens",
+      "name": "Men's Lounge Sweatshirt Set",
+      "type": "Men's Lounge Sweatshirt Set",
+      "description": "Men's Lounge Sweatshirt Set, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
+      "fabric": "[Add verified fabric composition here.]",
+      "styles": "[Add available style options here.]",
+      "colors": "[Add available colour options here.]",
+      "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
+      "image": "/assets/images/products/mens-lounge-wear/mens-lounge-wear-04.svg",
+      "gallery": [
+        "/assets/images/products/mens-lounge-wear/mens-lounge-wear-04.svg",
+        "/assets/images/products/mens-lounge-wear/mens-lounge-wear-01.svg",
+        "/assets/images/products/mens-lounge-wear/mens-lounge-wear-02.svg",
+        "/assets/images/products/mens-lounge-wear/mens-lounge-wear-03.svg",
         "/assets/images/products/mens-lounge-wear/mens-lounge-wear-05.svg",
         "/assets/images/products/mens-lounge-wear/mens-lounge-wear-06.svg"
       ]
@@ -86,6 +128,48 @@
       ]
     },
     {
+      "slug": "polo-03",
+      "category": "polo",
+      "gender": "mens",
+      "name": "Long Sleeve Polo Shirt",
+      "type": "Long Sleeve Polo Shirt",
+      "description": "Long Sleeve Polo Shirt, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
+      "fabric": "[Add verified fabric composition here.]",
+      "styles": "[Add available style options here.]",
+      "colors": "[Add available colour options here.]",
+      "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
+      "image": "/assets/images/products/polo/polo-03.svg",
+      "gallery": [
+        "/assets/images/products/polo/polo-03.svg",
+        "/assets/images/products/polo/polo-01.svg",
+        "/assets/images/products/polo/polo-02.svg",
+        "/assets/images/products/polo/polo-04.svg",
+        "/assets/images/products/polo/polo-05.svg",
+        "/assets/images/products/polo/polo-06.svg"
+      ]
+    },
+    {
+      "slug": "polo-04",
+      "category": "polo",
+      "gender": "mens",
+      "name": "Contrast Collar Polo Shirt",
+      "type": "Contrast Collar Polo Shirt",
+      "description": "Contrast Collar Polo Shirt, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
+      "fabric": "[Add verified fabric composition here.]",
+      "styles": "[Add available style options here.]",
+      "colors": "[Add available colour options here.]",
+      "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
+      "image": "/assets/images/products/polo/polo-04.svg",
+      "gallery": [
+        "/assets/images/products/polo/polo-04.svg",
+        "/assets/images/products/polo/polo-01.svg",
+        "/assets/images/products/polo/polo-02.svg",
+        "/assets/images/products/polo/polo-03.svg",
+        "/assets/images/products/polo/polo-05.svg",
+        "/assets/images/products/polo/polo-06.svg"
+      ]
+    },
+    {
       "slug": "mens-t-shirts-01",
       "category": "mens-t-shirts",
       "gender": "mens",
@@ -123,6 +207,48 @@
         "/assets/images/products/mens-t-shirts/mens-t-shirts-01.svg",
         "/assets/images/products/mens-t-shirts/mens-t-shirts-03.svg",
         "/assets/images/products/mens-t-shirts/mens-t-shirts-04.svg",
+        "/assets/images/products/mens-t-shirts/mens-t-shirts-05.svg",
+        "/assets/images/products/mens-t-shirts/mens-t-shirts-06.svg"
+      ]
+    },
+    {
+      "slug": "mens-t-shirts-03",
+      "category": "mens-t-shirts",
+      "gender": "mens",
+      "name": "Men's Henley T-Shirt",
+      "type": "Men's Henley T-Shirt",
+      "description": "Men's Henley T-Shirt, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
+      "fabric": "[Add verified fabric composition here.]",
+      "styles": "[Add available style options here.]",
+      "colors": "[Add available colour options here.]",
+      "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
+      "image": "/assets/images/products/mens-t-shirts/mens-t-shirts-03.svg",
+      "gallery": [
+        "/assets/images/products/mens-t-shirts/mens-t-shirts-03.svg",
+        "/assets/images/products/mens-t-shirts/mens-t-shirts-01.svg",
+        "/assets/images/products/mens-t-shirts/mens-t-shirts-02.svg",
+        "/assets/images/products/mens-t-shirts/mens-t-shirts-04.svg",
+        "/assets/images/products/mens-t-shirts/mens-t-shirts-05.svg",
+        "/assets/images/products/mens-t-shirts/mens-t-shirts-06.svg"
+      ]
+    },
+    {
+      "slug": "mens-t-shirts-04",
+      "category": "mens-t-shirts",
+      "gender": "mens",
+      "name": "Men's Full Sleeve T-Shirt",
+      "type": "Men's Full Sleeve T-Shirt",
+      "description": "Men's Full Sleeve T-Shirt, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
+      "fabric": "[Add verified fabric composition here.]",
+      "styles": "[Add available style options here.]",
+      "colors": "[Add available colour options here.]",
+      "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
+      "image": "/assets/images/products/mens-t-shirts/mens-t-shirts-04.svg",
+      "gallery": [
+        "/assets/images/products/mens-t-shirts/mens-t-shirts-04.svg",
+        "/assets/images/products/mens-t-shirts/mens-t-shirts-01.svg",
+        "/assets/images/products/mens-t-shirts/mens-t-shirts-02.svg",
+        "/assets/images/products/mens-t-shirts/mens-t-shirts-03.svg",
         "/assets/images/products/mens-t-shirts/mens-t-shirts-05.svg",
         "/assets/images/products/mens-t-shirts/mens-t-shirts-06.svg"
       ]
@@ -170,6 +296,48 @@
       ]
     },
     {
+      "slug": "sweatshirts-03",
+      "category": "sweatshirts",
+      "gender": "mens",
+      "name": "Zipper Hoodie",
+      "type": "Zipper Hoodie",
+      "description": "Zipper Hoodie, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
+      "fabric": "[Add verified fabric composition here.]",
+      "styles": "[Add available style options here.]",
+      "colors": "[Add available colour options here.]",
+      "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
+      "image": "/assets/images/products/sweatshirts/sweatshirts-03.svg",
+      "gallery": [
+        "/assets/images/products/sweatshirts/sweatshirts-03.svg",
+        "/assets/images/products/sweatshirts/sweatshirts-01.svg",
+        "/assets/images/products/sweatshirts/sweatshirts-02.svg",
+        "/assets/images/products/sweatshirts/sweatshirts-04.svg",
+        "/assets/images/products/sweatshirts/sweatshirts-05.svg",
+        "/assets/images/products/sweatshirts/sweatshirts-06.svg"
+      ]
+    },
+    {
+      "slug": "sweatshirts-04",
+      "category": "sweatshirts",
+      "gender": "mens",
+      "name": "Fleece Sweatshirt",
+      "type": "Fleece Sweatshirt",
+      "description": "Fleece Sweatshirt, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
+      "fabric": "[Add verified fabric composition here.]",
+      "styles": "[Add available style options here.]",
+      "colors": "[Add available colour options here.]",
+      "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
+      "image": "/assets/images/products/sweatshirts/sweatshirts-04.svg",
+      "gallery": [
+        "/assets/images/products/sweatshirts/sweatshirts-04.svg",
+        "/assets/images/products/sweatshirts/sweatshirts-01.svg",
+        "/assets/images/products/sweatshirts/sweatshirts-02.svg",
+        "/assets/images/products/sweatshirts/sweatshirts-03.svg",
+        "/assets/images/products/sweatshirts/sweatshirts-05.svg",
+        "/assets/images/products/sweatshirts/sweatshirts-06.svg"
+      ]
+    },
+    {
       "slug": "lowers-01",
       "category": "lowers",
       "gender": "mens",
@@ -207,6 +375,48 @@
         "/assets/images/products/lowers/lowers-01.svg",
         "/assets/images/products/lowers/lowers-03.svg",
         "/assets/images/products/lowers/lowers-04.svg",
+        "/assets/images/products/lowers/lowers-05.svg",
+        "/assets/images/products/lowers/lowers-06.svg"
+      ]
+    },
+    {
+      "slug": "lowers-03",
+      "category": "lowers",
+      "gender": "mens",
+      "name": "Men's Cargo Lower",
+      "type": "Men's Cargo Lower",
+      "description": "Men's Cargo Lower, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
+      "fabric": "[Add verified fabric composition here.]",
+      "styles": "[Add available style options here.]",
+      "colors": "[Add available colour options here.]",
+      "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
+      "image": "/assets/images/products/lowers/lowers-03.svg",
+      "gallery": [
+        "/assets/images/products/lowers/lowers-03.svg",
+        "/assets/images/products/lowers/lowers-01.svg",
+        "/assets/images/products/lowers/lowers-02.svg",
+        "/assets/images/products/lowers/lowers-04.svg",
+        "/assets/images/products/lowers/lowers-05.svg",
+        "/assets/images/products/lowers/lowers-06.svg"
+      ]
+    },
+    {
+      "slug": "lowers-04",
+      "category": "lowers",
+      "gender": "mens",
+      "name": "Men's Rib-Cuff Lower",
+      "type": "Men's Rib-Cuff Lower",
+      "description": "Men's Rib-Cuff Lower, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
+      "fabric": "[Add verified fabric composition here.]",
+      "styles": "[Add available style options here.]",
+      "colors": "[Add available colour options here.]",
+      "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
+      "image": "/assets/images/products/lowers/lowers-04.svg",
+      "gallery": [
+        "/assets/images/products/lowers/lowers-04.svg",
+        "/assets/images/products/lowers/lowers-01.svg",
+        "/assets/images/products/lowers/lowers-02.svg",
+        "/assets/images/products/lowers/lowers-03.svg",
         "/assets/images/products/lowers/lowers-05.svg",
         "/assets/images/products/lowers/lowers-06.svg"
       ]
@@ -254,6 +464,48 @@
       ]
     },
     {
+      "slug": "suits-03",
+      "category": "suits",
+      "gender": "mens",
+      "name": "Men's Textured Suit Set",
+      "type": "Men's Textured Suit Set",
+      "description": "Men's Textured Suit Set, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
+      "fabric": "[Add verified fabric composition here.]",
+      "styles": "[Add available style options here.]",
+      "colors": "[Add available colour options here.]",
+      "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
+      "image": "/assets/images/products/suits/suits-03.svg",
+      "gallery": [
+        "/assets/images/products/suits/suits-03.svg",
+        "/assets/images/products/suits/suits-01.svg",
+        "/assets/images/products/suits/suits-02.svg",
+        "/assets/images/products/suits/suits-04.svg",
+        "/assets/images/products/suits/suits-05.svg",
+        "/assets/images/products/suits/suits-06.svg"
+      ]
+    },
+    {
+      "slug": "suits-04",
+      "category": "suits",
+      "gender": "mens",
+      "name": "Men's Knit Suit Set",
+      "type": "Men's Knit Suit Set",
+      "description": "Men's Knit Suit Set, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
+      "fabric": "[Add verified fabric composition here.]",
+      "styles": "[Add available style options here.]",
+      "colors": "[Add available colour options here.]",
+      "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
+      "image": "/assets/images/products/suits/suits-04.svg",
+      "gallery": [
+        "/assets/images/products/suits/suits-04.svg",
+        "/assets/images/products/suits/suits-01.svg",
+        "/assets/images/products/suits/suits-02.svg",
+        "/assets/images/products/suits/suits-03.svg",
+        "/assets/images/products/suits/suits-05.svg",
+        "/assets/images/products/suits/suits-06.svg"
+      ]
+    },
+    {
       "slug": "outerwear-01",
       "category": "outerwear",
       "gender": "mens",
@@ -291,6 +543,48 @@
         "/assets/images/products/outerwear/outerwear-01.svg",
         "/assets/images/products/outerwear/outerwear-03.svg",
         "/assets/images/products/outerwear/outerwear-04.svg",
+        "/assets/images/products/outerwear/outerwear-05.svg",
+        "/assets/images/products/outerwear/outerwear-06.svg"
+      ]
+    },
+    {
+      "slug": "outerwear-03",
+      "category": "outerwear",
+      "gender": "mens",
+      "name": "Men's Bomber Jacket",
+      "type": "Men's Bomber Jacket",
+      "description": "Men's Bomber Jacket, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
+      "fabric": "[Add verified fabric composition here.]",
+      "styles": "[Add available style options here.]",
+      "colors": "[Add available colour options here.]",
+      "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
+      "image": "/assets/images/products/outerwear/outerwear-03.svg",
+      "gallery": [
+        "/assets/images/products/outerwear/outerwear-03.svg",
+        "/assets/images/products/outerwear/outerwear-01.svg",
+        "/assets/images/products/outerwear/outerwear-02.svg",
+        "/assets/images/products/outerwear/outerwear-04.svg",
+        "/assets/images/products/outerwear/outerwear-05.svg",
+        "/assets/images/products/outerwear/outerwear-06.svg"
+      ]
+    },
+    {
+      "slug": "outerwear-04",
+      "category": "outerwear",
+      "gender": "mens",
+      "name": "Men's Quilted Jacket",
+      "type": "Men's Quilted Jacket",
+      "description": "Men's Quilted Jacket, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
+      "fabric": "[Add verified fabric composition here.]",
+      "styles": "[Add available style options here.]",
+      "colors": "[Add available colour options here.]",
+      "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
+      "image": "/assets/images/products/outerwear/outerwear-04.svg",
+      "gallery": [
+        "/assets/images/products/outerwear/outerwear-04.svg",
+        "/assets/images/products/outerwear/outerwear-01.svg",
+        "/assets/images/products/outerwear/outerwear-02.svg",
+        "/assets/images/products/outerwear/outerwear-03.svg",
         "/assets/images/products/outerwear/outerwear-05.svg",
         "/assets/images/products/outerwear/outerwear-06.svg"
       ]
@@ -338,6 +632,48 @@
       ]
     },
     {
+      "slug": "mens-track-suits-03",
+      "category": "mens-track-suits",
+      "gender": "mens",
+      "name": "Men's Zip-Up Track Suit",
+      "type": "Men's Zip-Up Track Suit",
+      "description": "Men's Zip-Up Track Suit, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
+      "fabric": "[Add verified fabric composition here.]",
+      "styles": "[Add available style options here.]",
+      "colors": "[Add available colour options here.]",
+      "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
+      "image": "/assets/images/products/mens-track-suits/mens-track-suits-03.svg",
+      "gallery": [
+        "/assets/images/products/mens-track-suits/mens-track-suits-03.svg",
+        "/assets/images/products/mens-track-suits/mens-track-suits-01.svg",
+        "/assets/images/products/mens-track-suits/mens-track-suits-02.svg",
+        "/assets/images/products/mens-track-suits/mens-track-suits-04.svg",
+        "/assets/images/products/mens-track-suits/mens-track-suits-05.svg",
+        "/assets/images/products/mens-track-suits/mens-track-suits-06.svg"
+      ]
+    },
+    {
+      "slug": "mens-track-suits-04",
+      "category": "mens-track-suits",
+      "gender": "mens",
+      "name": "Men's Panelled Track Suit",
+      "type": "Men's Panelled Track Suit",
+      "description": "Men's Panelled Track Suit, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
+      "fabric": "[Add verified fabric composition here.]",
+      "styles": "[Add available style options here.]",
+      "colors": "[Add available colour options here.]",
+      "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
+      "image": "/assets/images/products/mens-track-suits/mens-track-suits-04.svg",
+      "gallery": [
+        "/assets/images/products/mens-track-suits/mens-track-suits-04.svg",
+        "/assets/images/products/mens-track-suits/mens-track-suits-01.svg",
+        "/assets/images/products/mens-track-suits/mens-track-suits-02.svg",
+        "/assets/images/products/mens-track-suits/mens-track-suits-03.svg",
+        "/assets/images/products/mens-track-suits/mens-track-suits-05.svg",
+        "/assets/images/products/mens-track-suits/mens-track-suits-06.svg"
+      ]
+    },
+    {
       "slug": "tops-01",
       "category": "tops",
       "gender": "womens",
@@ -375,6 +711,48 @@
         "/assets/images/products/tops/tops-01.svg",
         "/assets/images/products/tops/tops-03.svg",
         "/assets/images/products/tops/tops-04.svg",
+        "/assets/images/products/tops/tops-05.svg",
+        "/assets/images/products/tops/tops-06.svg"
+      ]
+    },
+    {
+      "slug": "tops-03",
+      "category": "tops",
+      "gender": "womens",
+      "name": "Women's Wrap Top",
+      "type": "Women's Wrap Top",
+      "description": "Women's Wrap Top, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
+      "fabric": "[Add verified fabric composition here.]",
+      "styles": "[Add available style options here.]",
+      "colors": "[Add available colour options here.]",
+      "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
+      "image": "/assets/images/products/tops/tops-03.svg",
+      "gallery": [
+        "/assets/images/products/tops/tops-03.svg",
+        "/assets/images/products/tops/tops-01.svg",
+        "/assets/images/products/tops/tops-02.svg",
+        "/assets/images/products/tops/tops-04.svg",
+        "/assets/images/products/tops/tops-05.svg",
+        "/assets/images/products/tops/tops-06.svg"
+      ]
+    },
+    {
+      "slug": "tops-04",
+      "category": "tops",
+      "gender": "womens",
+      "name": "Women's Crop Top",
+      "type": "Women's Crop Top",
+      "description": "Women's Crop Top, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
+      "fabric": "[Add verified fabric composition here.]",
+      "styles": "[Add available style options here.]",
+      "colors": "[Add available colour options here.]",
+      "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
+      "image": "/assets/images/products/tops/tops-04.svg",
+      "gallery": [
+        "/assets/images/products/tops/tops-04.svg",
+        "/assets/images/products/tops/tops-01.svg",
+        "/assets/images/products/tops/tops-02.svg",
+        "/assets/images/products/tops/tops-03.svg",
         "/assets/images/products/tops/tops-05.svg",
         "/assets/images/products/tops/tops-06.svg"
       ]
@@ -422,6 +800,48 @@
       ]
     },
     {
+      "slug": "womens-t-shirts-03",
+      "category": "womens-t-shirts",
+      "gender": "womens",
+      "name": "Women's Oversized T-Shirt",
+      "type": "Women's Oversized T-Shirt",
+      "description": "Women's Oversized T-Shirt, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
+      "fabric": "[Add verified fabric composition here.]",
+      "styles": "[Add available style options here.]",
+      "colors": "[Add available colour options here.]",
+      "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
+      "image": "/assets/images/products/womens-t-shirts/womens-t-shirts-03.svg",
+      "gallery": [
+        "/assets/images/products/womens-t-shirts/womens-t-shirts-03.svg",
+        "/assets/images/products/womens-t-shirts/womens-t-shirts-01.svg",
+        "/assets/images/products/womens-t-shirts/womens-t-shirts-02.svg",
+        "/assets/images/products/womens-t-shirts/womens-t-shirts-04.svg",
+        "/assets/images/products/womens-t-shirts/womens-t-shirts-05.svg",
+        "/assets/images/products/womens-t-shirts/womens-t-shirts-06.svg"
+      ]
+    },
+    {
+      "slug": "womens-t-shirts-04",
+      "category": "womens-t-shirts",
+      "gender": "womens",
+      "name": "Women's Cropped T-Shirt",
+      "type": "Women's Cropped T-Shirt",
+      "description": "Women's Cropped T-Shirt, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
+      "fabric": "[Add verified fabric composition here.]",
+      "styles": "[Add available style options here.]",
+      "colors": "[Add available colour options here.]",
+      "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
+      "image": "/assets/images/products/womens-t-shirts/womens-t-shirts-04.svg",
+      "gallery": [
+        "/assets/images/products/womens-t-shirts/womens-t-shirts-04.svg",
+        "/assets/images/products/womens-t-shirts/womens-t-shirts-01.svg",
+        "/assets/images/products/womens-t-shirts/womens-t-shirts-02.svg",
+        "/assets/images/products/womens-t-shirts/womens-t-shirts-03.svg",
+        "/assets/images/products/womens-t-shirts/womens-t-shirts-05.svg",
+        "/assets/images/products/womens-t-shirts/womens-t-shirts-06.svg"
+      ]
+    },
+    {
       "slug": "dresses-01",
       "category": "dresses",
       "gender": "womens",
@@ -459,6 +879,48 @@
         "/assets/images/products/dresses/dresses-01.svg",
         "/assets/images/products/dresses/dresses-03.svg",
         "/assets/images/products/dresses/dresses-04.svg",
+        "/assets/images/products/dresses/dresses-05.svg",
+        "/assets/images/products/dresses/dresses-06.svg"
+      ]
+    },
+    {
+      "slug": "dresses-03",
+      "category": "dresses",
+      "gender": "womens",
+      "name": "Women's Wrap Dress",
+      "type": "Women's Wrap Dress",
+      "description": "Women's Wrap Dress, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
+      "fabric": "[Add verified fabric composition here.]",
+      "styles": "[Add available style options here.]",
+      "colors": "[Add available colour options here.]",
+      "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
+      "image": "/assets/images/products/dresses/dresses-03.svg",
+      "gallery": [
+        "/assets/images/products/dresses/dresses-03.svg",
+        "/assets/images/products/dresses/dresses-01.svg",
+        "/assets/images/products/dresses/dresses-02.svg",
+        "/assets/images/products/dresses/dresses-04.svg",
+        "/assets/images/products/dresses/dresses-05.svg",
+        "/assets/images/products/dresses/dresses-06.svg"
+      ]
+    },
+    {
+      "slug": "dresses-04",
+      "category": "dresses",
+      "gender": "womens",
+      "name": "Women's Maxi Dress",
+      "type": "Women's Maxi Dress",
+      "description": "Women's Maxi Dress, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
+      "fabric": "[Add verified fabric composition here.]",
+      "styles": "[Add available style options here.]",
+      "colors": "[Add available colour options here.]",
+      "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
+      "image": "/assets/images/products/dresses/dresses-04.svg",
+      "gallery": [
+        "/assets/images/products/dresses/dresses-04.svg",
+        "/assets/images/products/dresses/dresses-01.svg",
+        "/assets/images/products/dresses/dresses-02.svg",
+        "/assets/images/products/dresses/dresses-03.svg",
         "/assets/images/products/dresses/dresses-05.svg",
         "/assets/images/products/dresses/dresses-06.svg"
       ]
@@ -506,6 +968,48 @@
       ]
     },
     {
+      "slug": "womens-lounge-wear-03",
+      "category": "womens-lounge-wear",
+      "gender": "womens",
+      "name": "Women's Lounge Full Sleeve Set",
+      "type": "Women's Lounge Full Sleeve Set",
+      "description": "Women's Lounge Full Sleeve Set, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
+      "fabric": "[Add verified fabric composition here.]",
+      "styles": "[Add available style options here.]",
+      "colors": "[Add available colour options here.]",
+      "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
+      "image": "/assets/images/products/womens-lounge-wear/womens-lounge-wear-03.svg",
+      "gallery": [
+        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-03.svg",
+        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-01.svg",
+        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-02.svg",
+        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-04.svg",
+        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-05.svg",
+        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-06.svg"
+      ]
+    },
+    {
+      "slug": "womens-lounge-wear-04",
+      "category": "womens-lounge-wear",
+      "gender": "womens",
+      "name": "Women's Lounge Skirt Set",
+      "type": "Women's Lounge Skirt Set",
+      "description": "Women's Lounge Skirt Set, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
+      "fabric": "[Add verified fabric composition here.]",
+      "styles": "[Add available style options here.]",
+      "colors": "[Add available colour options here.]",
+      "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
+      "image": "/assets/images/products/womens-lounge-wear/womens-lounge-wear-04.svg",
+      "gallery": [
+        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-04.svg",
+        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-01.svg",
+        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-02.svg",
+        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-03.svg",
+        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-05.svg",
+        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-06.svg"
+      ]
+    },
+    {
       "slug": "onesies-01",
       "category": "onesies",
       "gender": "womens",
@@ -543,6 +1047,48 @@
         "/assets/images/products/onesies/onesies-01.svg",
         "/assets/images/products/onesies/onesies-03.svg",
         "/assets/images/products/onesies/onesies-04.svg",
+        "/assets/images/products/onesies/onesies-05.svg",
+        "/assets/images/products/onesies/onesies-06.svg"
+      ]
+    },
+    {
+      "slug": "onesies-03",
+      "category": "onesies",
+      "gender": "womens",
+      "name": "Women's Printed Onesie",
+      "type": "Women's Printed Onesie",
+      "description": "Women's Printed Onesie, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
+      "fabric": "[Add verified fabric composition here.]",
+      "styles": "[Add available style options here.]",
+      "colors": "[Add available colour options here.]",
+      "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
+      "image": "/assets/images/products/onesies/onesies-03.svg",
+      "gallery": [
+        "/assets/images/products/onesies/onesies-03.svg",
+        "/assets/images/products/onesies/onesies-01.svg",
+        "/assets/images/products/onesies/onesies-02.svg",
+        "/assets/images/products/onesies/onesies-04.svg",
+        "/assets/images/products/onesies/onesies-05.svg",
+        "/assets/images/products/onesies/onesies-06.svg"
+      ]
+    },
+    {
+      "slug": "onesies-04",
+      "category": "onesies",
+      "gender": "womens",
+      "name": "Women's Hooded Onesie",
+      "type": "Women's Hooded Onesie",
+      "description": "Women's Hooded Onesie, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
+      "fabric": "[Add verified fabric composition here.]",
+      "styles": "[Add available style options here.]",
+      "colors": "[Add available colour options here.]",
+      "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
+      "image": "/assets/images/products/onesies/onesies-04.svg",
+      "gallery": [
+        "/assets/images/products/onesies/onesies-04.svg",
+        "/assets/images/products/onesies/onesies-01.svg",
+        "/assets/images/products/onesies/onesies-02.svg",
+        "/assets/images/products/onesies/onesies-03.svg",
         "/assets/images/products/onesies/onesies-05.svg",
         "/assets/images/products/onesies/onesies-06.svg"
       ]
@@ -590,6 +1136,48 @@
       ]
     },
     {
+      "slug": "athleisure-03",
+      "category": "athleisure",
+      "gender": "womens",
+      "name": "Women's Athleisure Sports Bra",
+      "type": "Women's Athleisure Sports Bra",
+      "description": "Women's Athleisure Sports Bra, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
+      "fabric": "[Add verified fabric composition here.]",
+      "styles": "[Add available style options here.]",
+      "colors": "[Add available colour options here.]",
+      "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
+      "image": "/assets/images/products/athleisure/athleisure-03.svg",
+      "gallery": [
+        "/assets/images/products/athleisure/athleisure-03.svg",
+        "/assets/images/products/athleisure/athleisure-01.svg",
+        "/assets/images/products/athleisure/athleisure-02.svg",
+        "/assets/images/products/athleisure/athleisure-04.svg",
+        "/assets/images/products/athleisure/athleisure-05.svg",
+        "/assets/images/products/athleisure/athleisure-06.svg"
+      ]
+    },
+    {
+      "slug": "athleisure-04",
+      "category": "athleisure",
+      "gender": "womens",
+      "name": "Women's Athleisure Jacket",
+      "type": "Women's Athleisure Jacket",
+      "description": "Women's Athleisure Jacket, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
+      "fabric": "[Add verified fabric composition here.]",
+      "styles": "[Add available style options here.]",
+      "colors": "[Add available colour options here.]",
+      "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
+      "image": "/assets/images/products/athleisure/athleisure-04.svg",
+      "gallery": [
+        "/assets/images/products/athleisure/athleisure-04.svg",
+        "/assets/images/products/athleisure/athleisure-01.svg",
+        "/assets/images/products/athleisure/athleisure-02.svg",
+        "/assets/images/products/athleisure/athleisure-03.svg",
+        "/assets/images/products/athleisure/athleisure-05.svg",
+        "/assets/images/products/athleisure/athleisure-06.svg"
+      ]
+    },
+    {
       "slug": "bottoms-01",
       "category": "bottoms",
       "gender": "womens",
@@ -627,6 +1215,48 @@
         "/assets/images/products/bottoms/bottoms-01.svg",
         "/assets/images/products/bottoms/bottoms-03.svg",
         "/assets/images/products/bottoms/bottoms-04.svg",
+        "/assets/images/products/bottoms/bottoms-05.svg",
+        "/assets/images/products/bottoms/bottoms-06.svg"
+      ]
+    },
+    {
+      "slug": "bottoms-03",
+      "category": "bottoms",
+      "gender": "womens",
+      "name": "Women's Wide-Leg Bottom",
+      "type": "Women's Wide-Leg Bottom",
+      "description": "Women's Wide-Leg Bottom, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
+      "fabric": "[Add verified fabric composition here.]",
+      "styles": "[Add available style options here.]",
+      "colors": "[Add available colour options here.]",
+      "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
+      "image": "/assets/images/products/bottoms/bottoms-03.svg",
+      "gallery": [
+        "/assets/images/products/bottoms/bottoms-03.svg",
+        "/assets/images/products/bottoms/bottoms-01.svg",
+        "/assets/images/products/bottoms/bottoms-02.svg",
+        "/assets/images/products/bottoms/bottoms-04.svg",
+        "/assets/images/products/bottoms/bottoms-05.svg",
+        "/assets/images/products/bottoms/bottoms-06.svg"
+      ]
+    },
+    {
+      "slug": "bottoms-04",
+      "category": "bottoms",
+      "gender": "womens",
+      "name": "Women's Rib-Cuff Bottom",
+      "type": "Women's Rib-Cuff Bottom",
+      "description": "Women's Rib-Cuff Bottom, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
+      "fabric": "[Add verified fabric composition here.]",
+      "styles": "[Add available style options here.]",
+      "colors": "[Add available colour options here.]",
+      "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
+      "image": "/assets/images/products/bottoms/bottoms-04.svg",
+      "gallery": [
+        "/assets/images/products/bottoms/bottoms-04.svg",
+        "/assets/images/products/bottoms/bottoms-01.svg",
+        "/assets/images/products/bottoms/bottoms-02.svg",
+        "/assets/images/products/bottoms/bottoms-03.svg",
         "/assets/images/products/bottoms/bottoms-05.svg",
         "/assets/images/products/bottoms/bottoms-06.svg"
       ]
@@ -674,6 +1304,48 @@
       ]
     },
     {
+      "slug": "womens-track-suits-03",
+      "category": "womens-track-suits",
+      "gender": "womens",
+      "name": "Women's Zip-Up Track Suit",
+      "type": "Women's Zip-Up Track Suit",
+      "description": "Women's Zip-Up Track Suit, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
+      "fabric": "[Add verified fabric composition here.]",
+      "styles": "[Add available style options here.]",
+      "colors": "[Add available colour options here.]",
+      "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
+      "image": "/assets/images/products/womens-track-suits/womens-track-suits-03.svg",
+      "gallery": [
+        "/assets/images/products/womens-track-suits/womens-track-suits-03.svg",
+        "/assets/images/products/womens-track-suits/womens-track-suits-01.svg",
+        "/assets/images/products/womens-track-suits/womens-track-suits-02.svg",
+        "/assets/images/products/womens-track-suits/womens-track-suits-04.svg",
+        "/assets/images/products/womens-track-suits/womens-track-suits-05.svg",
+        "/assets/images/products/womens-track-suits/womens-track-suits-06.svg"
+      ]
+    },
+    {
+      "slug": "womens-track-suits-04",
+      "category": "womens-track-suits",
+      "gender": "womens",
+      "name": "Women's Panelled Track Suit",
+      "type": "Women's Panelled Track Suit",
+      "description": "Women's Panelled Track Suit, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
+      "fabric": "[Add verified fabric composition here.]",
+      "styles": "[Add available style options here.]",
+      "colors": "[Add available colour options here.]",
+      "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
+      "image": "/assets/images/products/womens-track-suits/womens-track-suits-04.svg",
+      "gallery": [
+        "/assets/images/products/womens-track-suits/womens-track-suits-04.svg",
+        "/assets/images/products/womens-track-suits/womens-track-suits-01.svg",
+        "/assets/images/products/womens-track-suits/womens-track-suits-02.svg",
+        "/assets/images/products/womens-track-suits/womens-track-suits-03.svg",
+        "/assets/images/products/womens-track-suits/womens-track-suits-05.svg",
+        "/assets/images/products/womens-track-suits/womens-track-suits-06.svg"
+      ]
+    },
+    {
       "slug": "panties-01",
       "category": "panties",
       "gender": "womens",
@@ -711,6 +1383,48 @@
         "/assets/images/products/panties/panties-01.svg",
         "/assets/images/products/panties/panties-03.svg",
         "/assets/images/products/panties/panties-04.svg",
+        "/assets/images/products/panties/panties-05.svg",
+        "/assets/images/products/panties/panties-06.svg"
+      ]
+    },
+    {
+      "slug": "panties-03",
+      "category": "panties",
+      "gender": "womens",
+      "name": "Women's Lace-Trim Panty",
+      "type": "Women's Lace-Trim Panty",
+      "description": "Women's Lace-Trim Panty, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
+      "fabric": "[Add verified fabric composition here.]",
+      "styles": "[Add available style options here.]",
+      "colors": "[Add available colour options here.]",
+      "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
+      "image": "/assets/images/products/panties/panties-03.svg",
+      "gallery": [
+        "/assets/images/products/panties/panties-03.svg",
+        "/assets/images/products/panties/panties-01.svg",
+        "/assets/images/products/panties/panties-02.svg",
+        "/assets/images/products/panties/panties-04.svg",
+        "/assets/images/products/panties/panties-05.svg",
+        "/assets/images/products/panties/panties-06.svg"
+      ]
+    },
+    {
+      "slug": "panties-04",
+      "category": "panties",
+      "gender": "womens",
+      "name": "Women's Cotton Panty",
+      "type": "Women's Cotton Panty",
+      "description": "Women's Cotton Panty, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
+      "fabric": "[Add verified fabric composition here.]",
+      "styles": "[Add available style options here.]",
+      "colors": "[Add available colour options here.]",
+      "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
+      "image": "/assets/images/products/panties/panties-04.svg",
+      "gallery": [
+        "/assets/images/products/panties/panties-04.svg",
+        "/assets/images/products/panties/panties-01.svg",
+        "/assets/images/products/panties/panties-02.svg",
+        "/assets/images/products/panties/panties-03.svg",
         "/assets/images/products/panties/panties-05.svg",
         "/assets/images/products/panties/panties-06.svg"
       ]

@@ -23,26 +23,9 @@
     });
   }
 
-  // Product detail page: clicking a thumbnail swaps the large image above it.
-  function initProductGallery() {
-    document.querySelectorAll('[data-gallery]').forEach(function (gallery) {
-      var mainImg = gallery.querySelector('[data-gallery-main]');
-      var thumbs = gallery.querySelectorAll('[data-gallery-thumb]');
-      if (!mainImg || !thumbs.length) return;
-      thumbs.forEach(function (thumb) {
-        thumb.addEventListener('click', function () {
-          mainImg.src = thumb.getAttribute('data-gallery-src');
-          thumbs.forEach(function (t) { t.classList.remove('is-active'); });
-          thumb.classList.add('is-active');
-        });
-      });
-    });
-  }
-
   function init() {
     setFooterYear();
     hardenExternalLinks();
-    initProductGallery();
   }
 
   if (document.readyState === 'loading') {

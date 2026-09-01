@@ -35,6 +35,11 @@ ADDRESS = "Rahon Road, Mangat Village Khwajke, Ludhiana, Punjab - 141007"
 PHONE = "+91 161 251 4367"
 PHONE_HREF = "+911612514367"
 EMAIL = "info@mjoswal.com"
+# The PDF only gives a landline number. Using it here so the WhatsApp button
+# is wired up end-to-end — confirm this is a WhatsApp-enabled number (or
+# swap in the right one) before launch; wa.me links silently fail on a
+# number with no WhatsApp account.
+WHATSAPP_NUMBER = "911612514367"
 FOUNDED_YEAR = "1994"
 
 
@@ -909,6 +914,7 @@ def render_footer():
   <script src="/assets/js/hero-slider.js"></script>
   <script src="/assets/js/carousel.js"></script>
   <script src="/assets/js/lightbox.js"></script>
+  <script src="/assets/js/cursor.js"></script>
   <script src="/assets/js/animations.js"></script>
   <script src="/assets/js/main.js"></script>
 </body>
@@ -1057,7 +1063,11 @@ def form_field(label, name, type_="text", required=True, textarea=False):
 
 
 def block_form():
-    fields = [form_field("Full Name", "name"), form_field("Email Address", "email", "email"),
+    name_row = f'''          <div class="form-row">
+{form_field("First Name", "first_name")}
+{form_field("Last Name", "last_name")}
+          </div>'''
+    fields = [name_row, form_field("Email Address", "email", "email"),
               form_field("Phone Number", "phone", "tel", required=False), form_field("Message", "message", textarea=True)]
     return f'''        <form class="contact-form" action="/contact/thank-you/" method="get" data-track-form="contact">
 {chr(10).join(fields)}
@@ -1147,19 +1157,27 @@ def block_product_grid(items, base_path):
       </div>
     </section>
 '''
+    whatsapp_svg = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.7-.8-1.9-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.8 1-.2.2-.3.2-.5.1-1.5-.7-2.5-1.3-3.5-3-.3-.5.3-.4.7-1.5.1-.2 0-.3 0-.5C11 9.5 10.6 8 10.4 7.4c-.2-.5-.3-.4-.5-.4h-.5c-.2 0-.5.1-.7.3-.2.3-1 1-1 2.4s1 2.8 1.1 3c.1.2 2 3 4.8 4.3 2.8 1.2 2.8.8 3.3.8.5 0 1.7-.7 1.9-1.4.2-.7.2-1.3.2-1.4-.1-.1-.2-.2-.5-.3zM12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.6 1.4 5.1L2 22l5-1.3c1.4.8 3.1 1.3 4.9 1.3 5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>'
     cards = []
     for i, item in enumerate(items):
-        cards.append(f'''        <a class="product-card" href="{base_path}{item['slug']}/" data-reveal="fade-up" data-reveal-delay="{min(i, 4) * 70}">
-          <span class="product-card__frame">
-            <img src="{item['image']}" alt="" width="900" height="1100" loading="lazy">
-          </span>
-          <span class="product-card__body">
-            <span class="product-card__category">{esc(item['type'])}</span>
-            <span class="product-card__title">{esc(item['name'])}</span>
-            <span class="product-card__text">{esc(item['description'])}</span>
-            <span class="product-card__cta"><span>View Details</span>{ARROW_SVG}</span>
-          </span>
-        </a>''')
+        wa_text = f"Hi, I'm interested in the {item['name']} — could you share more details?"
+        wa_href = f"https://wa.me/{WHATSAPP_NUMBER}?text={wa_text}".replace(" ", "%20")
+        cards.append(f'''        <div class="product-card" data-reveal="fade-up" data-reveal-delay="{min(i, 4) * 70}">
+          <a class="product-card__link" href="{base_path}{item['slug']}/">
+            <span class="product-card__frame">
+              <img src="{item['image']}" alt="" width="900" height="1100" loading="lazy">
+            </span>
+            <span class="product-card__body">
+              <span class="product-card__category">{esc(item['type'])}</span>
+              <span class="product-card__title">{esc(item['name'])}</span>
+              <span class="product-card__text">{esc(item['description'])}</span>
+              <span class="product-card__cta"><span>View Details</span>{ARROW_SVG}</span>
+            </span>
+          </a>
+          <a class="product-card__whatsapp" href="{wa_href}" target="_blank" rel="noopener" data-track="cta_click" data-track-label="product_whatsapp">
+            {whatsapp_svg}<span>Enquire on WhatsApp</span>
+          </a>
+        </div>''')
     return f'''    <section class="section">
       <div class="container">
         <div class="product-grid">
@@ -1171,42 +1189,49 @@ def block_product_grid(items, base_path):
 
 
 def block_product_gallery(item):
-    thumbs = "\n".join(
-        f'            <li><button type="button" class="product-gallery__thumb{" is-active" if i == 0 else ""}" data-gallery-thumb data-gallery-src="{img}"><img src="{img}" alt="" width="220" height="270" loading="lazy"></button></li>'
-        for i, img in enumerate(item.get("gallery") or [item["image"]]))
+    """Gallery-grid-first product page: every image shown as its own tile
+    (not one hero image + a thin thumbnail strip). Clicking any tile opens
+    the same full-screen sliding lightbox at that exact image."""
+    gallery = item.get("gallery") or [item["image"]]
+    tiles = "\n".join(
+        f'''          <button type="button" class="product-gallery-grid__item" data-gallery-thumb data-gallery-src="{img}" aria-label="Open image {i + 1} of {item['name']} in full screen">
+            <img src="{img}" alt="" width="900" height="1100" loading="{'eager' if i == 0 else 'lazy'}">
+            <span class="product-gallery-grid__zoom" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 4H4v5M15 4h5v5M9 20H4v-5M15 20h5v-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </button>'''
+        for i, img in enumerate(gallery))
     close_svg = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>'
-    return f'''    <section class="section product-detail">
-      <div class="container product-detail__grid">
-        <div class="product-detail__media" data-gallery>
-          <button type="button" class="product-detail__frame" data-lightbox-open aria-label="Open full-screen gallery for {esc(item['name'])}">
-            <img src="{item['image']}" alt="" width="900" height="1100" loading="eager" fetchpriority="high" data-gallery-main>
-            <span class="product-detail__expand" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 4H4v5M15 4h5v5M9 20H4v-5M15 20h5v-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-          </button>
-          <ul class="product-gallery__thumbs">
-{thumbs}
-          </ul>
-
-          <!-- Full-screen sliding gallery — opened by clicking the main image
-               above. Auto-advances like every other slider on the site, with
-               prev/next, a thumbnail strip (built from the same image list
-               by assets/js/lightbox.js), swipe and keyboard support. -->
-          <div class="lightbox" data-lightbox hidden>
-            <div class="lightbox__backdrop" data-lightbox-close></div>
-            <div class="lightbox__dialog" role="dialog" aria-modal="true" aria-label="{esc(item['name'])} image gallery">
-              <button type="button" class="lightbox__close" data-lightbox-close aria-label="Close gallery">{close_svg}</button>
-              <div class="lightbox__stage">
-                <button type="button" class="lightbox__nav lightbox__nav--prev" data-lightbox-prev aria-label="Previous image">{CHEVRON_LEFT_SVG}</button>
-                <img data-lightbox-image src="" alt="{esc(item['name'])}">
-                <button type="button" class="lightbox__nav lightbox__nav--next" data-lightbox-next aria-label="Next image">{CHEVRON_RIGHT_SVG}</button>
-              </div>
-              <ul class="lightbox__thumbs" data-lightbox-thumbs></ul>
-            </div>
-          </div>
-        </div>
-        <div class="product-detail__info">
+    whatsapp_svg = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.7-.8-1.9-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.8 1-.2.2-.3.2-.5.1-1.5-.7-2.5-1.3-3.5-3-.3-.5.3-.4.7-1.5.1-.2 0-.3 0-.5C11 9.5 10.6 8 10.4 7.4c-.2-.5-.3-.4-.5-.4h-.5c-.2 0-.5.1-.7.3-.2.3-1 1-1 2.4s1 2.8 1.1 3c.1.2 2 3 4.8 4.3 2.8 1.2 2.8.8 3.3.8.5 0 1.7-.7 1.9-1.4.2-.7.2-1.3.2-1.4-.1-.1-.2-.2-.5-.3zM12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.6 1.4 5.1L2 22l5-1.3c1.4.8 3.1 1.3 4.9 1.3 5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>'
+    wa_text = f"Hi, I'm interested in the {item['name']} — could you share more details?"
+    wa_href = f"https://wa.me/{WHATSAPP_NUMBER}?text={wa_text}".replace(" ", "%20")
+    return f'''    <section class="section product-detail" data-gallery>
+      <div class="container">
+        <div class="product-detail__header">
           <p class="eyebrow">{esc(item['type'])}</p>
           <h2 class="product-detail__title">{esc(item['name'])}</h2>
           <p class="product-detail__desc">{esc(item['description'])}</p>
+        </div>
+
+        <div class="product-gallery-grid">
+{tiles}
+        </div>
+
+        <!-- Full-screen sliding gallery — opened by clicking any tile above.
+             Auto-advances like every other slider on the site, with
+             prev/next, its own thumbnail strip, swipe and keyboard support. -->
+        <div class="lightbox" data-lightbox hidden>
+          <div class="lightbox__backdrop" data-lightbox-close></div>
+          <div class="lightbox__dialog" role="dialog" aria-modal="true" aria-label="{esc(item['name'])} image gallery">
+            <button type="button" class="lightbox__close" data-lightbox-close aria-label="Close gallery">{close_svg}</button>
+            <div class="lightbox__stage">
+              <button type="button" class="lightbox__nav lightbox__nav--prev" data-lightbox-prev aria-label="Previous image">{CHEVRON_LEFT_SVG}</button>
+              <img data-lightbox-image src="" alt="{esc(item['name'])}">
+              <button type="button" class="lightbox__nav lightbox__nav--next" data-lightbox-next aria-label="Next image">{CHEVRON_RIGHT_SVG}</button>
+            </div>
+            <ul class="lightbox__thumbs" data-lightbox-thumbs></ul>
+          </div>
+        </div>
+
+        <div class="product-detail__info">
           <dl class="product-detail__meta">
             <div><dt>Fabric</dt><dd class="placeholder">{esc(item['fabric'])}</dd></div>
             <div><dt>Available Styles</dt><dd class="placeholder">{esc(item['styles'])}</dd></div>
@@ -1215,6 +1240,7 @@ def block_product_gallery(item):
           </dl>
           <div class="product-detail__actions">
             <a href="/contact/" class="btn btn--primary" data-track="cta_click" data-track-label="product_enquiry"><span>Enquire About This Product</span>{ARROW_SVG}</a>
+            <a href="{wa_href}" target="_blank" rel="noopener" class="btn btn--whatsapp" data-track="cta_click" data-track-label="product_whatsapp">{whatsapp_svg}<span>Enquire on WhatsApp</span></a>
             <a href="/contact/" class="btn btn--outline" data-track="cta_click" data-track-label="product_contact"><span>Contact Us</span></a>
           </div>
         </div>
@@ -1289,12 +1315,28 @@ PROCESS_LINKS = {
     "Quality Check": "/quality/", "Dispatch": "/manufacturing/dispatch/",
 }
 
+PROCESS_ICONS = {
+    "Fabric Inspection": '<circle cx="10" cy="10" r="6"/><path d="M20 20l-5.5-5.5"/>',
+    "Cutting": '<circle cx="6" cy="6" r="2"/><circle cx="6" cy="18" r="2"/><line x1="20" y1="4" x2="8.1" y2="15.9"/><line x1="14.5" y1="14.5" x2="20" y2="20"/><line x1="8.1" y1="8.1" x2="12" y2="12"/>',
+    "Stitching": '<path d="M4 20c4-1 8-5 9-9 .5-2 2-6 6-7"/><circle cx="19" cy="4" r="1.4" fill="currentColor" stroke="none"/>',
+    "Pressing": '<path d="M4 18h13a3 3 0 0 0 3-3v-2c0-3-2-6-6-6H9C6 7 4 10 4 13z"/><path d="M4 18l-1.5 3h17"/>',
+    "Inspection": '<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/>',
+    "Packing": '<path d="M3 8l9-4 9 4-9 4-9-4z"/><path d="M3 8v9l9 4 9-4V8"/><path d="M12 12v9"/>',
+    "Quality Check": '<path d="M12 2l3 2 4 .5-.5 4 2 3-2 3 .5 4-4 .5-3 2-3-2-4-.5.5-4-2-3 2-3-.5-4 4-.5z"/><path d="M9 12l2 2 4-4"/>',
+    "Dispatch": '<path d="M3 7h11v9H3z"/><path d="M14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.6"/><circle cx="18" cy="18" r="1.6"/>',
+}
+
+
 def block_process_timeline():
     steps = []
     for i, step in enumerate(MFG_PROCESS, start=1):
         href = PROCESS_LINKS.get(step, "/manufacturing/")
+        icon_paths = PROCESS_ICONS.get(step, '<circle cx="12" cy="12" r="8"/>')
         steps.append(f'''        <a class="process-step" href="{href}" data-reveal="fade-up" data-reveal-delay="{min(i, 6) * 40}">
-          <span class="process-step__index">{i:02d}</span>
+          <span class="process-step__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{icon_paths}</svg>
+            <span class="process-step__index">{i:02d}</span>
+          </span>
           <span class="process-step__label">{esc(step)}</span>
         </a>''')
     return f'''    <section class="section process-section" aria-labelledby="process-heading">
@@ -1369,16 +1411,34 @@ def body_article(page):
 
 
 def body_contact(page):
+    map_query = "Rahon+Road,+Mangat+Village+Khwajke,+Ludhiana,+Punjab+141007,+India"
+    phone_svg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .3 2 .7 3a2 2 0 0 1-.4 2.1L8 10.2a16 16 0 0 0 6 6l1.4-1.4a2 2 0 0 1 2-.5c1 .4 2 .6 3 .7a2 2 0 0 1 1.7 2z"/></svg>'
+    email_svg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16v16H4z"/><path d="M4 6l8 7 8-7"/></svg>'
+    address_svg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.6 7-12a7 7 0 1 0-14 0c0 5.4 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>'
     return f'''    <section class="section">
       <div class="container contact-grid">
         <div class="contact-grid__info">
           <p class="eyebrow">Reach Us Directly</p>
-          <address>{esc(ADDRESS)}</address>
-          <p class="contact-grid__note">
-            <a class="contact-grid__link" href="tel:{PHONE_HREF}">{esc(PHONE)}</a><br>
-            <a class="contact-grid__link" href="mailto:{EMAIL}">{esc(EMAIL)}</a><br>
-            <a class="contact-grid__link" href="https://{BASE_URL.split('//')[1]}/" target="_blank" rel="noopener">{BASE_URL.split('//')[1]}</a>
-          </p>
+          <div class="contact-map">
+            <iframe src="https://www.google.com/maps?q={map_query}&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="{esc(SITE_NAME)} — {esc(LOCATION)}"></iframe>
+          </div>
+          <div class="contact-info-cards">
+            <div class="contact-info-card">
+              <span class="contact-info-card__icon">{phone_svg}</span>
+              <span class="contact-info-card__label">Phone</span>
+              <a class="contact-info-card__value" href="tel:{PHONE_HREF}">{esc(PHONE)}</a>
+            </div>
+            <div class="contact-info-card">
+              <span class="contact-info-card__icon">{email_svg}</span>
+              <span class="contact-info-card__label">Email</span>
+              <a class="contact-info-card__value" href="mailto:{EMAIL}">{esc(EMAIL)}</a>
+            </div>
+            <div class="contact-info-card">
+              <span class="contact-info-card__icon">{address_svg}</span>
+              <span class="contact-info-card__label">Address</span>
+              <span class="contact-info-card__value">{esc(ADDRESS)}</span>
+            </div>
+          </div>
         </div>
         <div class="contact-grid__form">
           <p class="eyebrow">Send a Message</p>
