@@ -7,15 +7,15 @@
   },
 
   "hero": [
-    { "src": "/assets/images/hero/hero-01.svg", "alt": "MJ Oswal Exports garment manufacturing floor" },
-    { "src": "/assets/images/hero/hero-02.svg", "alt": "Apparel design and production at MJ Oswal Exports" },
-    { "src": "/assets/images/hero/hero-03.svg", "alt": "Integrated manufacturing departments at MJ Oswal Exports" },
-    { "src": "/assets/images/hero/hero-04.svg", "alt": "Finished garments ready for dispatch at MJ Oswal Exports" },
-    { "src": "/assets/images/hero/hero-05.svg", "alt": "MJ Oswal Exports facility in Ludhiana, Punjab" }
+    { "src": "/assets/images/hero/hero-01.webp", "alt": "MJ Oswal Exports garment manufacturing floor" },
+    { "src": "/assets/images/hero/hero-02.webp", "alt": "Apparel design and production at MJ Oswal Exports" },
+    { "src": "/assets/images/hero/hero-03.webp", "alt": "Integrated manufacturing departments at MJ Oswal Exports" },
+    { "src": "/assets/images/hero/hero-04.webp", "alt": "Finished garments ready for dispatch at MJ Oswal Exports" },
+    { "src": "/assets/images/hero/hero-05.webp", "alt": "MJ Oswal Exports facility in Ludhiana, Punjab" }
   ],
 
   "businesses": {
-    "apparel": { "src": "/assets/images/products/product-mens-01.svg", "alt": "Apparel manufacturing at MJ Oswal Exports" },
+    "apparel": { "src": "/assets/images/products/product-mens-01.webp", "alt": "Apparel manufacturing at MJ Oswal Exports" },
     "knitwear": { "src": "/assets/images/manufacturing/manufacturing-fabric-01.jpg", "alt": "Circular knitted fabric at MJ Oswal Exports" },
     "garments": { "src": "/assets/images/manufacturing/manufacturing-stitching-01.jpg", "alt": "Ready-made garment manufacturing at MJ Oswal Exports" }
   },
@@ -23,9 +23,9 @@
   "manufacturing": {
     "overview": { "src": "/assets/images/manufacturing/manufacturing-overview-01.jpg", "alt": "Production floor at MJ Oswal Exports" },
     "stitching": { "src": "/assets/images/manufacturing/manufacturing-stitching-01.jpg", "alt": "Stitching a garment seam at MJ Oswal Exports" },
-    "cutting": { "src": "/assets/images/manufacturing/manufacturing-cutting-01.svg", "alt": "Fabric cutting department at MJ Oswal Exports" },
+    "cutting": { "src": "/assets/images/manufacturing/manufacturing-cutting-01.webp", "alt": "Fabric cutting department at MJ Oswal Exports" },
     "printing": { "src": "/assets/images/manufacturing/manufacturing-printing-01.jpg", "alt": "DTF printing in progress at MJ Oswal Exports" },
-    "embroidery": { "src": "/assets/images/manufacturing/manufacturing-embroidery-01.svg", "alt": "Embroidery department at MJ Oswal Exports" },
+    "embroidery": { "src": "/assets/images/manufacturing/manufacturing-embroidery-01.webp", "alt": "Embroidery department at MJ Oswal Exports" },
     "heat-label": { "src": "/assets/images/manufacturing/manufacturing-heat-label-01.jpg", "alt": "Heat label application at MJ Oswal Exports" },
     "fabric": { "src": "/assets/images/manufacturing/manufacturing-fabric-01.jpg", "alt": "Rolls of knitted fabric at MJ Oswal Exports" },
     "pressing": { "src": "/assets/images/manufacturing/manufacturing-pressing-01.jpg", "alt": "Heat pressing a finished garment at MJ Oswal Exports" },
@@ -41,8 +41,8 @@
     "overview": { "src": "/assets/images/facility/facility-overview-01.jpg", "alt": "MJ Oswal Exports facility" },
     "machinery": { "src": "/assets/images/facility/facility-machinery-01.jpg", "alt": "Circular knitting machines at MJ Oswal Exports" },
     "production": { "src": "/assets/images/facility/facility-production-01.jpg", "alt": "Production floor at MJ Oswal Exports" },
-    "technology": { "src": "/assets/images/facility/facility-technology-01.svg", "alt": "Production technology and software systems at MJ Oswal Exports" },
-    "capacity": { "src": "/assets/images/facility/facility-capacity-01.svg", "alt": "Production capacity at MJ Oswal Exports" },
+    "technology": { "src": "/assets/images/facility/facility-technology-01.webp", "alt": "Production technology and software systems at MJ Oswal Exports" },
+    "capacity": { "src": "/assets/images/facility/facility-capacity-01.webp", "alt": "Production capacity at MJ Oswal Exports" },
     "quality-control": { "src": "/assets/images/facility/facility-quality-control-01.jpg", "alt": "Quality check of printed fabric at MJ Oswal Exports" },
     "gallery": [
       { "src": "/assets/images/facility/facility-gallery-01.jpg", "alt": "Stitching line at MJ Oswal Exports" },
@@ -62,12 +62,12 @@
   },
 
   "projects": [
-    { "src": "/assets/images/projects/project-01.svg", "alt": "MJ Oswal Exports project 1" },
-    { "src": "/assets/images/projects/project-02.svg", "alt": "MJ Oswal Exports project 2" }
+    { "src": "/assets/images/projects/project-01.webp", "alt": "MJ Oswal Exports project 1" },
+    { "src": "/assets/images/projects/project-02.webp", "alt": "MJ Oswal Exports project 2" }
   ],
 
   "insights": [
-    { "src": "/assets/images/insights/insight-01.svg", "alt": "MJ Oswal Exports insights article 1" },
-    { "src": "/assets/images/insights/insight-02.svg", "alt": "MJ Oswal Exports insights article 2" }
+    { "src": "/assets/images/insights/insight-01.webp", "alt": "MJ Oswal Exports insights article 1" },
+    { "src": "/assets/images/insights/insight-02.webp", "alt": "MJ Oswal Exports insights article 2" }
   ]
 }

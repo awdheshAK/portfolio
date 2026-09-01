@@ -5,13 +5,13 @@
       "slug": "mens",
       "name": "Men's",
       "description": "Circular knitted apparel for men, produced through our integrated fabric-to-pack manufacturing line.",
-      "image": "/assets/images/products/product-mens-01.svg"
+      "image": "/assets/images/products/product-mens-01.webp"
     },
     {
       "slug": "womens",
       "name": "Women's",
       "description": "Circular knitted apparel for women, from everyday essentials to coordinated sets.",
-      "image": "/assets/images/products/product-womens-01.svg"
+      "image": "/assets/images/products/product-womens-01.webp"
     }
   ]
 }

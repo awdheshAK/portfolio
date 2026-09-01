@@ -6,119 +6,119 @@
       "gender": "mens",
       "name": "Lounge Wear",
       "description": "Lounge Wear manufactured through our integrated circular-knit production line, from fabric to finished, packed product.",
-      "image": "/assets/images/products/mens-lounge-wear/mens-lounge-wear-01.svg"
+      "image": "/assets/images/products/mens-lounge-wear/mens-lounge-wear-01.webp"
     },
     {
       "slug": "polo",
       "gender": "mens",
       "name": "Polo",
       "description": "Polo manufactured through our integrated circular-knit production line, from fabric to finished, packed product.",
-      "image": "/assets/images/products/polo/polo-01.svg"
+      "image": "/assets/images/products/polo/polo-01.webp"
     },
     {
       "slug": "mens-t-shirts",
       "gender": "mens",
       "name": "T-Shirts",
       "description": "T-Shirts manufactured through our integrated circular-knit production line, from fabric to finished, packed product.",
-      "image": "/assets/images/products/mens-t-shirts/mens-t-shirts-01.svg"
+      "image": "/assets/images/products/mens-t-shirts/mens-t-shirts-01.webp"
     },
     {
       "slug": "sweatshirts",
       "gender": "mens",
       "name": "Sweatshirts",
       "description": "Sweatshirts manufactured through our integrated circular-knit production line, from fabric to finished, packed product.",
-      "image": "/assets/images/products/sweatshirts/sweatshirts-01.svg"
+      "image": "/assets/images/products/sweatshirts/sweatshirts-01.webp"
     },
     {
       "slug": "lowers",
       "gender": "mens",
       "name": "Lowers",
       "description": "Lowers manufactured through our integrated circular-knit production line, from fabric to finished, packed product.",
-      "image": "/assets/images/products/lowers/lowers-01.svg"
+      "image": "/assets/images/products/lowers/lowers-01.webp"
     },
     {
       "slug": "suits",
       "gender": "mens",
       "name": "Suits",
       "description": "Suits manufactured through our integrated circular-knit production line, from fabric to finished, packed product.",
-      "image": "/assets/images/products/suits/suits-01.svg"
+      "image": "/assets/images/products/suits/suits-01.webp"
     },
     {
       "slug": "outerwear",
       "gender": "mens",
       "name": "Outerwear",
       "description": "Outerwear manufactured through our integrated circular-knit production line, from fabric to finished, packed product.",
-      "image": "/assets/images/products/outerwear/outerwear-01.svg"
+      "image": "/assets/images/products/outerwear/outerwear-01.webp"
     },
     {
       "slug": "mens-track-suits",
       "gender": "mens",
       "name": "Track Suits",
       "description": "Track Suits manufactured through our integrated circular-knit production line, from fabric to finished, packed product.",
-      "image": "/assets/images/products/mens-track-suits/mens-track-suits-01.svg"
+      "image": "/assets/images/products/mens-track-suits/mens-track-suits-01.webp"
     },
     {
       "slug": "tops",
       "gender": "womens",
       "name": "Tops",
       "description": "Tops manufactured through our integrated circular-knit production line, from fabric to finished, packed product.",
-      "image": "/assets/images/products/tops/tops-01.svg"
+      "image": "/assets/images/products/tops/tops-01.webp"
     },
     {
       "slug": "womens-t-shirts",
       "gender": "womens",
       "name": "T-Shirts",
       "description": "T-Shirts manufactured through our integrated circular-knit production line, from fabric to finished, packed product.",
-      "image": "/assets/images/products/womens-t-shirts/womens-t-shirts-01.svg"
+      "image": "/assets/images/products/womens-t-shirts/womens-t-shirts-01.webp"
     },
     {
       "slug": "dresses",
       "gender": "womens",
       "name": "Dresses",
       "description": "Dresses manufactured through our integrated circular-knit production line, from fabric to finished, packed product.",
-      "image": "/assets/images/products/dresses/dresses-01.svg"
+      "image": "/assets/images/products/dresses/dresses-01.webp"
     },
     {
       "slug": "womens-lounge-wear",
       "gender": "womens",
       "name": "Lounge Wear",
       "description": "Lounge Wear manufactured through our integrated circular-knit production line, from fabric to finished, packed product.",
-      "image": "/assets/images/products/womens-lounge-wear/womens-lounge-wear-01.svg"
+      "image": "/assets/images/products/womens-lounge-wear/womens-lounge-wear-01.webp"
     },
     {
       "slug": "onesies",
       "gender": "womens",
       "name": "Onesies",
       "description": "Onesies manufactured through our integrated circular-knit production line, from fabric to finished, packed product.",
-      "image": "/assets/images/products/onesies/onesies-01.svg"
+      "image": "/assets/images/products/onesies/onesies-01.webp"
     },
     {
       "slug": "athleisure",
       "gender": "womens",
       "name": "Athleisure",
       "description": "Athleisure manufactured through our integrated circular-knit production line, from fabric to finished, packed product.",
-      "image": "/assets/images/products/athleisure/athleisure-01.svg"
+      "image": "/assets/images/products/athleisure/athleisure-01.webp"
     },
     {
       "slug": "bottoms",
       "gender": "womens",
       "name": "Bottoms",
       "description": "Bottoms manufactured through our integrated circular-knit production line, from fabric to finished, packed product.",
-      "image": "/assets/images/products/bottoms/bottoms-01.svg"
+      "image": "/assets/images/products/bottoms/bottoms-01.webp"
     },
     {
       "slug": "womens-track-suits",
       "gender": "womens",
       "name": "Track Suits",
       "description": "Track Suits manufactured through our integrated circular-knit production line, from fabric to finished, packed product.",
-      "image": "/assets/images/products/womens-track-suits/womens-track-suits-01.svg"
+      "image": "/assets/images/products/womens-track-suits/womens-track-suits-01.webp"
     },
     {
       "slug": "panties",
       "gender": "womens",
       "name": "Panties",
       "description": "Panties manufactured through our integrated circular-knit production line, from fabric to finished, packed product.",
-      "image": "/assets/images/products/panties/panties-01.svg"
+      "image": "/assets/images/products/panties/panties-01.webp"
     }
   ]
 }

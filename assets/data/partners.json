@@ -1,11 +1,11 @@
 {
 "_readme": "No verified partner or client list was available when this site was built — do NOT invent company names. Each item below is a real logo slot with an editable placeholder name. Once you have a verified, permitted-to-display partner: replace 'name' with the real company name, drop their logo into /assets/images/partners/ using the same filename (or update 'logo'), and re-run scripts/build_site.py. To add partner #7, copy one object inside 'items' and give it a unique logo.",
 "items": [
-  { "logo": "/assets/images/partners/partner-01.svg", "name": "[Partner Name]" },
-  { "logo": "/assets/images/partners/partner-02.svg", "name": "[Partner Name]" },
-  { "logo": "/assets/images/partners/partner-03.svg", "name": "[Partner Name]" },
-  { "logo": "/assets/images/partners/partner-04.svg", "name": "[Partner Name]" },
-  { "logo": "/assets/images/partners/partner-05.svg", "name": "[Partner Name]" },
-  { "logo": "/assets/images/partners/partner-06.svg", "name": "[Partner Name]" }
+  { "logo": "/assets/images/partners/partner-01.webp", "name": "[Partner Name]" },
+  { "logo": "/assets/images/partners/partner-02.webp", "name": "[Partner Name]" },
+  { "logo": "/assets/images/partners/partner-03.webp", "name": "[Partner Name]" },
+  { "logo": "/assets/images/partners/partner-04.webp", "name": "[Partner Name]" },
+  { "logo": "/assets/images/partners/partner-05.webp", "name": "[Partner Name]" },
+  { "logo": "/assets/images/partners/partner-06.webp", "name": "[Partner Name]" }
 ]
 }

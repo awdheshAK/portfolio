@@ -1316,12 +1316,19 @@ PROCESS_LINKS = {
 }
 
 PROCESS_ICONS = {
-    "Fabric Inspection": '<circle cx="10" cy="10" r="6"/><path d="M20 20l-5.5-5.5"/>',
-    "Cutting": '<circle cx="6" cy="6" r="2"/><circle cx="6" cy="18" r="2"/><line x1="20" y1="4" x2="8.1" y2="15.9"/><line x1="14.5" y1="14.5" x2="20" y2="20"/><line x1="8.1" y1="8.1" x2="12" y2="12"/>',
-    "Stitching": '<path d="M4 20c4-1 8-5 9-9 .5-2 2-6 6-7"/><circle cx="19" cy="4" r="1.4" fill="currentColor" stroke="none"/>',
-    "Pressing": '<path d="M4 18h13a3 3 0 0 0 3-3v-2c0-3-2-6-6-6H9C6 7 4 10 4 13z"/><path d="M4 18l-1.5 3h17"/>',
+    # Magnifying glass over a folded fabric's weave lines.
+    "Fabric Inspection": '<circle cx="10" cy="10" r="6"/><path d="M20 20l-5.5-5.5"/><path d="M7 8h6M7 10.5h6M7 13h4" stroke-opacity=".7"/>',
+    # Literal scissors: two finger loops, crossing blades, a pivot pin.
+    "Cutting": '<circle cx="6" cy="6" r="2.2"/><circle cx="6" cy="18" r="2.2"/><path d="M20 4L7.6 16.4"/><path d="M7.6 7.6L20 20"/><circle cx="9.6" cy="12" r=".9" fill="currentColor" stroke="none"/>',
+    # A sewing machine in profile: flat bed, gooseneck arm, the big side
+    # handwheel that is a sewing machine's most recognisable feature, and
+    # the needle dropping to meet the bed.
+    "Stitching": '<rect x="3" y="16.5" width="13" height="2.6" rx="1"/><path d="M6.5 16.5V9.5a3 3 0 0 1 3-3h3a3 3 0 0 1 3 3v1.2"/><circle cx="15.7" cy="12.8" r="2.4"/><line x1="6.5" y1="19.1" x2="6.5" y2="21.5"/>',
+    # A steam iron: pointed soleplate, handle, rising steam curls.
+    "Pressing": '<path d="M3 18h13.5a3 3 0 0 0 3-3v-1.5c0-3.3-2.4-6.3-5.8-6.9L8 6C5.5 6 3 8.3 3 11z"/><path d="M3 18l-1.3 3h16.6"/><path d="M13 3c.9.6 1.4 1.6 1.2 2.6M16.4 2.5c1 .7 1.6 1.9 1.4 3" stroke-linecap="round"/>',
     "Inspection": '<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/>',
-    "Packing": '<path d="M3 8l9-4 9 4-9 4-9-4z"/><path d="M3 8v9l9 4 9-4V8"/><path d="M12 12v9"/>',
+    # A taped, closed carton — box outline plus the tape strip down the front.
+    "Packing": '<path d="M3 8l9-4 9 4-9 4-9-4z"/><path d="M3 8v9l9 4 9-4V8"/><path d="M12 12v9"/><path d="M7.5 6.2v9.6M16.5 6.2v9.6" stroke-opacity=".6"/>',
     "Quality Check": '<path d="M12 2l3 2 4 .5-.5 4 2 3-2 3 .5 4-4 .5-3 2-3-2-4-.5.5-4-2-3 2-3-.5-4 4-.5z"/><path d="M9 12l2 2 4-4"/>',
     "Dispatch": '<path d="M3 7h11v9H3z"/><path d="M14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.6"/><circle cx="18" cy="18" r="1.6"/>',
 }

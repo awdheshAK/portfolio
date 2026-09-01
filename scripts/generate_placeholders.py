@@ -3,19 +3,24 @@
 Dev utility: generates placeholder imagery for MJ Oswal Exports into the
 exact folder structure the site expects (see /assets/data/images.json).
 Not part of the shipped site — safe to re-run or delete once real photos
-are supplied.
+are supplied. Placeholders render as .webp (matches the format the real
+product photography will be delivered in, so dropping a real file in
+just means overwriting the same filename — no path changes needed).
 
 HOW TO REPLACE A PLACEHOLDER WITH A REAL PHOTO:
   1. Save your photo into the matching folder under /assets/images/
-     using the SAME filename this script writes (e.g. hero-01.jpg).
-  2. If your file extension differs (.jpg/.png instead of .svg), update
-     the matching "src" path in /assets/data/images.json (or
-     /assets/data/machines.json for machine photos) to match.
-  3. Re-run `python3 scripts/build_site.py` if you changed any .json
+     using the SAME filename this script writes (e.g. hero-01.webp).
+     If your source photo is a .jpg/.png, convert it to .webp first
+     (any image editor, or `cwebp photo.jpg -o hero-01.webp`) — or, if
+     you'd rather keep it as .jpg/.png, just update the matching "src"
+     path in /assets/data/images.json (or /assets/data/machines.json /
+     /assets/data/catalog_items.json) to match your file's extension.
+  2. Re-run `python3 scripts/build_site.py` if you changed any .json
      data file — the HTML pages are generated from that data.
 No other code changes are needed.
 """
 import os
+from PIL import Image, ImageDraw, ImageFont
 
 OUT_ROOT = os.path.join(os.path.dirname(__file__), "..", "assets", "images")
 LABEL = "MJ Oswal Exports"
@@ -24,64 +29,64 @@ SUBLABEL = "Placeholder Image"
 # (relative_path, width, height, hue_start, hue_end)
 IMAGES = [
     # Hero slider — 5 slides
-    ("hero/hero-01.svg", 1600, 2000, 222, 250),
-    ("hero/hero-02.svg", 1600, 2000, 205, 235),
-    ("hero/hero-03.svg", 1600, 2000, 235, 260),
-    ("hero/hero-04.svg", 1600, 2000, 195, 222),
-    ("hero/hero-05.svg", 1600, 2000, 215, 245),
+    ("hero/hero-01.webp", 1600, 2000, 222, 250),
+    ("hero/hero-02.webp", 1600, 2000, 205, 235),
+    ("hero/hero-03.webp", 1600, 2000, 235, 260),
+    ("hero/hero-04.webp", 1600, 2000, 195, 222),
+    ("hero/hero-05.webp", 1600, 2000, 215, 245),
 
     # Products — one hero image per top-level gender hub (Men's / Women's).
     # Per-subcategory images are appended programmatically below via
     # PRODUCT_CATEGORY_HUES, matching assets/data/product_subcategories.json.
-    ("products/product-mens-01.svg", 900, 1100, 210, 238),
-    ("products/product-womens-01.svg", 900, 1100, 220, 248),
+    ("products/product-mens-01.webp", 900, 1100, 210, 238),
+    ("products/product-womens-01.webp", 900, 1100, 220, 248),
 
     # Machines — see assets/data/machines.json. Only the machines without a
     # real photo yet get a placeholder (Circular Knitting Machines and
     # Automatic Screen Printing Machines already use a real photo from the
     # company profile PDF — see images.json / manufacturing.printing).
-    ("machines/machine-interlock-knitting-01.svg", 900, 700, 220, 246),
-    ("machines/machine-flat-knitting-01.svg", 900, 700, 200, 228),
-    ("machines/machine-manual-printing-01.svg", 900, 700, 230, 255),
-    ("machines/machine-curing-01.svg", 900, 700, 205, 232),
-    ("machines/machine-laser-cutting-01.svg", 900, 700, 215, 240),
-    ("machines/machine-plotter-01.svg", 900, 700, 195, 220),
-    ("machines/machine-embroidery-01.svg", 900, 700, 225, 250),
+    ("machines/machine-interlock-knitting-01.webp", 900, 700, 220, 246),
+    ("machines/machine-flat-knitting-01.webp", 900, 700, 200, 228),
+    ("machines/machine-manual-printing-01.webp", 900, 700, 230, 255),
+    ("machines/machine-curing-01.webp", 900, 700, 205, 232),
+    ("machines/machine-laser-cutting-01.webp", 900, 700, 215, 240),
+    ("machines/machine-plotter-01.webp", 900, 700, 195, 220),
+    ("machines/machine-embroidery-01.webp", 900, 700, 225, 250),
 
     # Manufacturing departments — only the ones without a real photo yet
     # (see assets/data/images.json — most departments now use a real photo
     # extracted from the company profile PDF instead of this placeholder).
-    ("manufacturing/manufacturing-cutting-01.svg", 1400, 1000, 220, 246),
-    ("manufacturing/manufacturing-embroidery-01.svg", 1400, 1000, 230, 255),
+    ("manufacturing/manufacturing-cutting-01.webp", 1400, 1000, 220, 246),
+    ("manufacturing/manufacturing-embroidery-01.webp", 1400, 1000, 230, 255),
 
     # Facility — same: only slots without a real photo yet.
-    ("facility/facility-technology-01.svg", 1400, 1000, 200, 228),
-    ("facility/facility-capacity-01.svg", 1400, 1000, 230, 255),
+    ("facility/facility-technology-01.webp", 1400, 1000, 200, 228),
+    ("facility/facility-capacity-01.webp", 1400, 1000, 230, 255),
 
     # Certificates — placeholder slots only, no names implied
-    ("certificates/certificate-01.svg", 900, 700, 220, 246),
-    ("certificates/certificate-02.svg", 900, 700, 210, 238),
-    ("certificates/certificate-03.svg", 900, 700, 230, 255),
-    ("certificates/certificate-04.svg", 900, 700, 200, 228),
+    ("certificates/certificate-01.webp", 900, 700, 220, 246),
+    ("certificates/certificate-02.webp", 900, 700, 210, 238),
+    ("certificates/certificate-03.webp", 900, 700, 230, 255),
+    ("certificates/certificate-04.webp", 900, 700, 200, 228),
 
     # Partners — placeholder logo slots only
-    ("partners/partner-01.svg", 400, 200, 218, 244),
-    ("partners/partner-02.svg", 400, 200, 208, 234),
-    ("partners/partner-03.svg", 400, 200, 228, 252),
-    ("partners/partner-04.svg", 400, 200, 198, 224),
-    ("partners/partner-05.svg", 400, 200, 212, 238),
-    ("partners/partner-06.svg", 400, 200, 222, 248),
+    ("partners/partner-01.webp", 400, 200, 218, 244),
+    ("partners/partner-02.webp", 400, 200, 208, 234),
+    ("partners/partner-03.webp", 400, 200, 228, 252),
+    ("partners/partner-04.webp", 400, 200, 198, 224),
+    ("partners/partner-05.webp", 400, 200, 212, 238),
+    ("partners/partner-06.webp", 400, 200, 222, 248),
 
     # Team — all slots now use real photos (see assets/data/images.json);
     # nothing left to generate here.
 
     # Projects
-    ("projects/project-01.svg", 1400, 1000, 220, 248),
-    ("projects/project-02.svg", 1400, 1000, 200, 228),
+    ("projects/project-01.webp", 1400, 1000, 220, 248),
+    ("projects/project-02.webp", 1400, 1000, 200, 228),
 
     # Insights
-    ("insights/insight-01.svg", 900, 700, 215, 240),
-    ("insights/insight-02.svg", 900, 700, 195, 222),
+    ("insights/insight-01.webp", 900, 700, 215, 240),
+    ("insights/insight-02.webp", 900, 700, 195, 222),
 ]
 
 # Reproduces the real M.J. Oswal Group visiting-card mark: a four-colour
@@ -98,29 +103,72 @@ LOGO_SVG = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" widt
 </svg>
 """
 
-SVG_TEMPLATE = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w} {h}" width="{w}" height="{h}" role="img" aria-label="{aria}">
-  <defs>
-    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="hsl({h1}, 32%, 16%)"/>
-      <stop offset="55%" stop-color="hsl({h2}, 38%, 24%)"/>
-      <stop offset="100%" stop-color="hsl({h1}, 30%, 10%)"/>
-    </linearGradient>
-    <linearGradient id="sheen" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.06"/>
-      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
-    </linearGradient>
-    <pattern id="grid" width="64" height="64" patternUnits="userSpaceOnUse">
-      <path d="M 64 0 L 0 0 0 64" fill="none" stroke="#ffffff" stroke-opacity="0.045" stroke-width="1"/>
-    </pattern>
-  </defs>
-  <rect width="{w}" height="{h}" fill="url(#g)"/>
-  <rect width="{w}" height="{h}" fill="url(#grid)"/>
-  <rect width="{w}" height="{h}" fill="url(#sheen)"/>
-  <!-- Small corner watermark only — bottom-right, well clear of any real
-       headline/caption text this image sits behind in the page layout. -->
-  <text x="{px}" y="{py}" text-anchor="end" dominant-baseline="auto" font-family="Arial, Helvetica, sans-serif" font-size="{small}" fill="#ffffff" fill-opacity="0.38" letter-spacing="1.5">{label} — {sublabel}</text>
-</svg>
-"""
+FONT_PATH = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
+
+
+def _hsl_to_rgb(h, s, l):
+    """Same HSL model the old inline-SVG gradients used (h in degrees)."""
+    import colorsys
+    r, g, b = colorsys.hls_to_rgb((h % 360) / 360.0, l, s)
+    return (round(r * 255), round(g * 255), round(b * 255))
+
+
+def render_placeholder(w, h, h1, h2, label, sublabel):
+    """Renders the same look the old placeholder SVGs had (diagonal
+    3-stop gradient, faint grid, top sheen, corner watermark) as a
+    raster image, so it can ship as .webp."""
+    c0 = _hsl_to_rgb(h1, 0.32, 0.16)
+    c1 = _hsl_to_rgb(h2, 0.38, 0.24)
+    c2 = _hsl_to_rgb(h1, 0.30, 0.10)
+
+    # Build the diagonal gradient on a small thumbnail, then upscale —
+    # far cheaper than a per-pixel loop at full resolution.
+    thumb = 48
+    grad = Image.new("RGB", (thumb, thumb))
+    px = grad.load()
+    for y in range(thumb):
+        for x in range(thumb):
+            t = (x + y) / (2 * (thumb - 1))
+            if t <= 0.55:
+                tt = t / 0.55
+                col = tuple(round(c0[i] + (c1[i] - c0[i]) * tt) for i in range(3))
+            else:
+                tt = (t - 0.55) / 0.45
+                col = tuple(round(c1[i] + (c2[i] - c1[i]) * tt) for i in range(3))
+            px[x, y] = col
+    base = grad.resize((w, h), Image.BICUBIC).convert("RGBA")
+
+    overlay = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    odraw = ImageDraw.Draw(overlay)
+    for x in range(0, w, 64):
+        odraw.line([(x, 0), (x, h)], fill=(255, 255, 255, 12))
+    for y in range(0, h, 64):
+        odraw.line([(0, y), (w, y)], fill=(255, 255, 255, 12))
+
+    sheen_mask = Image.new("L", (1, h))
+    for y in range(h):
+        sheen_mask.putpixel((0, y), round(15 * (1 - y / h)))
+    sheen_mask = sheen_mask.resize((w, h))
+    sheen = Image.new("RGBA", (w, h), (255, 255, 255, 0))
+    sheen.putalpha(sheen_mask)
+    overlay = Image.alpha_composite(overlay, sheen)
+
+    # Small corner watermark only — bottom-right, well clear of any real
+    # headline/caption text this image sits behind in the page layout.
+    odraw = ImageDraw.Draw(overlay)
+    small = max(14, min(w, h) // 42)
+    try:
+        font = ImageFont.truetype(FONT_PATH, small)
+    except OSError:
+        font = ImageFont.load_default()
+    text = f"{label} — {sublabel}"
+    bbox = odraw.textbbox((0, 0), text, font=font)
+    margin = max(20, min(w, h) // 22)
+    tx = w - margin - (bbox[2] - bbox[0])
+    ty = h - margin - (bbox[3] - bbox[1])
+    odraw.text((tx, ty), text, font=font, fill=(255, 255, 255, 97))
+
+    return Image.alpha_composite(base, overlay).convert("RGB")
 
 # Per-category product catalog images — 3 per category, used by the
 # /products/<category>/ gallery pages and their individual product pages
@@ -137,7 +185,7 @@ PRODUCT_CATEGORY_HUES = {
 for cat, (h1, h2) in PRODUCT_CATEGORY_HUES.items():
     for i in range(1, 7):
         offset = (i - 1) * 5
-        IMAGES.append((f"products/{cat}/{cat}-0{i}.svg", 900, 1100, h1 + offset, h2 + offset))
+        IMAGES.append((f"products/{cat}/{cat}-0{i}.webp", 900, 1100, h1 + offset, h2 + offset))
 
 logo_path = os.path.join(OUT_ROOT, "logo/mj-oswal-exports-mark.svg")
 os.makedirs(os.path.dirname(logo_path), exist_ok=True)
@@ -148,14 +196,6 @@ print("wrote", logo_path)
 for rel, w, h, h1, h2 in IMAGES:
     path = os.path.join(OUT_ROOT, rel)
     os.makedirs(os.path.dirname(path), exist_ok=True)
-    small = max(14, min(w, h) // 42)
-    px = w - max(20, min(w, h) // 22)
-    py = h - max(20, min(w, h) // 22)
-    svg = SVG_TEMPLATE.format(
-        w=w, h=h, h1=h1, h2=h2, small=small, px=px, py=py,
-        label=LABEL, sublabel=SUBLABEL,
-        aria=f"{LABEL} {SUBLABEL}",
-    )
-    with open(path, "w") as f:
-        f.write(svg)
+    img = render_placeholder(w, h, h1, h2, LABEL, SUBLABEL)
+    img.save(path, "WEBP", quality=82, method=4)
     print("wrote", path)

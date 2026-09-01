@@ -7,12 +7,12 @@
     "details": "20 circular knitting machines (plus 2 interlock knitting machines) form the core of our in-house fabric production." },
 
   { "name": "Interlock Knitting Machines", "category": "Knitting",
-    "image": "/assets/images/machines/machine-interlock-knitting-01.svg",
+    "image": "/assets/images/machines/machine-interlock-knitting-01.webp",
     "description": "Dedicated interlock machines running alongside our circular knitting line.",
     "details": "2 interlock knitting machines, high-speed and computerised for consistent fabric quality and output." },
 
   { "name": "Flat Knitting Machines", "category": "Knitting",
-    "image": "/assets/images/machines/machine-flat-knitting-01.svg",
+    "image": "/assets/images/machines/machine-flat-knitting-01.webp",
     "description": "For specialised fabrics that need precision and versatility.",
     "details": "4 flat knitting machines, used for specialised fabric constructions outside our circular knitting range." },
 
@@ -22,12 +22,12 @@
     "details": "11 automatic screen printing machines, plus 1 manual printing machine, supporting up to 7–8 colours per print." },
 
   { "name": "Manual Printing Machine", "category": "Printing",
-    "image": "/assets/images/machines/machine-manual-printing-01.svg",
+    "image": "/assets/images/machines/machine-manual-printing-01.webp",
     "description": "Flexible manual printing for smaller or specialised runs.",
     "details": "1 manual printing machine, working alongside our 11 automatic screen printing machines." },
 
   { "name": "Gas Curing Machines", "category": "Printing",
-    "image": "/assets/images/machines/machine-curing-01.svg",
+    "image": "/assets/images/machines/machine-curing-01.webp",
     "description": "Ensures proper curing for long-lasting prints.",
     "details": "2 gas curing machines, used to cure prints for durability and colour fastness." },
 
@@ -37,17 +37,17 @@
     "details": "4 fusing machines, used for applying stickers and patches to finished garments." },
 
   { "name": "Laser Cutting Machine", "category": "Printing",
-    "image": "/assets/images/machines/machine-laser-cutting-01.svg",
+    "image": "/assets/images/machines/machine-laser-cutting-01.webp",
     "description": "Accurate and clean cutting for printed fabrics.",
     "details": "1 laser cutting machine, used for precise, clean cutting of printed fabric panels." },
 
   { "name": "Plotter Machine", "category": "Printing",
-    "image": "/assets/images/machines/machine-plotter-01.svg",
+    "image": "/assets/images/machines/machine-plotter-01.webp",
     "description": "For precise plotting and design handling.",
     "details": "1 plotter machine, supporting our design and pre-print preparation process." },
 
   { "name": "Multi-Head Embroidery Machines", "category": "Embroidery",
-    "image": "/assets/images/machines/machine-embroidery-01.svg",
+    "image": "/assets/images/machines/machine-embroidery-01.webp",
     "description": "For faster turnaround and consistency across every production run.",
     "details": "Multi-head embroidery machines for high-speed, efficient embroidery, from small logos to complex, detailed patterns." }
 ]
