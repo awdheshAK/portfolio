@@ -9,7 +9,6 @@
 (function (window, document) {
   'use strict';
 
-  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var AUTOPLAY_MS = 4500;
   var HOVER_RESUME_MS = 4000;
   var SWIPE_THRESHOLD = 40;
@@ -63,7 +62,7 @@
     function stopTimer() { if (timer) { window.clearInterval(timer); timer = null; } }
     function startTimer() {
       stopTimer();
-      if (prefersReducedMotion || hovered || sources.length < 2) return;
+      if (hovered || sources.length < 2) return;
       timer = window.setInterval(next, AUTOPLAY_MS);
     }
     function restartTimer() { stopTimer(); startTimer(); }

@@ -30,70 +30,33 @@ IMAGES = [
     ("hero/hero-04.svg", 1600, 2000, 195, 222),
     ("hero/hero-05.svg", 1600, 2000, 215, 245),
 
-    # Products — one per category
+    # Products — one hero image per top-level gender hub (Men's / Women's).
+    # Per-subcategory images are appended programmatically below via
+    # PRODUCT_CATEGORY_HUES, matching assets/data/product_subcategories.json.
     ("products/product-mens-01.svg", 900, 1100, 210, 238),
     ("products/product-womens-01.svg", 900, 1100, 220, 248),
-    ("products/product-kids-01.svg", 900, 1100, 200, 228),
-    ("products/product-tshirt-01.svg", 900, 1100, 230, 255),
-    ("products/product-loungewear-01.svg", 900, 1100, 205, 232),
-    ("products/product-nightwear-01.svg", 900, 1100, 215, 240),
-    ("products/product-sweatshirt-01.svg", 900, 1100, 195, 220),
-    ("products/product-tracksuit-01.svg", 900, 1100, 225, 250),
-    ("products/product-lower-01.svg", 900, 1100, 208, 235),
-    ("products/product-shorts-01.svg", 900, 1100, 218, 244),
-    ("products/product-coord-set-01.svg", 900, 1100, 198, 226),
-    ("products/product-kurti-01.svg", 900, 1100, 228, 252),
-    ("products/product-innerwear-01.svg", 900, 1100, 212, 238),
 
-    # Machines — 20 cards (see assets/data/machines.json)
-    # (catalog item images for /products/<category>/ galleries are appended
-    # programmatically below via PRODUCT_CATEGORY_HUES — one set of 3 per
-    # category, matching assets/data/catalog_items.json)
-    ("machines/machine-stitching-01.svg", 900, 700, 210, 238),
-    ("machines/machine-thread-cutting-01.svg", 900, 700, 220, 246),
-    ("machines/machine-pressing-01.svg", 900, 700, 200, 228),
-    ("machines/machine-heat-label-01.svg", 900, 700, 230, 255),
-    ("machines/machine-fabric-spreading-01.svg", 900, 700, 205, 232),
-    ("machines/machine-cutting-table-01.svg", 900, 700, 215, 240),
-    ("machines/machine-printing-auto-01.svg", 900, 700, 195, 220),
-    ("machines/machine-printing-manual-01.svg", 900, 700, 225, 250),
-    ("machines/machine-curing-01.svg", 900, 700, 208, 235),
-    ("machines/machine-fusing-01.svg", 900, 700, 218, 244),
-    ("machines/machine-dtp-01.svg", 900, 700, 198, 226),
-    ("machines/machine-plotter-01.svg", 900, 700, 228, 252),
-    ("machines/machine-embroidery-01.svg", 900, 700, 212, 238),
-    ("machines/machine-packing-01.svg", 900, 700, 222, 248),
-    ("machines/machine-cad-system-01.svg", 900, 700, 202, 230),
-    ("machines/machine-erp-system-01.svg", 900, 700, 232, 256),
-    ("machines/machine-embroidery-software-01.svg", 900, 700, 206, 233),
-    ("machines/machine-design-table-01.svg", 900, 700, 216, 242),
-    ("machines/machine-graphic-workstation-01.svg", 900, 700, 196, 224),
-    ("machines/machine-mrp-system-01.svg", 900, 700, 226, 250),
+    # Machines — see assets/data/machines.json. Only the machines without a
+    # real photo yet get a placeholder (Circular Knitting Machines and
+    # Automatic Screen Printing Machines already use a real photo from the
+    # company profile PDF — see images.json / manufacturing.printing).
+    ("machines/machine-interlock-knitting-01.svg", 900, 700, 220, 246),
+    ("machines/machine-flat-knitting-01.svg", 900, 700, 200, 228),
+    ("machines/machine-manual-printing-01.svg", 900, 700, 230, 255),
+    ("machines/machine-curing-01.svg", 900, 700, 205, 232),
+    ("machines/machine-laser-cutting-01.svg", 900, 700, 215, 240),
+    ("machines/machine-plotter-01.svg", 900, 700, 195, 220),
+    ("machines/machine-embroidery-01.svg", 900, 700, 225, 250),
 
-    # Manufacturing departments — 10 + overview
-    ("manufacturing/manufacturing-overview-01.svg", 1600, 1000, 218, 246),
-    ("manufacturing/manufacturing-stitching-01.svg", 1400, 1000, 210, 238),
+    # Manufacturing departments — only the ones without a real photo yet
+    # (see assets/data/images.json — most departments now use a real photo
+    # extracted from the company profile PDF instead of this placeholder).
     ("manufacturing/manufacturing-cutting-01.svg", 1400, 1000, 220, 246),
-    ("manufacturing/manufacturing-printing-01.svg", 1400, 1000, 200, 228),
     ("manufacturing/manufacturing-embroidery-01.svg", 1400, 1000, 230, 255),
-    ("manufacturing/manufacturing-heat-label-01.svg", 1400, 1000, 205, 232),
-    ("manufacturing/manufacturing-fabric-01.svg", 1400, 1000, 215, 240),
-    ("manufacturing/manufacturing-pressing-01.svg", 1400, 1000, 195, 220),
-    ("manufacturing/manufacturing-packing-01.svg", 1400, 1000, 225, 250),
-    ("manufacturing/manufacturing-dispatch-01.svg", 1400, 1000, 208, 235),
-    ("manufacturing/manufacturing-designing-01.svg", 1400, 1000, 218, 244),
 
-    # Facility
-    ("facility/facility-overview-01.svg", 1600, 1000, 218, 246),
-    ("facility/facility-machinery-01.svg", 1400, 1000, 210, 238),
-    ("facility/facility-production-01.svg", 1400, 1000, 220, 246),
+    # Facility — same: only slots without a real photo yet.
     ("facility/facility-technology-01.svg", 1400, 1000, 200, 228),
     ("facility/facility-capacity-01.svg", 1400, 1000, 230, 255),
-    ("facility/facility-quality-control-01.svg", 1400, 1000, 205, 232),
-    ("facility/facility-gallery-01.svg", 900, 700, 215, 240),
-    ("facility/facility-gallery-02.svg", 900, 700, 195, 220),
-    ("facility/facility-gallery-03.svg", 900, 700, 225, 250),
-    ("facility/facility-gallery-04.svg", 900, 700, 208, 235),
 
     # Certificates — placeholder slots only, no names implied
     ("certificates/certificate-01.svg", 900, 700, 220, 246),
@@ -109,13 +72,8 @@ IMAGES = [
     ("partners/partner-05.svg", 400, 200, 212, 238),
     ("partners/partner-06.svg", 400, 200, 222, 248),
 
-    # Team
-    ("team/team-leadership-01.svg", 1000, 1000, 215, 240),
-    ("team/team-design-01.svg", 1000, 1000, 205, 232),
-    ("team/team-quality-01.svg", 1000, 1000, 225, 250),
-    ("team/team-production-01.svg", 1000, 1000, 195, 220),
-    ("team/team-manufacturing-01.svg", 1000, 1000, 218, 244),
-    ("team/team-people-01.svg", 1200, 1500, 208, 235),
+    # Team — all slots now use real photos (see assets/data/images.json);
+    # nothing left to generate here.
 
     # Projects
     ("projects/project-01.svg", 1400, 1000, 220, 248),
@@ -169,11 +127,12 @@ SVG_TEMPLATE = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w} {h}" 
 # (see assets/data/catalog_items.json). Slugs must match the "category"
 # slugs used in assets/data/products.json.
 PRODUCT_CATEGORY_HUES = {
-    "mens": (210, 238), "womens": (220, 248), "kids": (200, 228),
-    "t-shirts": (230, 255), "lounge-wear": (205, 232), "nightwear": (215, 240),
-    "sweatshirts": (195, 220), "tracksuits": (225, 250), "lower": (208, 235),
-    "shorts": (218, 244), "co-ord-sets": (198, 226), "kurtis": (228, 252),
-    "innerwear": (212, 238),
+    "mens-lounge-wear": (210, 238), "polo": (220, 248), "mens-t-shirts": (230, 255),
+    "sweatshirts": (195, 220), "lowers": (208, 235), "suits": (198, 226),
+    "outerwear": (218, 244), "mens-track-suits": (225, 250),
+    "tops": (205, 232), "womens-t-shirts": (215, 240), "dresses": (228, 252),
+    "womens-lounge-wear": (212, 238), "onesies": (222, 248), "athleisure": (202, 230),
+    "bottoms": (232, 256), "womens-track-suits": (206, 233), "panties": (216, 242),
 }
 for cat, (h1, h2) in PRODUCT_CATEGORY_HUES.items():
     for i in (1, 2, 3):

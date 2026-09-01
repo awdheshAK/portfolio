@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.mjoswalexports.com/sitemap.xml
+Sitemap: https://www.mjoswal.com/sitemap.xml

@@ -15,7 +15,10 @@
 (function (window, document) {
   'use strict';
 
-  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Autoplay always runs, even under prefers-reduced-motion: reduce — some
+  // Windows setups report that unintentionally, which was silently
+  // disabling every slider's autoplay. Each carousel still has a working
+  // prev/next/pause affordance for anyone who wants to stop it.
   var SWIPE_THRESHOLD = 40;
 
   // Cards visible at once, by breakpoint, per carousel type.
@@ -121,7 +124,7 @@
     function prev() { goToPage(page - 1); }
 
     function startAutoplay() {
-      if (!autoplayMs || prefersReducedMotion || hovered || pageCount <= 1) return;
+      if (!autoplayMs || hovered || pageCount <= 1) return;
       stopAutoplay();
       timer = window.setInterval(next, autoplayMs);
     }

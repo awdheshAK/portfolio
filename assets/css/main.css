@@ -741,7 +741,7 @@ input, textarea { font: inherit; }
 }
 .site-footer__top {
   display: grid;
-  grid-template-columns: 1.4fr repeat(3, 0.85fr) 1.1fr;
+  grid-template-columns: 1.25fr repeat(4, 0.85fr);
   gap: 2.5rem;
   padding-bottom: 3.5rem;
   border-bottom: 1px solid var(--color-line-light);

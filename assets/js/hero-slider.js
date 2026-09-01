@@ -1,8 +1,16 @@
 /**
  * hero-slider.js
  * 5-slide premium hero carousel for the homepage. Autoplay, prev/next,
- * keyboard, touch swipe, pause/resume, and full prefers-reduced-motion
- * support. No-ops entirely on pages without [data-hero-slider].
+ * keyboard, touch swipe and pause/resume. No-ops entirely on pages
+ * without [data-hero-slider].
+ *
+ * Autoplay always runs by default, even when the browser/OS reports
+ * prefers-reduced-motion: reduce — some Windows setups report this
+ * unintentionally, and it was silently disabling autoplay entirely.
+ * The slide transition itself still respects that preference (see
+ * main.css), and the visible pause button always lets a visitor stop
+ * it, which satisfies the same accessibility goal without surprising
+ * anyone who never touches the pause button.
  */
 (function (window, document) {
   'use strict';
@@ -10,7 +18,6 @@
   var root = document.querySelector('[data-hero-slider]');
   if (!root) return;
 
-  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var AUTOPLAY_MS = 6000;
   var SWIPE_THRESHOLD = 40;
 
@@ -27,7 +34,7 @@
 
   var index = 0;
   var timer = null;
-  var userPaused = prefersReducedMotion;
+  var userPaused = false;
   var hovered = false;
   var hoverResumeTimer = null;
   // A visitor's cursor often just rests over the hero while they read it —
@@ -64,7 +71,7 @@
   function prev() { goTo(index - 1); }
 
   function shouldAutoplay() {
-    return !prefersReducedMotion && !userPaused && !hovered;
+    return !userPaused && !hovered;
   }
 
   function stopTimer() {
