@@ -110,7 +110,13 @@
       page = (index + pageCount) % pageCount;
       var gap = gapPx();
       var itemWidth = parseFloat(root.style.getPropertyValue('--carousel-item-w')) || 0;
-      var offset = page * perView * (itemWidth + gap);
+      var step = itemWidth + gap;
+      // When items.length isn't a multiple of perView, the last "page" has
+      // fewer than perView items — naively offsetting by page*perView would
+      // scroll past the real content and leave blank space. Clamp so the
+      // last page always shows the final perView items instead.
+      var maxOffset = Math.max(0, (items.length - perView) * step);
+      var offset = Math.min(page * perView * step, maxOffset);
       if (instant) track.classList.add('is-dragging'); // reuse to kill transition instantly
       track.style.transform = 'translateX(-' + offset + 'px)';
       if (instant) {

@@ -135,7 +135,7 @@ PRODUCT_CATEGORY_HUES = {
     "bottoms": (232, 256), "womens-track-suits": (206, 233), "panties": (216, 242),
 }
 for cat, (h1, h2) in PRODUCT_CATEGORY_HUES.items():
-    for i in (1, 2, 3):
+    for i in range(1, 7):
         offset = (i - 1) * 5
         IMAGES.append((f"products/{cat}/{cat}-0{i}.svg", 900, 1100, h1 + offset, h2 + offset))
 

@@ -1302,7 +1302,7 @@ def block_process_timeline():
         <div class="section-head">
           <p class="eyebrow" data-reveal="fade-up">How We Build</p>
           <h2 class="section-head__title" id="process-heading" data-reveal="fade-up" data-reveal-delay="80">Our Production Process</h2>
-          <p class="section-head__text" data-reveal="fade-up" data-reveal-delay="140">Every garment follows the same eleven-step process. Select any step to see that department in detail.</p>
+          <p class="section-head__text" data-reveal="fade-up" data-reveal-delay="140">Every garment follows the same eight-step process. Select any step to see that department in detail.</p>
         </div>
         <div class="process-timeline" role="list">
 {chr(10).join(steps)}
