@@ -381,7 +381,7 @@ export default function UploadDashboard({ categories }: { categories: { id: stri
 
       {stage === 'uploading' && file && (
         <div className="rounded-2xl border border-surface-200 dark:border-surface-800 p-8">
-          <p className="font-semibold mb-1">Uploading "{title}"</p>
+          <p className="font-semibold mb-1">Uploading &quot;{title}&quot;</p>
           <p className="text-sm text-surface-500 mb-6">{formatBytes(file.size)} — please keep this tab open</p>
           <ProgressBar value={progress} />
           <div className="mt-2 text-sm text-surface-500">{progress}%</div>

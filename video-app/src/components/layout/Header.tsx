@@ -6,14 +6,20 @@ import UserMenu from './UserMenu';
 import MobileNav from './MobileNav';
 import { Clapperboard } from 'lucide-react';
 
-export const dynamic = 'force-dynamic';
-
 export default async function Header() {
-  const categories = await prisma.category.findMany({
-    orderBy: { order: 'asc' },
-    select: { id: true, name: true, slug: true },
-    take: 8,
-  });
+  // Never let a database hiccup take down every page on the site - the
+  // header degrades to "no category links" instead of throwing.
+  const categories = await prisma.category
+    .findMany({
+      orderBy: { order: 'asc' },
+      select: { id: true, name: true, slug: true },
+      take: 8,
+    })
+    .catch((err) => {
+      // eslint-disable-next-line no-console
+      console.error('[header] Could not load categories:', err);
+      return [];
+    });
 
   return (
     <header className="sticky top-0 z-40 border-b border-surface-100 dark:border-surface-800 bg-white/80 dark:bg-surface-950/80 backdrop-blur-md">

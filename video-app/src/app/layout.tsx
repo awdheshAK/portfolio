@@ -15,6 +15,13 @@ export const metadata: Metadata = {
   description: 'A modern video sharing and download platform.',
 };
 
+// The header renders live categories from the database and most pages read
+// the live session/DB on every request, so nothing in this app benefits
+// from static prerendering. Forcing dynamic rendering here (rather than
+// leaving Next to decide) is also what makes `npm run build` succeed
+// without a database connection available at build time.
+export const dynamic = 'force-dynamic';
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={inter.variable} suppressHydrationWarning>

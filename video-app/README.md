@@ -7,6 +7,152 @@ full admin dashboard. Runs entirely on localhost with local disk storage, and
 is structured so that storage can be swapped for cloud object storage + a CDN
 without touching application code.
 
+---
+
+## Windows Quick Start
+
+This section is written for someone setting the project up on a **Windows PC
+for the first time**, using **VS Code**. Follow it top to bottom.
+
+### 1. Install required software
+
+Install these first (all free):
+
+| Software | Where to get it | Notes |
+|---|---|---|
+| **Node.js** (v18 or newer, LTS) | https://nodejs.org | Installs `node` and `npm`. Confirm with `node -v` in a terminal. |
+| **PostgreSQL** (v14 or newer) | https://www.postgresql.org/download/windows/ | During install, set a password for the `postgres` user and **remember it**. Keep the default port `5432`. |
+| **FFmpeg** | https://www.gyan.dev/ffmpeg/builds/ (get the "release full" build) | See step 6 below for how to install it on Windows. |
+| **VS Code** | https://code.visualstudio.com | To open and edit the project. |
+| **Git** (optional) | https://git-scm.com | Only needed if you plan to use version control; not required to just run the app. |
+
+### 2. Unzip and open the project
+
+1. Unzip `video-app.zip` anywhere, e.g. `C:\Projects\video-app`.
+2. Open VS Code → **File → Open Folder...** → select the unzipped `video-app` folder.
+3. Open a terminal inside VS Code: **Terminal → New Terminal**. This opens PowerShell (or Command Prompt) already in the project folder.
+
+### 3. Install dependencies
+
+In the VS Code terminal:
+
+```powershell
+npm install
+```
+
+This installs all packages listed in `package.json` and automatically runs `prisma generate`. It can take a few minutes the first time.
+
+### 4. Configure your `.env` file
+
+The project ships with `.env.example` (a template with **no real secrets**). Create your own working copy:
+
+```powershell
+copy .env.example .env
+```
+
+Open the new `.env` file in VS Code and edit these values:
+
+- `DATABASE_URL` — replace `USERNAME:PASSWORD` with your PostgreSQL username (usually `postgres`) and the password you set during install, for example:
+  ```
+  DATABASE_URL="postgresql://postgres:YourPostgresPassword@localhost:5432/videoapp?schema=public"
+  ```
+- `NEXTAUTH_SECRET`, `SIGNED_URL_SECRET`, `AUTH_TOKEN_SECRET` — replace each `replace-with-a-long-random-string` with a unique random value. On Windows, generate one per line with PowerShell:
+  ```powershell
+  node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+  ```
+  Run that command three times and paste one output into each of the three secret fields.
+
+Everything else in `.env` already has a working local default — you don't need to change it to get started.
+
+### 5. Configure PostgreSQL (create the database)
+
+You just need an empty database named `videoapp` for the app to use. Easiest way, using the terminal:
+
+```powershell
+"C:\Program Files\PostgreSQL\<version>\bin\createdb.exe" -U postgres videoapp
+```
+
+(Replace `<version>` with your installed PostgreSQL version number, e.g. `16`.) It will ask for the postgres password you set during installation.
+
+Alternatively, open **pgAdmin** (installed alongside PostgreSQL) → right-click **Databases** → **Create → Database...** → name it `videoapp`.
+
+### 6. Run Prisma migrations
+
+This creates all the required tables in your new database:
+
+```powershell
+npx prisma migrate dev --name init
+```
+
+If it succeeds you'll see `Your database is now in sync with your schema.`
+
+Then seed the database with starter categories, tags, and an admin login:
+
+```powershell
+npm run prisma:seed
+```
+
+The terminal will print the admin and demo account emails/passwords it just created — see step 9 below.
+
+### 7. Install / check FFmpeg
+
+FFmpeg is required for video processing (thumbnails, transcoding).
+
+1. Download a build from https://www.gyan.dev/ffmpeg/builds/ — under "release builds", get `ffmpeg-release-full.7z` (or `.zip`).
+2. Extract it, e.g. to `C:\ffmpeg`, so that `C:\ffmpeg\bin\ffmpeg.exe` exists.
+3. Add `C:\ffmpeg\bin` to your Windows PATH:
+   - Press **Win**, search "Environment Variables", open **Edit the system environment variables**.
+   - Click **Environment Variables...** → under "System variables" select **Path** → **Edit** → **New** → paste `C:\ffmpeg\bin` → OK on all dialogs.
+4. **Close and reopen** your VS Code terminal (PATH changes only apply to new terminals).
+5. Verify it works:
+   ```powershell
+   ffmpeg -version
+   ffprobe -version
+   ```
+   Both should print version info. If you see "not recognized", double-check the PATH step and that you opened a **new** terminal.
+
+`.env` already points at plain `ffmpeg`/`ffprobe` (`FFMPEG_PATH`/`FFPROBE_PATH`), which works as long as they're on your PATH as set up above.
+
+### 8. Start the application
+
+You need **two terminals running at the same time** (in VS Code: click the `+` icon in the terminal panel to open a second one):
+
+**Terminal 1 — the web app:**
+```powershell
+npm run dev
+```
+
+**Terminal 2 — the video processing worker** (handles thumbnails/transcoding in the background — uploads will get stuck on "Processing" forever without this running):
+```powershell
+npm run worker
+```
+
+Once Terminal 1 shows `✓ Ready`, open your browser to:
+
+**http://localhost:3000**
+
+### 9. Log in as admin
+
+The seed step (step 6) created two accounts:
+
+| Role | Email | Password |
+|---|---|---|
+| Admin | `admin@streamvault.local` | `Admin1234!` |
+| Creator | `creator@streamvault.local` | `Creator1234!` |
+
+(These come from `SEED_ADMIN_EMAIL` / `SEED_ADMIN_PASSWORD` / etc. in your `.env` — change them there and re-run `npm run prisma:seed` if you want different credentials.)
+
+Go to http://localhost:3000/login, sign in as the admin, then visit **http://localhost:3000/admin** for the admin dashboard. From the account menu (top right) you can also go to **Upload** to add your first real video and watch it move through Uploading → Processing → Ready → Published.
+
+> No demo videos are pre-loaded — a fake video row with no real file behind it would just be a broken link. Upload a real video file to see the full pipeline (validation → FFmpeg processing → thumbnails → AI metadata) run for real.
+
+### Stopping / restarting later
+
+- Stop either terminal with **Ctrl+C**.
+- To start again later, you only need steps 8 and 9 (no need to reinstall or re-migrate) — just make sure PostgreSQL is running (it normally starts automatically as a Windows service).
+
+---
+
 ## Stack
 
 - **Frontend:** Next.js 14 (App Router) + React + TypeScript + Tailwind CSS
@@ -17,66 +163,25 @@ without touching application code.
 - **Storage:** Local filesystem today, behind a provider interface (`src/lib/storage.ts`) that can be swapped for S3-compatible storage via one env var
 - **AI:** Anthropic Claude when `ANTHROPIC_API_KEY` is set, otherwise a fully-functional local heuristic engine (`src/lib/ai.ts`) - no external calls required to use every AI feature
 
-## 1. Prerequisites
+## Local storage directories
 
-- Node.js 18+
-- PostgreSQL 14+ running locally (or reachable via `DATABASE_URL`)
-- FFmpeg + FFprobe installed and on your `PATH`
-  - macOS: `brew install ffmpeg`
-  - Ubuntu/Debian: `sudo apt-get install ffmpeg`
-  - Windows: install a build from ffmpeg.org and add it to PATH
+The app writes uploaded/processed media under `./storage/`:
 
-## 2. Setup
-
-```bash
-cd video-app
-npm install
-cp .env.example .env
+```
+storage/
+├── videos/        original uploaded files
+├── thumbnails/    generated + custom thumbnails
+├── previews/      short hover-preview clips
+├── transcoded/    1080p/720p/480p/360p renditions
+└── tmp/           in-progress chunked uploads
 ```
 
-Edit `.env`:
-- Set `DATABASE_URL` to your Postgres connection string.
-- Generate secrets: `openssl rand -base64 32` (repeat for each secret field).
-- Everything else has a sane local default.
+**You do not need to create these manually.** `src/lib/storage.ts` and
+`src/lib/uploadSession.ts` create every one of these folders automatically
+(recursively, on first use) the first time the app needs them. The zip ships
+with an empty `storage/` folder containing only a `.gitkeep` placeholder.
 
-Create the database, run migrations, and seed baseline data (categories, tags, an admin account):
-
-```bash
-npx prisma migrate dev --name init
-npm run prisma:seed
-```
-
-The seed script prints the admin/creator login credentials it created
-(defaults: `admin@streamvault.local` / `Admin1234!` and
-`creator@streamvault.local` / `Creator1234!` - override with
-`SEED_ADMIN_EMAIL`/`SEED_ADMIN_PASSWORD`/etc. env vars before seeding).
-
-No demo videos are seeded - a fake video row with no real media file behind
-it would just be a broken link. Log in and upload a real file instead; the
-full pipeline (validation, FFmpeg processing, thumbnailing, AI metadata) runs
-for real.
-
-## 3. Run it
-
-You need **two processes** running side by side:
-
-```bash
-# Terminal 1 - the web app
-npm run dev
-
-# Terminal 2 - the video processing worker (FFmpeg jobs run here, never in a request)
-npm run worker
-```
-
-Open http://localhost:3000.
-
-Why two processes? Uploads are never transcoded inside an HTTP request -
-`POST /api/upload/complete` just writes a `VideoProcessingJob` row, and
-`scripts/worker.ts` polls for queued jobs and runs FFmpeg against them in the
-background. This keeps large uploads from blocking the web server and mirrors
-how you'd run a real job queue (see "Swapping in a real queue" below).
-
-## 4. What's implemented
+## What's implemented
 
 - **Home page**: featured/trending/popular/latest sections, category chips, infinite scroll, dark/light mode.
 - **Upload dashboard** (`/upload`): drag-and-drop, resumable chunked upload with pause/resume/cancel, custom thumbnail upload, tags/category/visibility, publish-on-ready toggle.
@@ -92,7 +197,7 @@ how you'd run a real job queue (see "Swapping in a real queue" below).
 - **Security**: bcrypt password hashing, JWT sessions via NextAuth, per-route auth/role checks (`src/lib/apiAuth.ts`), middleware-enforced admin routes, rate limiting (`src/lib/rateLimit.ts`), magic-byte file validation, signed download/streaming URLs, security headers (`next.config.js`), audit logging (`src/lib/audit.ts`), hashed IPs (never stored raw).
 - **AI features**: metadata generation (title/description/tags/language/chapters) after processing, natural-language search parsing, and a recommendation engine (`src/lib/recommendations.ts`) built only from a user's *own* watch history/favorites/search history - never cross-user data.
 
-## 5. Architecture notes
+## Architecture notes
 
 ### Storage is provider-agnostic
 
@@ -118,7 +223,15 @@ loop with a consumer - no API route needs to change.
 pre-signed S3 URL or a CloudFront signed URL, so `buildDeliveryPath()` in the
 storage provider is the only place that needs to change when you add a CDN.
 
-## 6. Database schema
+### Why the app is fully "dynamic" (no static pages)
+
+The root layout (`src/app/layout.tsx`) sets `export const dynamic =
+'force-dynamic'`. Every page reads live session/database state (the header
+shows live categories, the home page shows live videos, etc.), so nothing
+benefits from static prerendering - and this is also what lets `npm run
+build` succeed even before a database connection is available.
+
+## Database schema
 
 See `prisma/schema.prisma`. Models: `User`, `Session`, `PasswordResetToken`,
 `Video`, `VideoFile`, `VideoProcessingJob`, `Category`, `Tag`, `VideoTag`,
@@ -126,7 +239,7 @@ See `prisma/schema.prisma`. Models: `User`, `Session`, `PasswordResetToken`,
 `Report`, `ModerationAction`, `Notification`, `AuditLog` - all indexed on
 their common query paths (status, visibility, owner, category, timestamps).
 
-## 7. Useful scripts
+## Useful scripts
 
 ```bash
 npm run dev             # start the web app
@@ -140,7 +253,7 @@ npm run prisma:migrate   # create/apply a migration
 npm run prisma:seed      # re-run the seed script
 ```
 
-## 8. Known local-dev tradeoffs (documented, not hidden)
+## Known local-dev tradeoffs (documented, not hidden)
 
 - **Malware scanning** (`src/lib/contentSafety.ts`) will use a ClamAV daemon
   if `CLAMAV_HOST`/`CLAMAV_PORT` are set; otherwise it logs a warning and
@@ -153,3 +266,10 @@ npm run prisma:seed      # re-run the seed script
   settings table - add a `Setting` model if you need runtime-editable config.
 - Comments have a full data model (`Comment`) but no dedicated UI thread yet -
   it's there for you to build a comments panel on the watch page.
+
+## Troubleshooting
+
+- **`npm run build` or `npm run dev` complains it can't reach the database** — make sure PostgreSQL is running and `DATABASE_URL` in `.env` has the correct username/password/port, then re-run `npx prisma migrate dev`.
+- **Uploads stay stuck on "Processing" forever** — the worker (`npm run worker`) isn't running, or FFmpeg isn't on your PATH. Check Terminal 2's output and re-verify `ffmpeg -version` works in a **new** terminal.
+- **"ffmpeg is not recognized as an internal or external command"** — the PATH change didn't take effect. Close *all* terminal windows and VS Code, reopen, and try again.
+- **Login fails after seeding** — double check you're using the exact email/password printed by `npm run prisma:seed` (or the `SEED_*` values in your `.env` if you changed them).

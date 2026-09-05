@@ -48,6 +48,7 @@ export default function AdminVideosPage() {
       .finally(() => setLoading(false));
   }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- `q` is only applied when the search form is submitted
   useEffect(load, [page, status]);
 
   function submitSearch(e: React.FormEvent) {

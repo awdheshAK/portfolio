@@ -39,6 +39,7 @@ export default function AdminUsersPage() {
       .finally(() => setLoading(false));
   }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- `q` is only applied when the search form is submitted
   useEffect(load, [page]);
 
   async function updateStatus(id: string, status: string) {
