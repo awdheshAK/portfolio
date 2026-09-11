@@ -269,7 +269,23 @@ npm run prisma:seed      # re-run the seed script
 
 ## Troubleshooting
 
-- **`npm run build` or `npm run dev` complains it can't reach the database** — make sure PostgreSQL is running and `DATABASE_URL` in `.env` has the correct username/password/port, then re-run `npx prisma migrate dev`.
+- **The home page shows a red "Something went wrong" screen** — this means the app couldn't reach PostgreSQL when it tried to load videos. The home page now shows a friendly amber warning banner instead of crashing when this happens (fixed in this version) - if you still see the full red crash screen, you're running an older build. Either way, the fix is the same: check the **terminal window running `npm run dev`** for the real error (it will say something like `Can't reach database server at localhost:5432`), then:
+  1. Confirm PostgreSQL is actually running (Windows: Services app → look for `postgresql-x64-<version>` → should say "Running").
+  2. Double-check `DATABASE_URL` in `.env` matches your actual Postgres username/password/port.
+  3. Make sure you ran `npx prisma migrate dev --name init` against that database.
+  4. Restart `npm run dev` after fixing `.env`.
+- **`npm run build` or `npm run dev` complains it can't reach the database** — same as above: make sure PostgreSQL is running and `DATABASE_URL` in `.env` has the correct username/password/port, then re-run `npx prisma migrate dev`.
 - **Uploads stay stuck on "Processing" forever** — the worker (`npm run worker`) isn't running, or FFmpeg isn't on your PATH. Check Terminal 2's output and re-verify `ffmpeg -version` works in a **new** terminal.
 - **"ffmpeg is not recognized as an internal or external command"** — the PATH change didn't take effect. Close *all* terminal windows and VS Code, reopen, and try again.
 - **Login fails after seeding** — double check you're using the exact email/password printed by `npm run prisma:seed` (or the `SEED_*` values in your `.env` if you changed them).
+
+## Managing users (who signed up, their account ID, their activity)
+
+Log in as an admin and go to **http://localhost:3000/admin/users**:
+
+- The top of the page shows the **total number of registered users**, plus how many are active/suspended/admins.
+- Every user is listed with their **User ID**, name, email, role, status, video count, and signup date.
+- Click a user's name (or the **View** button) to open their full profile at `/admin/users/<id>`: their full account ID (with a copy button), signup date, bio, every video they've uploaded, total views/downloads their content has received, and their moderation history.
+- From either the list or the detail page you can promote/demote their role, or suspend/ban/reinstate their account.
+
+The admin dashboard home (**http://localhost:3000/admin**) also shows a live "Total users" count alongside videos, views, downloads, and storage stats.

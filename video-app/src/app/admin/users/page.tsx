@@ -1,9 +1,11 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import toast from 'react-hot-toast';
 import { Search } from 'lucide-react';
 import Button from '@/components/ui/Button';
+import StatCard from '@/components/admin/StatCard';
 import { formatRelativeDate, cx } from '@/lib/utils';
 
 interface AdminUser {
@@ -72,7 +74,18 @@ export default function AdminUsersPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-6">Users</h1>
+      <h1 className="text-2xl font-bold mb-2">Users</h1>
+      <p className="text-sm text-surface-500 mb-6">
+        Every account that has signed up, newest first. Click a user to see their full profile: account ID, signup
+        date, uploads, and activity.
+      </p>
+
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 mb-6">
+        <StatCard label="Total registered users" value={total} />
+        <StatCard label="Active" value={users.filter((u) => u.status === 'ACTIVE').length} hint="on this page" />
+        <StatCard label="Suspended / banned" value={users.filter((u) => u.status !== 'ACTIVE').length} hint="on this page" />
+        <StatCard label="Admins" value={users.filter((u) => u.role === 'ADMIN').length} hint="on this page" />
+      </div>
 
       <form
         onSubmit={(e) => {
@@ -101,6 +114,7 @@ export default function AdminUsersPage() {
           <thead className="bg-surface-50 dark:bg-surface-900 text-left text-xs uppercase text-surface-400">
             <tr>
               <th className="px-4 py-3">User</th>
+              <th className="px-4 py-3">User ID</th>
               <th className="px-4 py-3">Role</th>
               <th className="px-4 py-3">Status</th>
               <th className="px-4 py-3">Videos</th>
@@ -113,8 +127,15 @@ export default function AdminUsersPage() {
               users.map((u) => (
                 <tr key={u.id}>
                   <td className="px-4 py-3">
-                    <p className="font-medium">{u.name}</p>
+                    <Link href={`/admin/users/${u.id}`} className="font-medium hover:text-brand-600">
+                      {u.name}
+                    </Link>
                     <p className="text-xs text-surface-400">{u.email}</p>
+                  </td>
+                  <td className="px-4 py-3">
+                    <span className="font-mono text-xs text-surface-400" title={u.id}>
+                      {u.id.slice(0, 12)}…
+                    </span>
                   </td>
                   <td className="px-4 py-3">
                     <select
@@ -143,6 +164,12 @@ export default function AdminUsersPage() {
                   <td className="px-4 py-3 text-surface-500">{formatRelativeDate(u.createdAt)}</td>
                   <td className="px-4 py-3">
                     <div className="flex justify-end gap-2">
+                      <Link
+                        href={`/admin/users/${u.id}`}
+                        className="inline-flex items-center justify-center rounded-lg px-4 py-2.5 text-sm font-semibold text-surface-700 hover:bg-surface-100 dark:text-surface-200 dark:hover:bg-surface-800"
+                      >
+                        View
+                      </Link>
                       {u.status === 'ACTIVE' ? (
                         <>
                           <Button variant="secondary" onClick={() => updateStatus(u.id, 'SUSPENDED')}>

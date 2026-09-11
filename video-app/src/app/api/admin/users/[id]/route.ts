@@ -4,6 +4,67 @@ import { prisma } from '@/lib/prisma';
 import { requireAdmin, withErrorHandling, ApiError } from '@/lib/apiAuth';
 import { logAudit } from '@/lib/audit';
 
+/**
+ * Full profile for one user - the admin "who is this account" view: their
+ * account id/email/join date plus everything tied to them (uploads, views
+ * generated, downloads taken, reports filed/received). Nothing here is
+ * exposed to other regular users - this route is admin-only.
+ */
+export const GET = withErrorHandling(async (_req: Request, { params }: { params: { id: string } }) => {
+  await requireAdmin();
+
+  const user = await prisma.user.findUnique({
+    where: { id: params.id },
+    select: {
+      id: true,
+      name: true,
+      username: true,
+      email: true,
+      bio: true,
+      role: true,
+      status: true,
+      createdAt: true,
+      updatedAt: true,
+      videos: {
+        select: {
+          id: true,
+          title: true,
+          slug: true,
+          status: true,
+          visibility: true,
+          viewCount: true,
+          downloadCount: true,
+          createdAt: true,
+        },
+        orderBy: { createdAt: 'desc' },
+        take: 50,
+      },
+      reportsFiled: { select: { id: true } },
+      moderationActionsAgainst: {
+        select: { id: true, action: true, reason: true, createdAt: true, moderator: { select: { name: true } } },
+        orderBy: { createdAt: 'desc' },
+        take: 20,
+      },
+      _count: { select: { videos: true, favorites: true, downloads: true, watchHistory: true } },
+    },
+  });
+  if (!user) throw new ApiError('User not found.', 404);
+
+  const viewsAgg = await prisma.video.aggregate({
+    where: { ownerId: user.id },
+    _sum: { viewCount: true, downloadCount: true },
+  });
+
+  return NextResponse.json({
+    user: {
+      ...user,
+      totalReportsFiled: user.reportsFiled.length,
+      totalViewsReceived: viewsAgg._sum.viewCount ?? 0,
+      totalDownloadsReceived: viewsAgg._sum.downloadCount ?? 0,
+    },
+  });
+});
+
 const Schema = z.object({
   status: z.enum(['ACTIVE', 'SUSPENDED', 'BANNED']).optional(),
   role: z.enum(['USER', 'CREATOR', 'ADMIN']).optional(),
