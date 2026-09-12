@@ -7,6 +7,7 @@ import toast from 'react-hot-toast';
 import { signIn } from 'next-auth/react';
 import AuthCard from '@/components/auth/AuthCard';
 import FormField from '@/components/ui/FormField';
+import PasswordField from '@/components/ui/PasswordField';
 import Button from '@/components/ui/Button';
 
 export default function RegisterPage() {
@@ -79,9 +80,8 @@ export default function RegisterPage() {
           value={form.email}
           onChange={(e) => setForm({ ...form, email: e.target.value })}
         />
-        <FormField
+        <PasswordField
           label="Password"
-          type="password"
           required
           minLength={8}
           value={form.password}

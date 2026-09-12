@@ -41,8 +41,8 @@ export default function AdminVideosPage() {
     fetch(`/api/admin/videos?${sp.toString()}`)
       .then((r) => r.json())
       .then((d) => {
-        setVideos(d.videos);
-        setTotal(d.total);
+        setVideos(d.videos ?? []);
+        setTotal(d.total ?? 0);
         setSelected(new Set());
       })
       .finally(() => setLoading(false));

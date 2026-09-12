@@ -12,7 +12,7 @@ export default function HistoryPage() {
   function load() {
     fetch('/api/account/history')
       .then((r) => r.json())
-      .then((d) => setVideos(d.videos));
+      .then((d) => setVideos(d.videos ?? []));
   }
 
   useEffect(load, []);

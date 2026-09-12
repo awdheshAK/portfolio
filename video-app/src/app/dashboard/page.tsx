@@ -36,7 +36,7 @@ export default function CreatorDashboardPage() {
   function load() {
     fetch('/api/dashboard/videos')
       .then((r) => r.json())
-      .then((d) => setVideos(d.videos));
+      .then((d) => setVideos(d.videos ?? []));
   }
 
   useEffect(load, []);

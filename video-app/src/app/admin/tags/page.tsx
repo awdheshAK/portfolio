@@ -17,7 +17,7 @@ export default function AdminTagsPage() {
   function load() {
     fetch('/api/admin/tags')
       .then((r) => r.json())
-      .then((d) => setTags(d.tags));
+      .then((d) => setTags(d.tags ?? []));
   }
 
   useEffect(load, []);

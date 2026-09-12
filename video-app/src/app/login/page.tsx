@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import AuthCard from '@/components/auth/AuthCard';
 import FormField from '@/components/ui/FormField';
+import PasswordField from '@/components/ui/PasswordField';
 import Button from '@/components/ui/Button';
 
 export default function LoginPage() {
@@ -47,9 +48,8 @@ export default function LoginPage() {
     >
       <form onSubmit={onSubmit}>
         <FormField label="Email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
-        <FormField
+        <PasswordField
           label="Password"
-          type="password"
           required
           value={password}
           onChange={(e) => setPassword(e.target.value)}

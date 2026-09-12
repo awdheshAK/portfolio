@@ -27,8 +27,8 @@ export default function AdminModerationPage() {
       fetch('/api/admin/reports?status=PENDING').then((r) => r.json()),
       fetch('/api/admin/reports?status=APPEALED').then((r) => r.json()),
     ]).then(([p, a]) => {
-      setPending(p.reports);
-      setAppealed(a.reports);
+      setPending(p.reports ?? []);
+      setAppealed(a.reports ?? []);
     });
   }
 

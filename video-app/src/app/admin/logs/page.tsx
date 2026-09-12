@@ -24,8 +24,8 @@ export default function AdminLogsPage() {
     fetch(`/api/admin/logs?page=${page}`)
       .then((r) => r.json())
       .then((d) => {
-        setLogs(d.logs);
-        setHasMore(d.hasMore);
+        setLogs(d.logs ?? []);
+        setHasMore(Boolean(d.hasMore));
       })
       .finally(() => setLoading(false));
   }, [page]);

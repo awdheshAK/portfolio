@@ -9,26 +9,37 @@ export default function InfiniteVideoGrid({
   fetchUrl,
   initialHasMore,
 }: {
-  initialVideos: VideoCardData[];
+  initialVideos: VideoCardData[] | null | undefined;
   fetchUrl: (page: number) => string;
   initialHasMore: boolean;
 }) {
-  const [videos, setVideos] = useState(initialVideos);
+  // Defend against a caller passing undefined (e.g. a parent that forwarded
+  // an errored API response without a `videos` array) - never let a bad
+  // response turn into a hard crash for the whole page.
+  const [videos, setVideos] = useState(initialVideos ?? []);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(initialHasMore);
   const [loading, setLoading] = useState(false);
+  const [loadError, setLoadError] = useState(false);
   const sentinelRef = useRef<HTMLDivElement>(null);
 
   const loadMore = useCallback(async () => {
     if (loading || !hasMore) return;
     setLoading(true);
+    setLoadError(false);
     try {
       const nextPage = page + 1;
       const res = await fetch(fetchUrl(nextPage));
       const data = await res.json();
+      if (!res.ok || !Array.isArray(data.videos)) {
+        throw new Error(data?.error ?? 'Could not load more videos.');
+      }
       setVideos((prev) => [...prev, ...data.videos]);
-      setHasMore(data.hasMore);
+      setHasMore(Boolean(data.hasMore));
       setPage(nextPage);
+    } catch {
+      setLoadError(true);
+      setHasMore(false);
     } finally {
       setLoading(false);
     }
@@ -65,6 +76,7 @@ export default function InfiniteVideoGrid({
         ))}
         {loading && Array.from({ length: 5 }).map((_, i) => <VideoCardSkeleton key={`sk-${i}`} />)}
       </div>
+      {loadError && <p className="py-6 text-center text-sm text-red-500">Couldn&apos;t load more videos. Please try again later.</p>}
       {hasMore && <div ref={sentinelRef} className="h-10" />}
     </div>
   );

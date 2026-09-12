@@ -35,8 +35,8 @@ export default function AdminUsersPage() {
     fetch(`/api/admin/users?${sp.toString()}`)
       .then((r) => r.json())
       .then((d) => {
-        setUsers(d.users);
-        setTotal(d.total);
+        setUsers(d.users ?? []);
+        setTotal(d.total ?? 0);
       })
       .finally(() => setLoading(false));
   }

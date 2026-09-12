@@ -10,7 +10,7 @@ export default function FavoritesPage() {
   useEffect(() => {
     fetch('/api/account/favorites')
       .then((r) => r.json())
-      .then((d) => setVideos(d.videos));
+      .then((d) => setVideos(d.videos ?? []));
   }, []);
 
   return (

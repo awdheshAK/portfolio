@@ -26,7 +26,7 @@ export default function AdminCategoriesPage() {
   function load() {
     fetch('/api/categories')
       .then((r) => r.json())
-      .then((d) => setCategories(d.categories));
+      .then((d) => setCategories(d.categories ?? []));
   }
 
   useEffect(load, []);

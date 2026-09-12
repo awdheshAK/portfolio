@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, AlertTriangle } from 'lucide-react';
 import InfiniteVideoGrid from '@/components/video/InfiniteVideoGrid';
 import { VideoCardData } from '@/components/video/VideoCard';
 
@@ -24,6 +24,7 @@ export default function SearchResults() {
   const [hasMore, setHasMore] = useState(false);
   const [total, setTotal] = useState(0);
   const [interpreted, setInterpreted] = useState<any>(null);
+  const [searchError, setSearchError] = useState(false);
 
   function buildUrl(page: number) {
     const sp = new URLSearchParams();
@@ -35,13 +36,25 @@ export default function SearchResults() {
 
   useEffect(() => {
     setVideos(null);
+    setSearchError(false);
     fetch(buildUrl(1))
-      .then((r) => r.json())
-      .then((data) => {
+      .then(async (res) => {
+        const data = await res.json();
+        if (!res.ok || !Array.isArray(data.videos)) {
+          throw new Error(data?.error ?? 'Search failed.');
+        }
         setVideos(data.videos);
-        setHasMore(data.hasMore);
-        setTotal(data.total);
-        setInterpreted(data.interpretedFilters);
+        setHasMore(Boolean(data.hasMore));
+        setTotal(data.total ?? 0);
+        setInterpreted(data.interpretedFilters ?? null);
+      })
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.error('[search] Could not load results:', err);
+        setVideos([]);
+        setHasMore(false);
+        setTotal(0);
+        setSearchError(true);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [q, sort]);
@@ -75,6 +88,13 @@ export default function SearchResults() {
           ))}
         </select>
       </div>
+
+      {searchError && (
+        <div className="mb-6 flex items-start gap-3 rounded-xl border border-amber-200 dark:border-amber-900 bg-amber-50 dark:bg-amber-950/30 px-4 py-3 text-sm text-amber-800 dark:text-amber-300">
+          <AlertTriangle size={18} className="mt-0.5 shrink-0" />
+          <p>Search is temporarily unavailable. Please try again in a moment.</p>
+        </div>
+      )}
 
       {hasSmartFilters && (
         <div className="mb-6 flex items-center gap-2 rounded-lg bg-brand-50 dark:bg-brand-950/30 px-4 py-2.5 text-sm text-brand-700 dark:text-brand-300">

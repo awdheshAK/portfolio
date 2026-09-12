@@ -30,7 +30,7 @@ export default function AdminReportsPage() {
     const sp = status ? `?status=${status}` : '';
     fetch(`/api/admin/reports${sp}`)
       .then((r) => r.json())
-      .then((d) => setReports(d.reports));
+      .then((d) => setReports(d.reports ?? []));
   }, [status]);
 
   return (

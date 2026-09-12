@@ -19,7 +19,7 @@ export default function DownloadsPage() {
   useEffect(() => {
     fetch('/api/account/downloads')
       .then((r) => r.json())
-      .then((d) => setDownloads(d.downloads));
+      .then((d) => setDownloads(d.downloads ?? []));
   }, []);
 
   return (

@@ -4,7 +4,7 @@ import { Suspense, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import AuthCard from '@/components/auth/AuthCard';
-import FormField from '@/components/ui/FormField';
+import PasswordField from '@/components/ui/PasswordField';
 import Button from '@/components/ui/Button';
 
 function ResetPasswordForm() {
@@ -43,9 +43,8 @@ function ResetPasswordForm() {
 
   return (
     <form onSubmit={onSubmit}>
-      <FormField
+      <PasswordField
         label="New password"
-        type="password"
         required
         minLength={8}
         value={password}

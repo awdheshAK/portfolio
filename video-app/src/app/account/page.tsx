@@ -27,9 +27,13 @@ export default function AccountPage() {
     fetch('/api/account/profile')
       .then((r) => r.json())
       .then((d) => {
+        if (!d.user) return;
         setProfile(d.user);
         setName(d.user.name);
         setBio(d.user.bio ?? '');
+      })
+      .catch(() => {
+        // Loading state persists; the page already renders "Loading…" until profile is set.
       });
   }, []);
 
