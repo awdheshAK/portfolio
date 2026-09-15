@@ -609,6 +609,7 @@ add(path="/contact/", title="Contact Us", kind="contact", category=None,
 add(path="/privacy-policy/", title="Privacy Policy", kind="legal", category="legal",
     heading="Privacy Policy", eyebrow="Legal",
     lede="[This is placeholder legal content and must be reviewed by qualified counsel before publication.]",
+    note="Please read this Privacy Policy carefully. By using our website you agree to the terms outlined below. If you have any questions, feel free to contact us.",
     sections=[
         ("Information We Collect", "[Describe the categories of information collected from visitors once confirmed.]"),
         ("How We Use Information", "[Describe how collected information is used.]"),
@@ -619,6 +620,7 @@ add(path="/privacy-policy/", title="Privacy Policy", kind="legal", category="leg
 add(path="/terms-of-use/", title="Terms of Use", kind="legal", category="legal",
     heading="Terms of Use", eyebrow="Legal",
     lede="[This is placeholder legal content and must be reviewed by qualified counsel before publication.]",
+    note="Please read these Terms of Use carefully. By using our website you agree to the terms outlined below. If you have any questions, feel free to contact us.",
     sections=[
         ("Acceptance of Terms", "[Describe the terms under which this site may be used.]"),
         ("Intellectual Property", "[Describe ownership of site content and trademarks.]"),
@@ -734,6 +736,7 @@ def render_head(page):
     return f"""<!DOCTYPE html>
 <html lang="en-IN">
 <head>
+  <script>document.documentElement.classList.add('js');</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{esc(title)}</title>
@@ -991,6 +994,7 @@ def block_highlights(items):
           </li>''')
     return f'''    <section class="section section--ink">
       <div class="container">
+        <p class="eyebrow" data-reveal="fade-up">At a Glance</p>
         <ul class="why__list why__list--standalone">
 {chr(10).join(lis)}
         </ul>
@@ -1003,7 +1007,7 @@ def block_body(paragraphs):
     paras = "\n".join(f'          <p class="article-body__text">{esc(p)}</p>' for p in paragraphs)
     return f'''    <section class="section">
       <div class="container container--article">
-        <div class="article-body">
+        <div class="article-body" data-reveal="fade-up">
 {paras}
         </div>
       </div>
@@ -1079,16 +1083,34 @@ def block_form():
 '''
 
 
-def block_legal_sections(sections):
-    secs = []
-    for heading, text in sections:
-        secs.append(f'''        <div class="legal-section">
+def block_legal_sections(sections, note=""):
+    def slugify(s):
+        return re.sub(r"-+", "-", re.sub(r"[^a-z0-9]+", "-", s.lower())).strip("-")
+
+    toc_items, secs = [], []
+    for i, (heading, text) in enumerate(sections, start=1):
+        anchor = slugify(heading)
+        toc_items.append(f'          <li><a href="#{anchor}"><span class="legal-toc__num">{i}</span>{esc(heading)}</a></li>')
+        secs.append(f'''        <div class="legal-section" id="{anchor}">
+          <span class="legal-section__num">{i}</span>
           <h2>{esc(heading)}</h2>
           <p>{esc(text)}</p>
         </div>''')
+    note_html = f'''        <div class="legal-note">
+          <p>{esc(note)}</p>
+        </div>
+''' if note else ""
     return f'''    <section class="section">
-      <div class="container container--article">
-{chr(10).join(secs)}
+      <div class="container legal-grid">
+        <aside class="legal-toc" data-reveal="fade-up">
+          <p class="legal-toc__label">On This Page</p>
+          <ol>
+{chr(10).join(toc_items)}
+          </ol>
+        </aside>
+        <div class="legal-content">
+{note_html}{chr(10).join(secs)}
+        </div>
       </div>
     </section>
 '''
@@ -1418,7 +1440,7 @@ def body_article(page):
 
 
 def body_contact(page):
-    map_query = "Rahon+Road,+Mangat+Village+Khwajke,+Ludhiana,+Punjab+141007,+India"
+    map_query = "MJ+Oswal,+Mangat+Village+Khwajke,+Rahon+Road,+Ludhiana,+Punjab+141007,+India"
     phone_svg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .3 2 .7 3a2 2 0 0 1-.4 2.1L8 10.2a16 16 0 0 0 6 6l1.4-1.4a2 2 0 0 1 2-.5c1 .4 2 .6 3 .7a2 2 0 0 1 1.7 2z"/></svg>'
     email_svg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16v16H4z"/><path d="M4 6l8 7 8-7"/></svg>'
     address_svg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.6 7-12a7 7 0 1 0-14 0c0 5.4 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>'
@@ -1457,7 +1479,7 @@ def body_contact(page):
 
 
 def body_legal(page):
-    return block_legal_sections(page["sections"])
+    return block_legal_sections(page["sections"], note=page.get("note", ""))
 
 
 BODY_RENDERERS = {

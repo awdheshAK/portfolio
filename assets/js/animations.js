@@ -42,6 +42,15 @@
     );
 
     items.forEach(function (el) { observer.observe(el); });
+
+    // Safety net: if any element is somehow never reported as intersecting
+    // (a mis-measured zero-height container, a missed observer callback),
+    // it must not stay invisible forever — force it visible after a beat.
+    window.setTimeout(function () {
+      items.forEach(function (el) {
+        if (!el.classList.contains('is-visible')) el.classList.add('is-visible');
+      });
+    }, 4000);
   }
 
   /* ---------------------------------------------------------------------

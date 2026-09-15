@@ -18,7 +18,7 @@
   var root = document.querySelector('[data-hero-slider]');
   if (!root) return;
 
-  var AUTOPLAY_MS = 6000;
+  var AUTOPLAY_MS = 7500;
   var SWIPE_THRESHOLD = 40;
 
   var slides = Array.prototype.slice.call(root.querySelectorAll('[data-slide]'));
