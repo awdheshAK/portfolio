@@ -1043,24 +1043,27 @@ a.contact-info-card__value:hover, a.contact-info-card__value:focus-visible { col
   color: var(--color-white);
 }
 .hero-slider__slide {
+  /* Stay position:absolute + inset:0 — .hero-slider already gets its
+     height from min-height:100svh, not from an in-flow child, so
+     position:relative here would drop inset:0's sizing and let the
+     slide collapse to its content's natural height. */
   position: absolute;
   inset: 0;
   display: flex;
   align-items: flex-end;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 1.6s var(--ease-in-out), visibility 0s linear 1.6s;
+  /* Real filmstrip motion: JS sets each slide's translateX to its offset
+     from the active slide (0, +100%, -100%, ...), so changing the active
+     index slides the whole strip sideways instead of cross-fading. The
+     :first-child default below is the CSS-only starting position before
+     JS has run a single frame — slide 1 in place, the rest waiting just
+     off-screen to the right — so there's no flash of every slide stacked
+     on top of each other for a moment on load. */
+  transform: translateX(100%);
+  transition: transform 1.2s var(--ease-in-out);
+  will-change: transform;
 }
-.hero-slider__slide.is-active {
-  /* Stay position:absolute + inset:0 like every other slide — .hero-slider
-     already gets its height from min-height:100svh, not from an in-flow
-     child, so switching this to position:relative would drop inset:0's
-     sizing and let the slide collapse to its content's natural height. */
-  opacity: 1;
-  visibility: visible;
-  transition: opacity 1.6s var(--ease-in-out);
-  z-index: 1;
-}
+.hero-slider__slide:first-child { transform: translateX(0); }
+.hero-slider__slide.is-active { z-index: 2; }
 .hero-slider__media { position: absolute; inset: 0; z-index: -1; overflow: hidden; }
 .hero-slider__media img {
   width: 100%;
@@ -1695,16 +1698,23 @@ body.lightbox-open { overflow: hidden; }
 /* -------------------------------------------------------------------------
    15. SCROLL-REVEAL ANIMATION SYSTEM
    ------------------------------------------------------------------------- */
-/* Gated behind html.js (set synchronously in <head>, see render_head()) so
-   content is never hidden for a visitor whose JS fails to load or run —
-   only a confirmed-running page ever gets the opacity:0 starting state. */
-html.js [data-reveal] {
+/* [data-reveal] elements are visible by default — plain, unanimated HTML —
+   and stay that way unless animations.js itself adds .is-armed right
+   before it starts watching an element (see initScrollReveals()). So the
+   opacity:0 starting state only ever exists for a page where that exact
+   line of JS has already run, which also means an IntersectionObserver is
+   about to start watching it a beat later: there is no window where a
+   visitor's JS can hide content and then fail before revealing it again,
+   the way there was when opacity:0 was this rule's unconditional default. */
+[data-reveal].is-armed:not(.is-visible) {
   opacity: 0;
-  transition: opacity var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out), clip-path var(--dur-slow) var(--ease-out);
   will-change: transform, opacity;
 }
-html.js [data-reveal="fade-up"] { transform: translateY(28px); }
-html.js [data-reveal="clip-up"] { clip-path: inset(12% 0 0 0 round var(--radius-lg)); transform: scale(1.03); }
+[data-reveal="fade-up"].is-armed:not(.is-visible) { transform: translateY(28px); }
+[data-reveal="clip-up"].is-armed:not(.is-visible) { clip-path: inset(12% 0 0 0 round var(--radius-lg)); transform: scale(1.03); }
+[data-reveal].is-armed {
+  transition: opacity var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out), clip-path var(--dur-slow) var(--ease-out);
+}
 [data-reveal].is-visible {
   opacity: 1;
   transform: none;

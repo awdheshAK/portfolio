@@ -24,6 +24,12 @@
       return;
     }
 
+    // Only from here on are these elements allowed to start invisible (see
+    // the [data-reveal].is-armed rule in main.css) — arm them and start
+    // watching in the same pass, so there's no gap where "armed" is true
+    // but nothing is yet watching to reveal them again.
+    items.forEach(function (el) { el.classList.add('is-armed'); });
+
     var observer = new IntersectionObserver(
       function (entries) {
         entries.forEach(function (entry) {

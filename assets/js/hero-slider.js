@@ -49,9 +49,22 @@
     dot.classList.add('is-active');
   }
 
+  // Each slide's horizontal position is its offset from the active slide
+  // (0 = in view, +1 = one slide right, -1 = one slide left, wrapping the
+  // shortest way around), so moving the active index slides the whole
+  // strip sideways in one smooth motion instead of cross-fading in place.
+  function offsetFor(i) {
+    var delta = i - index;
+    var total = slides.length;
+    if (delta > total / 2) delta -= total;
+    if (delta < -total / 2) delta += total;
+    return delta;
+  }
+
   function render() {
     slides.forEach(function (slide, i) {
       slide.classList.toggle('is-active', i === index);
+      slide.style.transform = 'translateX(' + (offsetFor(i) * 100) + '%)';
     });
     dots.forEach(function (dot, i) {
       var active = i === index;

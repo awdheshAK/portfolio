@@ -736,7 +736,6 @@ def render_head(page):
     return f"""<!DOCTYPE html>
 <html lang="en-IN">
 <head>
-  <script>document.documentElement.classList.add('js');</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{esc(title)}</title>
