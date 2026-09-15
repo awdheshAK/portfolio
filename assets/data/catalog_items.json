@@ -1,5 +1,5 @@
 {
-  "_readme": "To add a new product: copy one object inside 'items' below, give it a unique 'slug' and set its 'category' to one of the subcategory slugs in assets/data/product_subcategories.json (and 'gender' to match). Each product's 'gallery' list can hold as many images as you like \u2014 add files under /assets/images/products/<category>/ and list them here. Re-run scripts/build_site.py after editing.",
+  "_readme": "To add a new product: copy one object inside 'items' below, give it a unique 'slug' and set its 'category' to one of the subcategory slugs in assets/data/product_subcategories.json (and 'gender' to match). Each product's 'gallery' list can hold as many images as you like — add files under /assets/images/products/<category>/ and list them here. Re-run scripts/build_site.py after editing.",
   "items": [
     {
       "slug": "mens-lounge-wear-01",
@@ -92,18 +92,18 @@
       "name": "Classic Polo Shirt",
       "type": "Classic Polo Shirt",
       "description": "Classic Polo Shirt, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
-      "fabric": "[Add verified fabric composition here.]",
-      "styles": "[Add available style options here.]",
-      "colors": "[Add available colour options here.]",
+      "fabric": "Pure Cotton Fabric.",
+      "styles": "M, L, XL, 2XL, 3XL — custom size ranges available for bulk orders.",
+      "colors": "Salmon, Brown, Navy, White, Sky, Peru — additional colourways available on request.",
       "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
-      "image": "/assets/images/products/polo/polo-01.webp",
+      "image": "/assets/images/products/polo/polo-01/1.webp",
       "gallery": [
-        "/assets/images/products/polo/polo-01.webp",
-        "/assets/images/products/polo/polo-02.webp",
-        "/assets/images/products/polo/polo-03.webp",
-        "/assets/images/products/polo/polo-04.webp",
-        "/assets/images/products/polo/polo-05.webp",
-        "/assets/images/products/polo/polo-06.webp"
+        "/assets/images/products/polo/polo-01/1.webp",
+        "/assets/images/products/polo/polo-01/2.webp",
+        "/assets/images/products/polo/polo-01/3.webp",
+        "/assets/images/products/polo/polo-01/4.webp",
+        "/assets/images/products/polo/polo-01/5.webp",
+        "/assets/images/products/polo/polo-01/6.webp"
       ]
     },
     {
@@ -176,18 +176,18 @@
       "name": "Men's Crew Neck T-Shirt",
       "type": "Men's Crew Neck T-Shirt",
       "description": "Men's Crew Neck T-Shirt, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
-      "fabric": "[Add verified fabric composition here.]",
-      "styles": "[Add available style options here.]",
-      "colors": "[Add available colour options here.]",
+      "fabric": "Soft Cotton Fabric.",
+      "styles": "M, L, XL, 2XL, 3XL — custom size ranges available for bulk orders.",
+      "colors": "L-Blue, S-Blue, Peru, D-Navy, Black, White — additional colourways available on request.",
       "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
-      "image": "/assets/images/products/mens-t-shirts/mens-t-shirts-01.webp",
+      "image": "/assets/images/products/mens-t-shirts/mens-t-shirts-01/1.webp",
       "gallery": [
-        "/assets/images/products/mens-t-shirts/mens-t-shirts-01.webp",
-        "/assets/images/products/mens-t-shirts/mens-t-shirts-02.webp",
-        "/assets/images/products/mens-t-shirts/mens-t-shirts-03.webp",
-        "/assets/images/products/mens-t-shirts/mens-t-shirts-04.webp",
-        "/assets/images/products/mens-t-shirts/mens-t-shirts-05.webp",
-        "/assets/images/products/mens-t-shirts/mens-t-shirts-06.webp"
+        "/assets/images/products/mens-t-shirts/mens-t-shirts-01/1.webp",
+        "/assets/images/products/mens-t-shirts/mens-t-shirts-01/2.webp",
+        "/assets/images/products/mens-t-shirts/mens-t-shirts-01/3.webp",
+        "/assets/images/products/mens-t-shirts/mens-t-shirts-01/4.webp",
+        "/assets/images/products/mens-t-shirts/mens-t-shirts-01/5.webp",
+        "/assets/images/products/mens-t-shirts/mens-t-shirts-01/6.webp"
       ]
     },
     {
@@ -197,18 +197,18 @@
       "name": "Men's V-Neck T-Shirt",
       "type": "Men's V-Neck T-Shirt",
       "description": "Men's V-Neck T-Shirt, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
-      "fabric": "[Add verified fabric composition here.]",
-      "styles": "[Add available style options here.]",
-      "colors": "[Add available colour options here.]",
+      "fabric": "Soft and breathable cotton fabric.",
+      "styles": "M, L, XL, 2XL, 3XL — custom size ranges available for bulk orders.",
+      "colors": "D-Mendhi, Navy, Olive, Green, Grey, Black — additional colourways available on request.",
       "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
-      "image": "/assets/images/products/mens-t-shirts/mens-t-shirts-02.webp",
+      "image": "/assets/images/products/mens-t-shirts/mens-t-shirts-02/1.webp",
       "gallery": [
-        "/assets/images/products/mens-t-shirts/mens-t-shirts-02.webp",
-        "/assets/images/products/mens-t-shirts/mens-t-shirts-01.webp",
-        "/assets/images/products/mens-t-shirts/mens-t-shirts-03.webp",
-        "/assets/images/products/mens-t-shirts/mens-t-shirts-04.webp",
-        "/assets/images/products/mens-t-shirts/mens-t-shirts-05.webp",
-        "/assets/images/products/mens-t-shirts/mens-t-shirts-06.webp"
+        "/assets/images/products/mens-t-shirts/mens-t-shirts-02/1.webp",
+        "/assets/images/products/mens-t-shirts/mens-t-shirts-02/2.webp",
+        "/assets/images/products/mens-t-shirts/mens-t-shirts-02/3.webp",
+        "/assets/images/products/mens-t-shirts/mens-t-shirts-02/4.webp",
+        "/assets/images/products/mens-t-shirts/mens-t-shirts-02/5.webp",
+        "/assets/images/products/mens-t-shirts/mens-t-shirts-02/6.webp"
       ]
     },
     {
@@ -218,18 +218,18 @@
       "name": "Men's Henley T-Shirt",
       "type": "Men's Henley T-Shirt",
       "description": "Men's Henley T-Shirt, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
-      "fabric": "[Add verified fabric composition here.]",
-      "styles": "[Add available style options here.]",
-      "colors": "[Add available colour options here.]",
+      "fabric": "High-quality blend of Lycra and Tencel Fabric.",
+      "styles": "S, M, L, XL, XXL — custom size ranges available for bulk orders.",
+      "colors": "Navy, Black, Cream, Lt-Grey, Wood, Olv-Green — additional colourways available on request.",
       "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
-      "image": "/assets/images/products/mens-t-shirts/mens-t-shirts-03.webp",
+      "image": "/assets/images/products/mens-t-shirts/mens-t-shirts-03/1.webp",
       "gallery": [
-        "/assets/images/products/mens-t-shirts/mens-t-shirts-03.webp",
-        "/assets/images/products/mens-t-shirts/mens-t-shirts-01.webp",
-        "/assets/images/products/mens-t-shirts/mens-t-shirts-02.webp",
-        "/assets/images/products/mens-t-shirts/mens-t-shirts-04.webp",
-        "/assets/images/products/mens-t-shirts/mens-t-shirts-05.webp",
-        "/assets/images/products/mens-t-shirts/mens-t-shirts-06.webp"
+        "/assets/images/products/mens-t-shirts/mens-t-shirts-03/1.webp",
+        "/assets/images/products/mens-t-shirts/mens-t-shirts-03/2.webp",
+        "/assets/images/products/mens-t-shirts/mens-t-shirts-03/3.webp",
+        "/assets/images/products/mens-t-shirts/mens-t-shirts-03/4.webp",
+        "/assets/images/products/mens-t-shirts/mens-t-shirts-03/5.webp",
+        "/assets/images/products/mens-t-shirts/mens-t-shirts-03/6.webp"
       ]
     },
     {
@@ -240,17 +240,17 @@
       "type": "Men's Full Sleeve T-Shirt",
       "description": "Men's Full Sleeve T-Shirt, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
       "fabric": "[Add verified fabric composition here.]",
-      "styles": "[Add available style options here.]",
-      "colors": "[Add available colour options here.]",
+      "styles": "M, L, XL, XXL, 3XL, 4XL — custom size ranges available for bulk orders.",
+      "colors": "Pink, Brown, Navy, Green, Red, Grey — additional colourways available on request.",
       "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
-      "image": "/assets/images/products/mens-t-shirts/mens-t-shirts-04.webp",
+      "image": "/assets/images/products/mens-t-shirts/mens-t-shirts-04/1.webp",
       "gallery": [
-        "/assets/images/products/mens-t-shirts/mens-t-shirts-04.webp",
-        "/assets/images/products/mens-t-shirts/mens-t-shirts-01.webp",
-        "/assets/images/products/mens-t-shirts/mens-t-shirts-02.webp",
-        "/assets/images/products/mens-t-shirts/mens-t-shirts-03.webp",
-        "/assets/images/products/mens-t-shirts/mens-t-shirts-05.webp",
-        "/assets/images/products/mens-t-shirts/mens-t-shirts-06.webp"
+        "/assets/images/products/mens-t-shirts/mens-t-shirts-04/1.webp",
+        "/assets/images/products/mens-t-shirts/mens-t-shirts-04/2.webp",
+        "/assets/images/products/mens-t-shirts/mens-t-shirts-04/3.webp",
+        "/assets/images/products/mens-t-shirts/mens-t-shirts-04/4.webp",
+        "/assets/images/products/mens-t-shirts/mens-t-shirts-04/5.webp",
+        "/assets/images/products/mens-t-shirts/mens-t-shirts-04/6.webp"
       ]
     },
     {
@@ -344,18 +344,15 @@
       "name": "Men's Knit Lower",
       "type": "Men's Knit Lower",
       "description": "Men's Knit Lower, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
-      "fabric": "[Add verified fabric composition here.]",
-      "styles": "[Add available style options here.]",
-      "colors": "[Add available colour options here.]",
+      "fabric": "Expertly crafted from premium Cotton PC Fabric.",
+      "styles": "M, L, XL, 2XL, 3XL, 4XL — custom size ranges available for bulk orders.",
+      "colors": "Grey, Navy, Black — additional colourways available on request.",
       "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
-      "image": "/assets/images/products/lowers/lowers-01.webp",
+      "image": "/assets/images/products/lowers/lowers-01/1.webp",
       "gallery": [
-        "/assets/images/products/lowers/lowers-01.webp",
-        "/assets/images/products/lowers/lowers-02.webp",
-        "/assets/images/products/lowers/lowers-03.webp",
-        "/assets/images/products/lowers/lowers-04.webp",
-        "/assets/images/products/lowers/lowers-05.webp",
-        "/assets/images/products/lowers/lowers-06.webp"
+        "/assets/images/products/lowers/lowers-01/1.webp",
+        "/assets/images/products/lowers/lowers-01/2.webp",
+        "/assets/images/products/lowers/lowers-01/3.webp"
       ]
     },
     {
@@ -365,18 +362,18 @@
       "name": "Men's Jogger Lower",
       "type": "Men's Jogger Lower",
       "description": "Men's Jogger Lower, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
-      "fabric": "[Add verified fabric composition here.]",
-      "styles": "[Add available style options here.]",
-      "colors": "[Add available colour options here.]",
+      "fabric": "High-quality Pure Linen Fabric.",
+      "styles": "M, L, XL, XXL — custom size ranges available for bulk orders.",
+      "colors": "Black, Beige, D-Grey, Brown, Olive, Wheat — additional colourways available on request.",
       "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
-      "image": "/assets/images/products/lowers/lowers-02.webp",
+      "image": "/assets/images/products/lowers/lowers-02/1.webp",
       "gallery": [
-        "/assets/images/products/lowers/lowers-02.webp",
-        "/assets/images/products/lowers/lowers-01.webp",
-        "/assets/images/products/lowers/lowers-03.webp",
-        "/assets/images/products/lowers/lowers-04.webp",
-        "/assets/images/products/lowers/lowers-05.webp",
-        "/assets/images/products/lowers/lowers-06.webp"
+        "/assets/images/products/lowers/lowers-02/1.webp",
+        "/assets/images/products/lowers/lowers-02/2.webp",
+        "/assets/images/products/lowers/lowers-02/3.webp",
+        "/assets/images/products/lowers/lowers-02/4.webp",
+        "/assets/images/products/lowers/lowers-02/5.webp",
+        "/assets/images/products/lowers/lowers-02/6.webp"
       ]
     },
     {
@@ -680,18 +677,18 @@
       "name": "Women's Knit Top",
       "type": "Women's Knit Top",
       "description": "Women's Knit Top, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
-      "fabric": "[Add verified fabric composition here.]",
-      "styles": "[Add available style options here.]",
-      "colors": "[Add available colour options here.]",
+      "fabric": "Cotton.",
+      "styles": "L, XL, XXL, 3XL — custom size ranges available for bulk orders.",
+      "colors": "Lt Pink, Pista, Black, M pink, Chocolate, Rose — additional colourways available on request.",
       "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
-      "image": "/assets/images/products/tops/tops-01.webp",
+      "image": "/assets/images/products/tops/tops-01/1.webp",
       "gallery": [
-        "/assets/images/products/tops/tops-01.webp",
-        "/assets/images/products/tops/tops-02.webp",
-        "/assets/images/products/tops/tops-03.webp",
-        "/assets/images/products/tops/tops-04.webp",
-        "/assets/images/products/tops/tops-05.webp",
-        "/assets/images/products/tops/tops-06.webp"
+        "/assets/images/products/tops/tops-01/1.webp",
+        "/assets/images/products/tops/tops-01/2.webp",
+        "/assets/images/products/tops/tops-01/3.webp",
+        "/assets/images/products/tops/tops-01/4.webp",
+        "/assets/images/products/tops/tops-01/5.webp",
+        "/assets/images/products/tops/tops-01/6.webp"
       ]
     },
     {
@@ -701,18 +698,18 @@
       "name": "Women's Sleeveless Top",
       "type": "Women's Sleeveless Top",
       "description": "Women's Sleeveless Top, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
-      "fabric": "[Add verified fabric composition here.]",
-      "styles": "[Add available style options here.]",
-      "colors": "[Add available colour options here.]",
+      "fabric": "Cotton.",
+      "styles": "M, L, XL, 2XL, 3XL — custom size ranges available for bulk orders.",
+      "colors": "Brown, Pink, Teal, Sky, Purple, Red — additional colourways available on request.",
       "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
-      "image": "/assets/images/products/tops/tops-02.webp",
+      "image": "/assets/images/products/tops/tops-02/1.webp",
       "gallery": [
-        "/assets/images/products/tops/tops-02.webp",
-        "/assets/images/products/tops/tops-01.webp",
-        "/assets/images/products/tops/tops-03.webp",
-        "/assets/images/products/tops/tops-04.webp",
-        "/assets/images/products/tops/tops-05.webp",
-        "/assets/images/products/tops/tops-06.webp"
+        "/assets/images/products/tops/tops-02/1.webp",
+        "/assets/images/products/tops/tops-02/2.webp",
+        "/assets/images/products/tops/tops-02/3.webp",
+        "/assets/images/products/tops/tops-02/4.webp",
+        "/assets/images/products/tops/tops-02/5.webp",
+        "/assets/images/products/tops/tops-02/6.webp"
       ]
     },
     {
@@ -723,17 +720,17 @@
       "type": "Women's Wrap Top",
       "description": "Women's Wrap Top, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
       "fabric": "[Add verified fabric composition here.]",
-      "styles": "[Add available style options here.]",
-      "colors": "[Add available colour options here.]",
+      "styles": "M, L, XL, 2XL — custom size ranges available for bulk orders.",
+      "colors": "Red Orange, Pink, Aqua Sky, Blue, Dusty Rose, Black — additional colourways available on request.",
       "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
-      "image": "/assets/images/products/tops/tops-03.webp",
+      "image": "/assets/images/products/tops/tops-03/1.webp",
       "gallery": [
-        "/assets/images/products/tops/tops-03.webp",
-        "/assets/images/products/tops/tops-01.webp",
-        "/assets/images/products/tops/tops-02.webp",
-        "/assets/images/products/tops/tops-04.webp",
-        "/assets/images/products/tops/tops-05.webp",
-        "/assets/images/products/tops/tops-06.webp"
+        "/assets/images/products/tops/tops-03/1.webp",
+        "/assets/images/products/tops/tops-03/2.webp",
+        "/assets/images/products/tops/tops-03/3.webp",
+        "/assets/images/products/tops/tops-03/4.webp",
+        "/assets/images/products/tops/tops-03/5.webp",
+        "/assets/images/products/tops/tops-03/6.webp"
       ]
     },
     {
@@ -743,18 +740,18 @@
       "name": "Women's Crop Top",
       "type": "Women's Crop Top",
       "description": "Women's Crop Top, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
-      "fabric": "[Add verified fabric composition here.]",
-      "styles": "[Add available style options here.]",
-      "colors": "[Add available colour options here.]",
+      "fabric": "Lycra Fabric.",
+      "styles": "L, XL, XXL, 3XL — custom size ranges available for bulk orders.",
+      "colors": "Pink, Pastel, Maroon, Cyan Blue, Wine, Black — additional colourways available on request.",
       "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
-      "image": "/assets/images/products/tops/tops-04.webp",
+      "image": "/assets/images/products/tops/tops-04/1.webp",
       "gallery": [
-        "/assets/images/products/tops/tops-04.webp",
-        "/assets/images/products/tops/tops-01.webp",
-        "/assets/images/products/tops/tops-02.webp",
-        "/assets/images/products/tops/tops-03.webp",
-        "/assets/images/products/tops/tops-05.webp",
-        "/assets/images/products/tops/tops-06.webp"
+        "/assets/images/products/tops/tops-04/1.webp",
+        "/assets/images/products/tops/tops-04/2.webp",
+        "/assets/images/products/tops/tops-04/3.webp",
+        "/assets/images/products/tops/tops-04/4.webp",
+        "/assets/images/products/tops/tops-04/5.webp",
+        "/assets/images/products/tops/tops-04/6.webp"
       ]
     },
     {
@@ -764,18 +761,18 @@
       "name": "Women's Round Neck T-Shirt",
       "type": "Women's Round Neck T-Shirt",
       "description": "Women's Round Neck T-Shirt, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
-      "fabric": "[Add verified fabric composition here.]",
-      "styles": "[Add available style options here.]",
-      "colors": "[Add available colour options here.]",
+      "fabric": "Rich Cotton Fabric.",
+      "styles": "L, XL, 2XL, 3XL — custom size ranges available for bulk orders.",
+      "colors": "Blue, Coffee, Grey, L-green, Teal, Olive — additional colourways available on request.",
       "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
-      "image": "/assets/images/products/womens-t-shirts/womens-t-shirts-01.webp",
+      "image": "/assets/images/products/womens-t-shirts/womens-t-shirts-01/1.webp",
       "gallery": [
-        "/assets/images/products/womens-t-shirts/womens-t-shirts-01.webp",
-        "/assets/images/products/womens-t-shirts/womens-t-shirts-02.webp",
-        "/assets/images/products/womens-t-shirts/womens-t-shirts-03.webp",
-        "/assets/images/products/womens-t-shirts/womens-t-shirts-04.webp",
-        "/assets/images/products/womens-t-shirts/womens-t-shirts-05.webp",
-        "/assets/images/products/womens-t-shirts/womens-t-shirts-06.webp"
+        "/assets/images/products/womens-t-shirts/womens-t-shirts-01/1.webp",
+        "/assets/images/products/womens-t-shirts/womens-t-shirts-01/2.webp",
+        "/assets/images/products/womens-t-shirts/womens-t-shirts-01/3.webp",
+        "/assets/images/products/womens-t-shirts/womens-t-shirts-01/4.webp",
+        "/assets/images/products/womens-t-shirts/womens-t-shirts-01/5.webp",
+        "/assets/images/products/womens-t-shirts/womens-t-shirts-01/6.webp"
       ]
     },
     {
@@ -785,18 +782,18 @@
       "name": "Women's Fitted T-Shirt",
       "type": "Women's Fitted T-Shirt",
       "description": "Women's Fitted T-Shirt, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
-      "fabric": "[Add verified fabric composition here.]",
-      "styles": "[Add available style options here.]",
-      "colors": "[Add available colour options here.]",
+      "fabric": "Cotton.",
+      "styles": "M, L, XL, XXL, 3XL — custom size ranges available for bulk orders.",
+      "colors": "Black, D teal, Maroon, Cyan, Wheat, Aqua — additional colourways available on request.",
       "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
-      "image": "/assets/images/products/womens-t-shirts/womens-t-shirts-02.webp",
+      "image": "/assets/images/products/womens-t-shirts/womens-t-shirts-02/1.webp",
       "gallery": [
-        "/assets/images/products/womens-t-shirts/womens-t-shirts-02.webp",
-        "/assets/images/products/womens-t-shirts/womens-t-shirts-01.webp",
-        "/assets/images/products/womens-t-shirts/womens-t-shirts-03.webp",
-        "/assets/images/products/womens-t-shirts/womens-t-shirts-04.webp",
-        "/assets/images/products/womens-t-shirts/womens-t-shirts-05.webp",
-        "/assets/images/products/womens-t-shirts/womens-t-shirts-06.webp"
+        "/assets/images/products/womens-t-shirts/womens-t-shirts-02/1.webp",
+        "/assets/images/products/womens-t-shirts/womens-t-shirts-02/2.webp",
+        "/assets/images/products/womens-t-shirts/womens-t-shirts-02/3.webp",
+        "/assets/images/products/womens-t-shirts/womens-t-shirts-02/4.webp",
+        "/assets/images/products/womens-t-shirts/womens-t-shirts-02/5.webp",
+        "/assets/images/products/womens-t-shirts/womens-t-shirts-02/6.webp"
       ]
     },
     {
@@ -806,18 +803,18 @@
       "name": "Women's Oversized T-Shirt",
       "type": "Women's Oversized T-Shirt",
       "description": "Women's Oversized T-Shirt, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
-      "fabric": "[Add verified fabric composition here.]",
-      "styles": "[Add available style options here.]",
-      "colors": "[Add available colour options here.]",
+      "fabric": "Pure Cotton fabric.",
+      "styles": "S, M, L, XL, 2XL, 3XL — custom size ranges available for bulk orders.",
+      "colors": "Red, D-Skin, Black, L-Purple, Pink, Brown — additional colourways available on request.",
       "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
-      "image": "/assets/images/products/womens-t-shirts/womens-t-shirts-03.webp",
+      "image": "/assets/images/products/womens-t-shirts/womens-t-shirts-03/1.webp",
       "gallery": [
-        "/assets/images/products/womens-t-shirts/womens-t-shirts-03.webp",
-        "/assets/images/products/womens-t-shirts/womens-t-shirts-01.webp",
-        "/assets/images/products/womens-t-shirts/womens-t-shirts-02.webp",
-        "/assets/images/products/womens-t-shirts/womens-t-shirts-04.webp",
-        "/assets/images/products/womens-t-shirts/womens-t-shirts-05.webp",
-        "/assets/images/products/womens-t-shirts/womens-t-shirts-06.webp"
+        "/assets/images/products/womens-t-shirts/womens-t-shirts-03/1.webp",
+        "/assets/images/products/womens-t-shirts/womens-t-shirts-03/2.webp",
+        "/assets/images/products/womens-t-shirts/womens-t-shirts-03/3.webp",
+        "/assets/images/products/womens-t-shirts/womens-t-shirts-03/4.webp",
+        "/assets/images/products/womens-t-shirts/womens-t-shirts-03/5.webp",
+        "/assets/images/products/womens-t-shirts/womens-t-shirts-03/6.webp"
       ]
     },
     {
@@ -827,18 +824,18 @@
       "name": "Women's Cropped T-Shirt",
       "type": "Women's Cropped T-Shirt",
       "description": "Women's Cropped T-Shirt, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
-      "fabric": "[Add verified fabric composition here.]",
-      "styles": "[Add available style options here.]",
-      "colors": "[Add available colour options here.]",
+      "fabric": "Premium PC Cotton fabric.",
+      "styles": "M, L, XL, 2XL — custom size ranges available for bulk orders.",
+      "colors": "Aqua, Brown, L-Yellow, L-Pink, Wine, D-Navy — additional colourways available on request.",
       "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
-      "image": "/assets/images/products/womens-t-shirts/womens-t-shirts-04.webp",
+      "image": "/assets/images/products/womens-t-shirts/womens-t-shirts-04/1.webp",
       "gallery": [
-        "/assets/images/products/womens-t-shirts/womens-t-shirts-04.webp",
-        "/assets/images/products/womens-t-shirts/womens-t-shirts-01.webp",
-        "/assets/images/products/womens-t-shirts/womens-t-shirts-02.webp",
-        "/assets/images/products/womens-t-shirts/womens-t-shirts-03.webp",
-        "/assets/images/products/womens-t-shirts/womens-t-shirts-05.webp",
-        "/assets/images/products/womens-t-shirts/womens-t-shirts-06.webp"
+        "/assets/images/products/womens-t-shirts/womens-t-shirts-04/1.webp",
+        "/assets/images/products/womens-t-shirts/womens-t-shirts-04/2.webp",
+        "/assets/images/products/womens-t-shirts/womens-t-shirts-04/3.webp",
+        "/assets/images/products/womens-t-shirts/womens-t-shirts-04/4.webp",
+        "/assets/images/products/womens-t-shirts/womens-t-shirts-04/5.webp",
+        "/assets/images/products/womens-t-shirts/womens-t-shirts-04/6.webp"
       ]
     },
     {
@@ -932,18 +929,18 @@
       "name": "Women's Lounge Set",
       "type": "Women's Lounge Set",
       "description": "Women's Lounge Set, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
-      "fabric": "[Add verified fabric composition here.]",
-      "styles": "[Add available style options here.]",
-      "colors": "[Add available colour options here.]",
+      "fabric": "100% Pure Cotton.",
+      "styles": "M, L, XL, 2XL, 3XL — custom size ranges available for bulk orders.",
+      "colors": "Pink, Olive, Chocolate, Off White — additional colourways available on request.",
       "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
-      "image": "/assets/images/products/womens-lounge-wear/womens-lounge-wear-01.webp",
+      "image": "/assets/images/products/womens-lounge-wear/womens-lounge-wear-01/1.webp",
       "gallery": [
-        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-01.webp",
-        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-02.webp",
-        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-03.webp",
-        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-04.webp",
-        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-05.webp",
-        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-06.webp"
+        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-01/1.webp",
+        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-01/2.webp",
+        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-01/3.webp",
+        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-01/4.webp",
+        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-01/5.webp",
+        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-01/6.webp"
       ]
     },
     {
@@ -953,18 +950,18 @@
       "name": "Women's Lounge Shorts Set",
       "type": "Women's Lounge Shorts Set",
       "description": "Women's Lounge Shorts Set, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
-      "fabric": "[Add verified fabric composition here.]",
-      "styles": "[Add available style options here.]",
-      "colors": "[Add available colour options here.]",
+      "fabric": "Premium PC Cotton Fabric.",
+      "styles": "L, XL, 2XL, 3XL, 4XL — custom size ranges available for bulk orders.",
+      "colors": "Teal & Navy, Rosy & Wine, Tan & Chocolate, L-Pista & Olive, Grey & Black, L-Blue & Green — additional colourways available on request.",
       "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
-      "image": "/assets/images/products/womens-lounge-wear/womens-lounge-wear-02.webp",
+      "image": "/assets/images/products/womens-lounge-wear/womens-lounge-wear-02/1.webp",
       "gallery": [
-        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-02.webp",
-        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-01.webp",
-        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-03.webp",
-        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-04.webp",
-        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-05.webp",
-        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-06.webp"
+        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-02/1.webp",
+        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-02/2.webp",
+        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-02/3.webp",
+        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-02/4.webp",
+        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-02/5.webp",
+        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-02/6.webp"
       ]
     },
     {
@@ -974,18 +971,18 @@
       "name": "Women's Lounge Full Sleeve Set",
       "type": "Women's Lounge Full Sleeve Set",
       "description": "Women's Lounge Full Sleeve Set, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
-      "fabric": "[Add verified fabric composition here.]",
-      "styles": "[Add available style options here.]",
-      "colors": "[Add available colour options here.]",
+      "fabric": "Pure Cotton Fabric.",
+      "styles": "L, XL, 2XL, 3XL, 4XL — custom size ranges available for bulk orders.",
+      "colors": "Aqua & Black, Grey & Black, Tan & Black, Rose & D-wine, Mehndi & Brown, Rose & Wine — additional colourways available on request.",
       "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
-      "image": "/assets/images/products/womens-lounge-wear/womens-lounge-wear-03.webp",
+      "image": "/assets/images/products/womens-lounge-wear/womens-lounge-wear-03/1.webp",
       "gallery": [
-        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-03.webp",
-        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-01.webp",
-        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-02.webp",
-        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-04.webp",
-        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-05.webp",
-        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-06.webp"
+        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-03/1.webp",
+        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-03/2.webp",
+        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-03/3.webp",
+        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-03/4.webp",
+        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-03/5.webp",
+        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-03/6.webp"
       ]
     },
     {
@@ -996,17 +993,17 @@
       "type": "Women's Lounge Skirt Set",
       "description": "Women's Lounge Skirt Set, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
       "fabric": "[Add verified fabric composition here.]",
-      "styles": "[Add available style options here.]",
-      "colors": "[Add available colour options here.]",
+      "styles": "M, L, XL, XXL — custom size ranges available for bulk orders.",
+      "colors": "Black, Wine, Camel, Teal — additional colourways available on request.",
       "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
-      "image": "/assets/images/products/womens-lounge-wear/womens-lounge-wear-04.webp",
+      "image": "/assets/images/products/womens-lounge-wear/womens-lounge-wear-04/1.webp",
       "gallery": [
-        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-04.webp",
-        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-01.webp",
-        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-02.webp",
-        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-03.webp",
-        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-05.webp",
-        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-06.webp"
+        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-04/1.webp",
+        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-04/2.webp",
+        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-04/3.webp",
+        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-04/4.webp",
+        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-04/5.webp",
+        "/assets/images/products/womens-lounge-wear/womens-lounge-wear-04/6.webp"
       ]
     },
     {
@@ -1184,18 +1181,18 @@
       "name": "Women's Knit Bottom",
       "type": "Women's Knit Bottom",
       "description": "Women's Knit Bottom, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
-      "fabric": "[Add verified fabric composition here.]",
-      "styles": "[Add available style options here.]",
-      "colors": "[Add available colour options here.]",
+      "fabric": "Cotton Fabric.",
+      "styles": "S, M, L, XL, 2XL, 3XL — custom size ranges available for bulk orders.",
+      "colors": "R-PINK, L-PINK, D-PINK, BLACK, NAVY, PISTA — additional colourways available on request.",
       "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
-      "image": "/assets/images/products/bottoms/bottoms-01.webp",
+      "image": "/assets/images/products/bottoms/bottoms-01/1.webp",
       "gallery": [
-        "/assets/images/products/bottoms/bottoms-01.webp",
-        "/assets/images/products/bottoms/bottoms-02.webp",
-        "/assets/images/products/bottoms/bottoms-03.webp",
-        "/assets/images/products/bottoms/bottoms-04.webp",
-        "/assets/images/products/bottoms/bottoms-05.webp",
-        "/assets/images/products/bottoms/bottoms-06.webp"
+        "/assets/images/products/bottoms/bottoms-01/1.webp",
+        "/assets/images/products/bottoms/bottoms-01/2.webp",
+        "/assets/images/products/bottoms/bottoms-01/3.webp",
+        "/assets/images/products/bottoms/bottoms-01/4.webp",
+        "/assets/images/products/bottoms/bottoms-01/5.webp",
+        "/assets/images/products/bottoms/bottoms-01/6.webp"
       ]
     },
     {
@@ -1205,18 +1202,18 @@
       "name": "Women's Jogger Bottom",
       "type": "Women's Jogger Bottom",
       "description": "Women's Jogger Bottom, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
-      "fabric": "[Add verified fabric composition here.]",
-      "styles": "[Add available style options here.]",
-      "colors": "[Add available colour options here.]",
+      "fabric": "High-quality Lycra Fabric.",
+      "styles": "M, L, XL, XXL — custom size ranges available for bulk orders.",
+      "colors": "Rosy brown, Navy, D- blue, Black, Lt brown, Olive — additional colourways available on request.",
       "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
-      "image": "/assets/images/products/bottoms/bottoms-02.webp",
+      "image": "/assets/images/products/bottoms/bottoms-02/1.webp",
       "gallery": [
-        "/assets/images/products/bottoms/bottoms-02.webp",
-        "/assets/images/products/bottoms/bottoms-01.webp",
-        "/assets/images/products/bottoms/bottoms-03.webp",
-        "/assets/images/products/bottoms/bottoms-04.webp",
-        "/assets/images/products/bottoms/bottoms-05.webp",
-        "/assets/images/products/bottoms/bottoms-06.webp"
+        "/assets/images/products/bottoms/bottoms-02/1.webp",
+        "/assets/images/products/bottoms/bottoms-02/2.webp",
+        "/assets/images/products/bottoms/bottoms-02/3.webp",
+        "/assets/images/products/bottoms/bottoms-02/4.webp",
+        "/assets/images/products/bottoms/bottoms-02/5.webp",
+        "/assets/images/products/bottoms/bottoms-02/6.webp"
       ]
     },
     {
@@ -1226,18 +1223,18 @@
       "name": "Women's Wide-Leg Bottom",
       "type": "Women's Wide-Leg Bottom",
       "description": "Women's Wide-Leg Bottom, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
-      "fabric": "[Add verified fabric composition here.]",
-      "styles": "[Add available style options here.]",
-      "colors": "[Add available colour options here.]",
+      "fabric": "Cotton.",
+      "styles": "M, L, XL, XXL — custom size ranges available for bulk orders.",
+      "colors": "Black, Wine, Blue, Lt Rose, Olive, Pista — additional colourways available on request.",
       "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
-      "image": "/assets/images/products/bottoms/bottoms-03.webp",
+      "image": "/assets/images/products/bottoms/bottoms-03/1.webp",
       "gallery": [
-        "/assets/images/products/bottoms/bottoms-03.webp",
-        "/assets/images/products/bottoms/bottoms-01.webp",
-        "/assets/images/products/bottoms/bottoms-02.webp",
-        "/assets/images/products/bottoms/bottoms-04.webp",
-        "/assets/images/products/bottoms/bottoms-05.webp",
-        "/assets/images/products/bottoms/bottoms-06.webp"
+        "/assets/images/products/bottoms/bottoms-03/1.webp",
+        "/assets/images/products/bottoms/bottoms-03/2.webp",
+        "/assets/images/products/bottoms/bottoms-03/3.webp",
+        "/assets/images/products/bottoms/bottoms-03/4.webp",
+        "/assets/images/products/bottoms/bottoms-03/5.webp",
+        "/assets/images/products/bottoms/bottoms-03/6.webp"
       ]
     },
     {
@@ -1247,18 +1244,18 @@
       "name": "Women's Rib-Cuff Bottom",
       "type": "Women's Rib-Cuff Bottom",
       "description": "Women's Rib-Cuff Bottom, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
-      "fabric": "[Add verified fabric composition here.]",
-      "styles": "[Add available style options here.]",
-      "colors": "[Add available colour options here.]",
+      "fabric": "Cotton.",
+      "styles": "S, M, L, XL, XXL, 3XL, 4XL — custom size ranges available for bulk orders.",
+      "colors": "WINE, BLACK, NAVY, MAROON, D-OLIVE, D-PINK — additional colourways available on request.",
       "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
-      "image": "/assets/images/products/bottoms/bottoms-04.webp",
+      "image": "/assets/images/products/bottoms/bottoms-04/1.webp",
       "gallery": [
-        "/assets/images/products/bottoms/bottoms-04.webp",
-        "/assets/images/products/bottoms/bottoms-01.webp",
-        "/assets/images/products/bottoms/bottoms-02.webp",
-        "/assets/images/products/bottoms/bottoms-03.webp",
-        "/assets/images/products/bottoms/bottoms-05.webp",
-        "/assets/images/products/bottoms/bottoms-06.webp"
+        "/assets/images/products/bottoms/bottoms-04/1.webp",
+        "/assets/images/products/bottoms/bottoms-04/2.webp",
+        "/assets/images/products/bottoms/bottoms-04/3.webp",
+        "/assets/images/products/bottoms/bottoms-04/4.webp",
+        "/assets/images/products/bottoms/bottoms-04/5.webp",
+        "/assets/images/products/bottoms/bottoms-04/6.webp"
       ]
     },
     {
@@ -1352,18 +1349,18 @@
       "name": "Women's Everyday Panty",
       "type": "Women's Everyday Panty",
       "description": "Women's Everyday Panty, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
-      "fabric": "[Add verified fabric composition here.]",
-      "styles": "[Add available style options here.]",
-      "colors": "[Add available colour options here.]",
+      "fabric": "Soft & Breathable Cotton Fabric.",
+      "styles": "S, M, L, XL, 2XL, 3XL — custom size ranges available for bulk orders.",
+      "colors": "Pink, Mehandi, Plum, Grey, Chocolate, Indigo — additional colourways available on request.",
       "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
-      "image": "/assets/images/products/panties/panties-01.webp",
+      "image": "/assets/images/products/panties/panties-01/1.webp",
       "gallery": [
-        "/assets/images/products/panties/panties-01.webp",
-        "/assets/images/products/panties/panties-02.webp",
-        "/assets/images/products/panties/panties-03.webp",
-        "/assets/images/products/panties/panties-04.webp",
-        "/assets/images/products/panties/panties-05.webp",
-        "/assets/images/products/panties/panties-06.webp"
+        "/assets/images/products/panties/panties-01/1.webp",
+        "/assets/images/products/panties/panties-01/2.webp",
+        "/assets/images/products/panties/panties-01/3.webp",
+        "/assets/images/products/panties/panties-01/4.webp",
+        "/assets/images/products/panties/panties-01/5.webp",
+        "/assets/images/products/panties/panties-01/6.webp"
       ]
     },
     {
@@ -1373,18 +1370,15 @@
       "name": "Women's Seamless Panty",
       "type": "Women's Seamless Panty",
       "description": "Women's Seamless Panty, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
-      "fabric": "[Add verified fabric composition here.]",
-      "styles": "[Add available style options here.]",
-      "colors": "[Add available colour options here.]",
+      "fabric": "Premium MicroModal Elastane Stretch Fabric.",
+      "styles": "S, M, L, XL, 2XL — custom size ranges available for bulk orders.",
+      "colors": "Olive, Peach, Black, Grey — additional colourways available on request.",
       "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
-      "image": "/assets/images/products/panties/panties-02.webp",
+      "image": "/assets/images/products/panties/panties-02/1.webp",
       "gallery": [
-        "/assets/images/products/panties/panties-02.webp",
-        "/assets/images/products/panties/panties-01.webp",
-        "/assets/images/products/panties/panties-03.webp",
-        "/assets/images/products/panties/panties-04.webp",
-        "/assets/images/products/panties/panties-05.webp",
-        "/assets/images/products/panties/panties-06.webp"
+        "/assets/images/products/panties/panties-02/1.webp",
+        "/assets/images/products/panties/panties-02/2.webp",
+        "/assets/images/products/panties/panties-02/3.webp"
       ]
     },
     {
@@ -1394,18 +1388,16 @@
       "name": "Women's Lace-Trim Panty",
       "type": "Women's Lace-Trim Panty",
       "description": "Women's Lace-Trim Panty, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
-      "fabric": "[Add verified fabric composition here.]",
-      "styles": "[Add available style options here.]",
-      "colors": "[Add available colour options here.]",
+      "fabric": "Breathable Cotton Fabric.",
+      "styles": "S, M, L, XL, 2XL, 3XL — custom size ranges available for bulk orders.",
+      "colors": "Brown, Navy, Black, Rose, Teal, L-blue — additional colourways available on request.",
       "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
-      "image": "/assets/images/products/panties/panties-03.webp",
+      "image": "/assets/images/products/panties/panties-03/1.webp",
       "gallery": [
-        "/assets/images/products/panties/panties-03.webp",
-        "/assets/images/products/panties/panties-01.webp",
-        "/assets/images/products/panties/panties-02.webp",
-        "/assets/images/products/panties/panties-04.webp",
-        "/assets/images/products/panties/panties-05.webp",
-        "/assets/images/products/panties/panties-06.webp"
+        "/assets/images/products/panties/panties-03/1.webp",
+        "/assets/images/products/panties/panties-03/2.webp",
+        "/assets/images/products/panties/panties-03/3.webp",
+        "/assets/images/products/panties/panties-03/4.webp"
       ]
     },
     {
@@ -1415,18 +1407,18 @@
       "name": "Women's Cotton Panty",
       "type": "Women's Cotton Panty",
       "description": "Women's Cotton Panty, manufactured through our integrated circular-knit production line at our Ludhiana facility.",
-      "fabric": "[Add verified fabric composition here.]",
-      "styles": "[Add available style options here.]",
-      "colors": "[Add available colour options here.]",
+      "fabric": "Chnology and MicroModal Elastane Stretch Fabric.",
+      "styles": "S, M, L, XL, 2XL, 3XL — custom size ranges available for bulk orders.",
+      "colors": "Black & Beige, Rose& D-Grey, Wheat & Grey — additional colourways available on request.",
       "capability": "Manufactured to order with consistent sizing and in-line quality checks; minimum order quantities available on request.",
-      "image": "/assets/images/products/panties/panties-04.webp",
+      "image": "/assets/images/products/panties/panties-04/1.webp",
       "gallery": [
-        "/assets/images/products/panties/panties-04.webp",
-        "/assets/images/products/panties/panties-01.webp",
-        "/assets/images/products/panties/panties-02.webp",
-        "/assets/images/products/panties/panties-03.webp",
-        "/assets/images/products/panties/panties-05.webp",
-        "/assets/images/products/panties/panties-06.webp"
+        "/assets/images/products/panties/panties-04/1.webp",
+        "/assets/images/products/panties/panties-04/2.webp",
+        "/assets/images/products/panties/panties-04/3.webp",
+        "/assets/images/products/panties/panties-04/4.webp",
+        "/assets/images/products/panties/panties-04/5.webp",
+        "/assets/images/products/panties/panties-04/6.webp"
       ]
     }
   ]

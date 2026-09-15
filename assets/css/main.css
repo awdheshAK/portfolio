@@ -1201,6 +1201,7 @@ a.contact-info-card__value:hover, a.contact-info-card__value:focus-visible { col
   display: flex;
   gap: clamp(1rem, 2vw, 1.75rem);
   will-change: transform;
+  transition: transform 0.6s var(--ease-in-out);
 }
 .carousel__track.is-dragging { transition: none !important; }
 .carousel__item { flex: 0 0 auto; width: var(--carousel-item-w, 320px); }
@@ -1823,6 +1824,15 @@ body.lightbox-open { overflow: hidden; }
   [data-reveal] { opacity: 1; transform: none; clip-path: none; }
   .hero__scroll-line::after { animation: none; }
   .hero__media img { transform: none; }
+  /* The hero slide's left/right motion is how a visitor tells slides
+     changed at all, not decorative motion — the wildcard rule above
+     would otherwise make it snap instantly, which reads as a broken
+     slider rather than a calmer one. This also covers Windows setups
+     that report this preference unintentionally with no motion
+     sensitivity actually chosen (see hero-slider.js), which is common
+     enough that the slide itself must still visibly move either way. */
+  .hero-slider__slide { transition-duration: 1.2s !important; }
+  .carousel__track { transition-duration: 0.6s !important; }
 }
 
 /* -------------------------------------------------------------------------
