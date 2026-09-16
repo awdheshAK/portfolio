@@ -64,6 +64,15 @@ CATALOG_ITEMS_BY_CATEGORY = {}
 for _item in CATALOG_ITEMS:
     CATALOG_ITEMS_BY_CATEGORY.setdefault(_item["category"], []).append(_item)
 
+# Real product photos live at .../<category>/<product-slug>/<n>.webp (a
+# per-product subfolder); a still-placeholder item's image is the flat
+# .../<category>/<category>-0N.webp generated gradient. Home page carousels
+# should lead with real photography, so filter to that set here rather than
+# showing whichever placeholder happens to sort first.
+CATALOG_ITEMS_WITH_REAL_PHOTOS = [
+    it for it in CATALOG_ITEMS if "/" + it["slug"] + "/" in it["image"]
+]
+
 # =============================================================================
 # NAV — top-level items per the requested structure. Every url is a real page.
 # =============================================================================
@@ -443,12 +452,72 @@ add(path="/manufacturing/", title="Manufacturing", kind="hub", category="manufac
     children=[{"href": f"/manufacturing/{slug}/", "title": title, "text": lede2,
                "image": IMAGES["manufacturing"][slug]["src"]} for slug, title, _, lede2, _ in MFG_DEPTS],
     process=MFG_PROCESS)
+MFG_DEPT_BODY = {
+    "knitting": [
+        "Every garment starts here. We knit our own circular knitted fabric in-house rather than buying it in, which means fabric quality, GSM and hand-feel are under our control from the very first stage — not something we're checking for after the fact.",
+        "The knitting floor runs 20 circular knitting machines and 2 interlock machines for our core fabric, with 4 flat knitting machines handling ribs, collars and finer structures separately. Machine operators and fitters keep the line running and maintained, while every roll passes over one of 3 automatic checking tables before it's cleared for cutting.",
+        "Producing roughly 9 tons of fabric a day in-house is what lets the rest of the facility — cutting, printing, stitching — run on our own schedule instead of waiting on an outside supplier.",
+    ],
+    "cutting": [
+        "Before a blade touches fabric, every roll is relaxed and checked so it's cut at the width and shrinkage it will actually hold as a finished garment — cutting a roll too early is one of the more common causes of an inconsistent fit.",
+        "Patterns are marked and plotted against the fabric width for an efficient lay, then cut using a mix of hand-guided round-knife cutters for shorter or irregular runs and automatic computerised cutting for high-volume lays, with laser cutting reserved for printed or value-added fabric that needs a cleaner edge.",
+        "Every panel is checked against the pattern before it moves to stitching, since a cutting error is far cheaper to catch here than after a garment has already been sewn.",
+    ],
+    "printing": [
+        "Printing runs across 11 automatic screen printing machines and a manual press for shorter runs and samples, supporting up to 7-8 colours in a single print — enough for detailed, multicolour designs without switching processes.",
+        "Printed fabric goes through gas curing to set the ink for durability and wash-fastness, and value-added work — heat labels, patches, laser-cut logos — runs on our fusing and laser cutting machines afterward.",
+        "With around 20 print tables in production and a small, steady team reviewed monthly for efficiency, this department alone runs to a capacity of roughly 5,000 pieces.",
+    ],
+    "embroidery": [
+        "Multi-head embroidery machines let us run several identical designs side by side, from a small chest logo to a detailed, multicolour pattern across a full panel.",
+        "Because the machines are computerised, a design is digitised once and then repeats identically across a production run — so colour placement and stitch density stay consistent between the first piece off the line and the last.",
+    ],
+    "stitching": [
+        "Stitching is where the panels cut earlier actually become a garment. The bulk of construction runs on single-needle lockstitch machines across the floor, with a dedicated collar and cuff machine and a separate drawstring inserting machine handling the details that don't belong on the main line.",
+        "With a production capacity of 30,000 pieces a day, the line runs on sequencing as much as on machinery — fabric preparation, cutting, stitching, pressing and a final check are ordered so a garment doesn't sit waiting between stations.",
+    ],
+    "finishing": [
+        "Finishing is the last set of hands a garment passes through before it's packed — steaming out crease lines, trimming loose threads, pressing seams flat and giving it the shape it will actually hold on a hanger or a body.",
+        "Every piece is inspected here against our standards before it's cleared for packing, so a problem gets caught while the fix is still simple, rather than after the garment has already shipped.",
+    ],
+    "value-addition": [
+        "Value addition covers the finishing touches that make a plain garment feel branded — DTF printing for detailed full-colour graphics, heat-applied labels for a tagless, irritation-free feel, and laser-cut logos or stickers for a cleaner, more premium look than a sewn-on patch.",
+        "Each technique follows the same path: the base garment is quality-checked, the design is prepared and applied, and the finished piece gets a final check before it moves on — so a value-added detail never becomes the reason a garment gets rejected.",
+    ],
+    "dispatch": [
+        "Before anything is packed, we check that every carton holds the right assortment of sizes and colours and that labelling matches the order — a wrong count at this stage is the kind of mistake that's only found once it's already at the customer's door.",
+        "Packing is careful enough to protect the product in transit without over-packing, and dispatch is scheduled to hit the delivery window a customer was quoted, not just whenever the last carton happens to be sealed.",
+    ],
+}
+MFG_DEPT_STEPS = {
+    "knitting": [("Yarn Feeding", "Yarn is fed from the creel into the knitting machine under controlled tension."),
+                 ("Knitting", "Circular, interlock or flat knitting machines form the fabric to the specified construction."),
+                 ("Automatic Checking", "Every roll passes over one of 3 automatic checking tables for defects."),
+                 ("Cleared for Cutting", "Approved rolls are logged and moved to the cutting department.")],
+    "cutting": [("Relaxing", "Fabric rolls rest before cutting so shrinkage happens before the garment is cut, not after."),
+                ("Marker & Plotting", "Patterns are plotted against the fabric width for the most efficient lay."),
+                ("Cutting", "Panels are cut manually, on the automatic cutter, or with the laser cutter depending on the run."),
+                ("Panel Check", "Cut panels are checked against the pattern before moving to stitching.")],
+    "printing": [("Screen Preparation", "Screens are prepared per colour for the approved design."),
+                 ("Printing", "Fabric or garments are printed on the automatic or manual presses."),
+                 ("Gas Curing", "Printed pieces pass through the curing machines to set the ink."),
+                 ("Value Addition", "Fusing, laser cutting or plotting finish labels, patches and logos where needed.")],
+    "stitching": [("Fabric Preparation", "Cut panels are matched and staged by size and colour ahead of the line."),
+                  ("Main Line Stitching", "Single-needle lockstitch machines run the primary seams."),
+                  ("Collar, Cuff & Drawstring", "Dedicated machines handle collar/cuff attachment and drawstring insertion."),
+                  ("Final Check", "A completed garment is checked before moving to pressing and finishing.")],
+    "quality-control": [("Fabric Quality", "Construction, GSM, width, hand feel, colour and performance are checked before cutting."),
+                         ("Production Control", "In-line checks catch variation before it reaches the finished garment."),
+                         ("Garment Quality", "Measurements, stitching, construction and finishing are checked against defined standards."),
+                         ("Final Inspection & Packing", "A structured final check runs before packing, covering assortment, labelling and presentation.")],
+}
 for slug, title, heading, lede, stats in MFG_DEPTS:
     others = [(s, t) for s, t, *_ in MFG_DEPTS if s != slug][:3]
     add(path=f"/manufacturing/{slug}/", title=f"{title} — Manufacturing", kind="detail", category="manufacturing",
         heading=heading, eyebrow="Manufacturing", lede=lede, hero_image=IMAGES["manufacturing"][slug]["src"],
         highlights=[{"title": k, "text": v} for k, v in stats],
-        body=["Figures on this page are drawn directly from our company profile document."],
+        body=MFG_DEPT_BODY.get(slug, ["Figures on this page are drawn directly from our company profile document."]),
+        steps=MFG_DEPT_STEPS.get(slug), steps_eyebrow="Step by Step", steps_heading=f"How {title} Works",
         related=[{"title": t, "href": f"/manufacturing/{s}/"} for s, t in others] + [{"title": "Facility", "href": "/facility/"}])
 
 # --- FACILITY ------------------------------------------------------------------
@@ -465,10 +534,54 @@ add(path="/facility/", title="Facility", kind="hub", category="facility",
     lede=f"Our production facility is based in {LOCATION}, bringing together eight manufacturing departments under one roof.",
     children=[{"href": f"/facility/{s}/", "title": t, "text": lede2, "image": IMAGES["facility"][s]["src"]}
               for s, t, _, lede2 in FACILITY_SUB])
+FACILITY_BODY = {
+    "overview": [
+        f"Our facility in {LOCATION} was built around a single idea: keep every stage of production under one roof, so a garment never has to leave the building between yarn and a packed, dispatch-ready product.",
+        "Eight departments — knitting, cutting, printing, embroidery, stitching, finishing, value addition and dispatch — run as one connected line rather than separate vendors handed off between. That's what lets us hold both quality and delivery timelines on the same order.",
+        "700+ people work across those departments, from machine operators and fitters to our design, quality and merchandising teams — the same workforce whether an order is for the domestic market or export.",
+    ],
+    "machinery": [
+        "Machinery on our floor spans 16 distinct machine types across six departments: knitting, cutting, printing, embroidery, stitching and finishing. Nothing here is idle equipment kept for show — every machine has a specific station in the production line.",
+        "Knitting runs on circular, interlock and flat machines producing our own fabric in-house. Cutting combines hand-guided round-knife cutters, automatic computerised cutting and a laser cutter for printed fabric. Stitching runs single-needle lockstitch machines for the main seams, plus dedicated machines for collar/cuff attachment and drawstring insertion, so specialised details don't slow down the main line.",
+        "See the full list, with a photo and description for every machine, on our Machinery showcase below.",
+    ],
+    "production": [
+        "A garment moves through our floor in a fixed sequence: fabric inspection, cutting, stitching, pressing, inspection, packing, a quality check, and dispatch. Every stage hands off to the next only once its own check has passed.",
+        "That sequencing is deliberate — a defect caught at fabric inspection costs a roll of fabric to fix; the same defect caught at final inspection costs a finished, packed garment. Keeping every department in the same building means a problem at one stage gets flagged to the stage before it, same day, not weeks later.",
+    ],
+    "technology": [
+        "Computerised machinery runs the stages where consistency matters most: circular knitting machines hold fabric construction steady across a full production run, automatic cutting keeps panel sizing consistent across bulk lays, and multi-head embroidery machines repeat a digitised design identically from the first piece to the last.",
+        "Real-time monitoring sits alongside that machinery rather than replacing human inspection — every roll of fabric and every finished garment still passes a manual check, at fabric inspection, in-line during production, and again at final inspection before packing.",
+    ],
+    "capacity": [
+        "Our stitching line runs to a capacity of 30,000 pieces a day, supported by approximately 9 tons of in-house circular knitted fabric production a day — enough to keep cutting and stitching supplied without waiting on an outside fabric order.",
+        "Printing capacity runs separately at roughly 5,000 pieces across around 20 print tables, since print and embellishment work often runs on a different schedule to plain-garment stitching.",
+        "Capacity figures are what the floor runs day to day — for a specific order's lead time and minimum quantities, our team can confirm exact numbers against your product and timeline.",
+    ],
+    "quality-control": [
+        "Quality is checked at six points through the production line, not just at the end: fabric quality (construction, GSM, width, hand feel, colour and performance), production control, print & design precision, garment quality (measurements, stitching, construction and finishing), final inspection, and packing & dispatch (assortment, labelling and presentation).",
+        "That in-line approach means a variation is caught while it's still cheap to fix — at the fabric or cutting stage — rather than only being found once a garment is finished and ready to ship.",
+        "Full detail on our approach to quality, stage by stage, is on our Quality page.",
+    ],
+}
+PRODUCTION_STEP_TEXT = {
+    "Fabric Inspection": "Every roll is checked for construction, GSM and defects before it's cleared for cutting.",
+    "Cutting": "Panels are cut to the pattern, manually or on the automatic and laser cutters depending on the run.",
+    "Stitching": "Single-needle lockstitch machines run the main seams, with dedicated machines for collar, cuff and drawstring detail.",
+    "Pressing": "Garments are steamed and pressed to the shape they'll hold on a hanger or a body.",
+    "Inspection": "A completed garment is checked against our construction and finishing standards.",
+    "Packing": "Correct assortment and labelling are verified before the product is packed for transit.",
+    "Quality Check": "A final structured inspection runs before a carton is cleared for dispatch.",
+    "Dispatch": "Packed cartons are scheduled out to hit the delivery window a customer was quoted.",
+}
+FACILITY_STEPS = {
+    "production": [(step, PRODUCTION_STEP_TEXT[step]) for step in MFG_PROCESS],
+    "quality-control": MFG_DEPT_STEPS["quality-control"],
+}
 for slug, title, heading, lede in FACILITY_SUB:
     stats = {
         "overview": [("Location", LOCATION), ("Departments", "8 integrated manufacturing departments"), ("Workforce", "700+ people")],
-        "machinery": [("Machine Types", "10 distinct machine types across knitting, printing and embroidery"), ("Core Lines", "Knitting, printing, embroidery, stitching, finishing")],
+        "machinery": [("Machine Types", "16 distinct machine types across six departments"), ("Core Lines", "Knitting, cutting, printing, embroidery, stitching, finishing")],
         "production": [("Production Capacity", "30,000 pieces per day"), ("Process", " → ".join(MFG_PROCESS))],
         "technology": [("Focus", "Advanced machinery, integrated systems and real-time quality monitoring"), ("Standard", "International standards, consistently delivered")],
         "capacity": [("Production Capacity", "30,000 pieces per day"), ("Fabric Production", "Approximately 9 tons per day")],
@@ -477,7 +590,8 @@ for slug, title, heading, lede in FACILITY_SUB:
     add(path=f"/facility/{slug}/", title=f"{title} — Facility", kind="detail", category="facility",
         heading=heading, eyebrow="Facility", lede=lede, hero_image=IMAGES["facility"][slug]["src"],
         highlights=[{"title": k, "text": v} for k, v in stats],
-        body=["Full department-by-department detail is available on our Manufacturing page."],
+        body=FACILITY_BODY.get(slug, ["Full department-by-department detail is available on our Manufacturing page."]),
+        steps=FACILITY_STEPS.get(slug), steps_eyebrow="Step by Step", steps_heading=f"{title} in Detail",
         related=[{"title": t2, "href": f"/facility/{s2}/"} for s2, t2, *_ in FACILITY_SUB if s2 != slug][:3])
 
 # --- QUALITY ----------------------------------------------------------------------
@@ -1293,13 +1407,19 @@ def partner_carousel_item(p):
 # "View Details" link should open.
 MACHINE_CATEGORY_TO_DEPT = {
     "Knitting": "knitting", "Printing": "printing", "Embroidery": "embroidery",
+    "Cutting": "cutting", "Stitching": "stitching", "Finishing": "finishing",
 }
 
 def block_machine_slider():
     cards = []
     for m in MACHINES:
         dept_slug = MACHINE_CATEGORY_TO_DEPT.get(m["category"], "")
-        dept_href = f"/manufacturing/{dept_slug}/" if dept_slug else "/facility/machinery/"
+        if dept_slug:
+            dept_href = f"/manufacturing/{dept_slug}/"
+        elif m["category"] == "Quality":
+            dept_href = "/quality/"
+        else:
+            dept_href = "/facility/machinery/"
         cards.append(f'''            <div class="carousel__item">
               <div class="flip-card" tabindex="0">
                 <div class="flip-card__inner">
@@ -1393,6 +1513,31 @@ def body_hub(page):
     return out
 
 
+def block_numbered_steps(eyebrow, heading, items):
+    """A standalone numbered section — same visual language as the legal
+    pages' numbered clauses, reused here for a department's step-by-step
+    breakdown (production flow, quality checkpoints, machinery by area)."""
+    steps = []
+    for i, (title, text) in enumerate(items, start=1):
+        steps.append(f'''        <div class="numbered-step" data-reveal="fade-up" data-reveal-delay="{min(i, 6) * 40}">
+          <span class="numbered-step__num">{i}</span>
+          <div>
+            <h3 class="numbered-step__title">{esc(title)}</h3>
+            <p class="numbered-step__text">{esc(text)}</p>
+          </div>
+        </div>''')
+    return f'''    <section class="section">
+      <div class="container container--article">
+        <p class="eyebrow" data-reveal="fade-up">{esc(eyebrow)}</p>
+        <h2 class="section-head__title" data-reveal="fade-up" data-reveal-delay="60" style="margin-bottom:1.5rem;">{esc(heading)}</h2>
+        <div class="numbered-steps">
+{chr(10).join(steps)}
+        </div>
+      </div>
+    </section>
+'''
+
+
 def body_detail(page):
     out = ""
     if page.get("hero_image"):
@@ -1401,6 +1546,8 @@ def body_detail(page):
         out += block_highlights(page["highlights"])
     if page.get("body"):
         out += block_body(page["body"])
+    if page.get("steps"):
+        out += block_numbered_steps(page.get("steps_eyebrow", "In Detail"), page.get("steps_heading", "Step by Step"), page["steps"])
     if page.get("related"):
         out += block_related(page["related"], f'More from {CATEGORY_LABEL.get(page.get("category"), SITE_NAME)}')
     out += block_cta()
@@ -1553,19 +1700,19 @@ def build_404():
 # =============================================================================
 HERO_SLIDES = [
     {"eyebrow": SITE_NAME, "headline": "Precision in<br>Every Stitch",
-     "text": "Advanced apparel manufacturing built around quality, consistency and scale.",
+     "text": f"Founded in {FOUNDED_YEAR}, we're a vertically integrated manufacturer of circular knitted garments, carrying every order from raw fabric to a finished, packed product under one roof. Our 700+ people and 46+ machines exist for one reason: consistent quality, order after order.",
      "primary": ("Our Manufacturing", "/manufacturing/"), "secondary": ("About Us", "/about/"), "image": IMAGES["hero"][0]["src"]},
     {"eyebrow": "Design to Delivery", "headline": "Designed for<br>Modern Apparel",
-     "text": "From concept and design to finished garments.",
+     "text": "Our in-house design and development team works alongside production, so every idea is tested for manufacturability before it becomes a sample. That means fewer surprises between a concept sketch and the finished garment on the line.",
      "primary": ("View Products", "/products/"), "secondary": ("Our Businesses", "/businesses/"), "image": IMAGES["hero"][1]["src"]},
     {"eyebrow": "Integrated Production", "headline": "Built for Scale",
-     "text": "Integrated production capabilities across multiple departments.",
+     "text": "Knitting, cutting, printing, embroidery, stitching and finishing all run inside the same facility in Ludhiana, coordinated as one production line rather than separate vendors. That integration is what lets us hold both quality and delivery timelines at scale.",
      "primary": ("Our Facility", "/facility/"), "secondary": ("Machinery", "/facility/machinery/"), "image": IMAGES["hero"][2]["src"]},
     {"eyebrow": "Domestic &amp; Export", "headline": "Quality That<br>Travels",
-     "text": "Reliable manufacturing for domestic and export requirements.",
+     "text": "We manufacture for both the domestic market and export, holding every order to the same in-line quality checks regardless of destination. Our production and quality teams work the floor together, not in separate silos.",
      "primary": ("Exports", "/exports/"), "secondary": ("Quality", "/quality/"), "image": IMAGES["hero"][3]["src"]},
     {"eyebrow": "Ludhiana, Punjab", "headline": SITE_NAME,
-     "text": "Manufacturing apparel with discipline, technology and craftsmanship.",
+     "text": f"From a fabric manufacturing company in {FOUNDED_YEAR} to a full garment manufacturer today, we've built our business on discipline on the floor and a straightforward relationship with every customer. Come see the facility for yourself, or get in touch about your next order.",
      "primary": ("Contact Us", "/contact/"), "secondary": ("Careers", "/careers/"), "image": IMAGES["hero"][4]["src"]},
 ]
 
@@ -1678,7 +1825,7 @@ def body_home():
     subcat_label = {s["slug"]: s["name"] for s in SUBCATEGORIES}
     out += block_carousel("products", product_title,
                            [catalog_item_carousel_item(item, subcat_label.get(item["category"], item["category"]))
-                            for item in CATALOG_ITEMS],
+                            for item in CATALOG_ITEMS_WITH_REAL_PHOTOS],
                            per_view="products", autoplay_ms=3500, aria_label="Featured Products")
 
     # 05 — Manufacturing Capabilities

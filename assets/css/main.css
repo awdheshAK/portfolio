@@ -1026,6 +1026,27 @@ a.contact-info-card__value:hover, a.contact-info-card__value:focus-visible { col
   .legal-section__num { width: 1.9rem; height: 1.9rem; font-size: 0.85rem; }
 }
 
+/* Numbered step list — department/process breakdowns on manufacturing
+   and facility detail pages (reuses the legal-page numbered-badge look). */
+.numbered-steps { display: flex; flex-direction: column; gap: 1.5rem; }
+.numbered-step { display: flex; gap: 1.25rem; align-items: flex-start; }
+.numbered-step__num {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  background: var(--color-gold);
+  color: var(--color-navy);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+.numbered-step__title { font-family: var(--font-display); font-size: 1.1rem; margin-bottom: 0.3em; }
+.numbered-step__text { color: var(--color-ink-muted); line-height: 1.65; }
+
 /* HTML sitemap page */
 .sitemap-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2.5rem; }
 .sitemap-group h2 { font-family: var(--font-display); font-size: 1.15rem; margin-bottom: 1em; }
@@ -1099,7 +1120,8 @@ a.contact-info-card__value:hover, a.contact-info-card__value:focus-visible { col
 }
 .hero-slider__text {
   font-size: clamp(1rem, 1.3vw, 1.15rem);
-  max-width: 44ch;
+  max-width: 56ch;
+  line-height: 1.6;
   color: rgba(255, 255, 255, 0.82);
   margin-bottom: 2em;
   opacity: 0;

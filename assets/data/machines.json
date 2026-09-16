@@ -1,54 +1,117 @@
 {
-"_readme": "Every entry below comes directly from the company's own profile document (M.J. Oswal Exports Pvt. Ltd.) — quantities are not estimates. To add a new machine: copy one object inside 'items', keep every key, add an image under /assets/images/machines/ (or reuse a real photo already in the project), and re-run scripts/build_site.py.",
-"items": [
-  { "name": "Circular Knitting Machines", "category": "Knitting",
-    "image": "/assets/images/facility/facility-machinery-01.jpg",
-    "description": "High-speed, computerised machines for consistent fabric quality and output.",
-    "details": "20 circular knitting machines (plus 2 interlock knitting machines) form the core of our in-house fabric production." },
-
-  { "name": "Interlock Knitting Machines", "category": "Knitting",
-    "image": "/assets/images/machines/machine-interlock-knitting-01.webp",
-    "description": "Dedicated interlock machines running alongside our circular knitting line.",
-    "details": "2 interlock knitting machines, high-speed and computerised for consistent fabric quality and output." },
-
-  { "name": "Flat Knitting Machines", "category": "Knitting",
-    "image": "/assets/images/machines/machine-flat-knitting-01.webp",
-    "description": "For specialised fabrics that need precision and versatility.",
-    "details": "4 flat knitting machines, used for specialised fabric constructions outside our circular knitting range." },
-
-  { "name": "Automatic Screen Printing Machines", "category": "Printing",
-    "image": "/assets/images/manufacturing/manufacturing-printing-01.jpg",
-    "description": "High-quality prints with flexibility for a wide range of designs.",
-    "details": "11 automatic screen printing machines, plus 1 manual printing machine, supporting up to 7–8 colours per print." },
-
-  { "name": "Manual Printing Machine", "category": "Printing",
-    "image": "/assets/images/machines/machine-manual-printing-01.webp",
-    "description": "Flexible manual printing for smaller or specialised runs.",
-    "details": "1 manual printing machine, working alongside our 11 automatic screen printing machines." },
-
-  { "name": "Gas Curing Machines", "category": "Printing",
-    "image": "/assets/images/machines/machine-curing-01.webp",
-    "description": "Ensures proper curing for long-lasting prints.",
-    "details": "2 gas curing machines, used to cure prints for durability and colour fastness." },
-
-  { "name": "Fusing Machines", "category": "Printing",
-    "image": "/assets/images/manufacturing/manufacturing-heat-label-01.jpg",
-    "description": "Perfect application for stickers, patches and heat transfers.",
-    "details": "4 fusing machines, used for applying stickers and patches to finished garments." },
-
-  { "name": "Laser Cutting Machine", "category": "Printing",
-    "image": "/assets/images/machines/machine-laser-cutting-01.webp",
-    "description": "Accurate and clean cutting for printed fabrics.",
-    "details": "1 laser cutting machine, used for precise, clean cutting of printed fabric panels." },
-
-  { "name": "Plotter Machine", "category": "Printing",
-    "image": "/assets/images/machines/machine-plotter-01.webp",
-    "description": "For precise plotting and design handling.",
-    "details": "1 plotter machine, supporting our design and pre-print preparation process." },
-
-  { "name": "Multi-Head Embroidery Machines", "category": "Embroidery",
-    "image": "/assets/images/machines/machine-embroidery-01.webp",
-    "description": "For faster turnaround and consistency across every production run.",
-    "details": "Multi-head embroidery machines for high-speed, efficient embroidery, from small logos to complex, detailed patterns." }
-]
+  "_readme": "Quantities for the original 10 machines come directly from the company's own profile document (M.J. Oswal Exports Pvt. Ltd.). The stitching, cutting and quality entries added afterwards to round out real departments the profile didn't itemise use qualitative descriptions rather than invented counts — replace the '[Add verified count]' wording with real figures once confirmed. To add a new machine: copy one object inside 'items', keep every key, add an image under /assets/images/machines/ (or reuse a real photo already in the project), and re-run scripts/build_site.py.",
+  "items": [
+    {
+      "name": "Circular Knitting Machines",
+      "category": "Knitting",
+      "image": "/assets/images/facility/facility-machinery-01.jpg",
+      "description": "High-speed, computerised machines for consistent fabric quality and output.",
+      "details": "20 circular knitting machines (plus 2 interlock knitting machines) form the core of our in-house fabric production."
+    },
+    {
+      "name": "Interlock Knitting Machines",
+      "category": "Knitting",
+      "image": "/assets/images/machines/machine-interlock-knitting-01.webp",
+      "description": "Dedicated interlock machines running alongside our circular knitting line.",
+      "details": "2 interlock knitting machines, high-speed and computerised for consistent fabric quality and output."
+    },
+    {
+      "name": "Flat Knitting Machines",
+      "category": "Knitting",
+      "image": "/assets/images/machines/machine-flat-knitting-01.webp",
+      "description": "Specialised machines for ribs, collars and finer knit structures.",
+      "details": "4 flat knitting machines for specialised fabrics, built for precision and versatility."
+    },
+    {
+      "name": "Automatic Screen Printing Machines",
+      "category": "Printing",
+      "image": "/assets/images/manufacturing/manufacturing-printing-01.jpg",
+      "description": "Rotary automatic presses for high-volume, multicolour garment printing.",
+      "details": "11 automatic screen printing machines, supporting up to 7-8 colours per print run."
+    },
+    {
+      "name": "Manual Printing Machine",
+      "category": "Printing",
+      "image": "/assets/images/machines/machine-manual-printing-01.webp",
+      "description": "Hand-operated carousel press for smaller runs and sample development.",
+      "details": "1 manual printing machine, used alongside our automatic lines for shorter runs and sampling."
+    },
+    {
+      "name": "Gas Curing Machines",
+      "category": "Printing",
+      "image": "/assets/images/machines/machine-curing-01.webp",
+      "description": "Curing tunnels that set printed ink for durability and wash-fastness.",
+      "details": "2 gas curing machines, ensuring proper curing for long-lasting prints."
+    },
+    {
+      "name": "Fusing Machines",
+      "category": "Finishing",
+      "image": "/assets/images/manufacturing/manufacturing-heat-label-01.jpg",
+      "description": "Heat-press units for tagless labels, patches and appliqué work.",
+      "details": "4 fusing machines used for heat labels, stickers and patches."
+    },
+    {
+      "name": "Multi-Head Embroidery Machines",
+      "category": "Embroidery",
+      "image": "/assets/images/machines/machine-embroidery-01.webp",
+      "description": "Computerised multi-head machines for high-speed, detailed embroidery.",
+      "details": "Multi-head embroidery machines running everything from small logos to detailed multicolour patterns."
+    },
+    {
+      "name": "Fabric Cutting Machine",
+      "category": "Cutting",
+      "image": "/assets/images/machines/machine-fabric-cutting-01.webp",
+      "description": "Hand-guided round-knife cutters for shorter runs and irregular panels.",
+      "details": "Used for smaller cutting runs and panel shapes that don't need a full automatic lay. [Add verified count.]"
+    },
+    {
+      "name": "Automatic Fabric Cutting Machine",
+      "category": "Cutting",
+      "image": "/assets/images/machines/machine-auto-cutter-01.webp",
+      "description": "Computerised cutter for high-volume, high-precision fabric lays.",
+      "details": "Cuts multiple fabric layers in one pass against the digital pattern, for consistent panel sizing on bulk orders. [Add verified count.]"
+    },
+    {
+      "name": "Laser Cutting Machine",
+      "category": "Cutting",
+      "image": "/assets/images/machines/machine-laser-cutting-01.webp",
+      "description": "Precision laser cutting for clean edges on printed and value-added fabric.",
+      "details": "1 laser cutting machine for accurate, clean cutting of printed fabric."
+    },
+    {
+      "name": "Plotter Machine",
+      "category": "Cutting",
+      "image": "/assets/images/machines/machine-plotter-01.webp",
+      "description": "Large-format plotter for pattern markers and design handling.",
+      "details": "1 plotter machine for precise pattern plotting and marker layout ahead of cutting."
+    },
+    {
+      "name": "Single Needle Lockstitch Machines",
+      "category": "Stitching",
+      "image": "/assets/images/machines/machine-lockstitch-01.webp",
+      "description": "The core stitching line — single-needle machines running the main seams on every garment.",
+      "details": "Our main stitching floor, where the bulk of every garment's construction happens seam by seam. [Add verified count.]"
+    },
+    {
+      "name": "Collar & Cuff Machine",
+      "category": "Stitching",
+      "image": "/assets/images/machines/machine-collar-cuff-01.webp",
+      "description": "A specialised attachment machine dedicated to collars and cuffs.",
+      "details": "Runs only collar and cuff attachment, so that detail gets a dedicated machine and operator rather than sharing time on the main line. [Add verified count.]"
+    },
+    {
+      "name": "Drawstring Inserting Machine",
+      "category": "Stitching",
+      "image": "/assets/images/machines/machine-drawstring-01.webp",
+      "description": "Feeds and stitches drawcords and elastic through waistbands and hoods.",
+      "details": "Used for waistband drawcords and hood strings across our track suits and lounge wear. [Add verified count.]"
+    },
+    {
+      "name": "Quality Testing Lab",
+      "category": "Quality",
+      "image": "/assets/images/machines/machine-quality-lab-01.webp",
+      "description": "In-house inspection point where fabric and finished garments are checked against AQL standards.",
+      "details": "Fabric rolls and finished garments are checked here against our AQL standard before they move to the next stage. [Add verified count/equipment list.]"
+    }
+  ]
 }
