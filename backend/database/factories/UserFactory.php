@@ -50,4 +50,32 @@ class UserFactory extends Factory
             'role' => UserRole::Admin->value,
         ]);
     }
+
+    public function superAdmin(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => UserRole::SuperAdmin->value,
+        ]);
+    }
+
+    public function contentManager(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => UserRole::ContentManager->value,
+        ]);
+    }
+
+    public function orderManager(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => UserRole::OrderManager->value,
+        ]);
+    }
+
+    public function productionManager(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => UserRole::ProductionManager->value,
+        ]);
+    }
 }

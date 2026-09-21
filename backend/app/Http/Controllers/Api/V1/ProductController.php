@@ -21,9 +21,12 @@ class ProductController extends Controller
         }
 
         if ($search = $request->query('search')) {
-            $query->where(function ($q) use ($search) {
-                $q->where('name', 'ilike', "%{$search}%")
-                    ->orWhere('description', 'ilike', "%{$search}%");
+            // LOWER()+LIKE rather than `ilike` (Postgres-only) so this runs
+            // identically against SQLite (tests) and Postgres (production).
+            $needle = '%'.mb_strtolower($search).'%';
+            $query->where(function ($q) use ($needle) {
+                $q->whereRaw('LOWER(name) LIKE ?', [$needle])
+                    ->orWhereRaw('LOWER(description) LIKE ?', [$needle]);
             });
         }
 
@@ -36,11 +39,11 @@ class ProductController extends Controller
         }
 
         if ($color = $request->query('color')) {
-            $query->whereHas('variants.color', fn ($q) => $q->where('slug', $color)->orWhere('name', 'ilike', $color));
+            $query->whereHas('variants.color', fn ($q) => $q->where('slug', $color)->orWhereRaw('LOWER(name) = ?', [mb_strtolower($color)]));
         }
 
         if ($size = $request->query('size')) {
-            $query->whereHas('variants.size', fn ($q) => $q->where('slug', $size)->orWhere('label', 'ilike', $size));
+            $query->whereHas('variants.size', fn ($q) => $q->where('slug', $size)->orWhereRaw('LOWER(label) = ?', [mb_strtolower($size)]));
         }
 
         // NOTE: fixed catalog products are not associated with fabrics in this

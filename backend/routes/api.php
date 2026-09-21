@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\Api\V1\AddressController;
 use App\Http\Controllers\Api\V1\Admin\CategoryController as AdminCategoryController;
+use App\Http\Controllers\Api\V1\Admin\CollectionController as AdminCollectionController;
 use App\Http\Controllers\Api\V1\Admin\ColorController as AdminColorController;
 use App\Http\Controllers\Api\V1\Admin\CouponController as AdminCouponController;
+use App\Http\Controllers\Api\V1\Admin\CustomerController as AdminCustomerController;
 use App\Http\Controllers\Api\V1\Admin\DashboardController;
 use App\Http\Controllers\Api\V1\Admin\EmbroideryPositionController as AdminEmbroideryPositionController;
 use App\Http\Controllers\Api\V1\Admin\FabricController as AdminFabricController;
@@ -127,29 +129,55 @@ Route::prefix('v1')->group(function () {
     });
 
     // Admin
+    //
+    // Every route here is already behind `admin` (any of the 5 admin roles).
+    // The `role:` middleware further narrows specific sub-resources to the
+    // roles that should actually manage them — this is real backend
+    // enforcement, not just a hidden button in the UI. The frontend nav
+    // mirrors this same mapping so a role never sees a link it can't use,
+    // but the mirroring is a UX convenience; these middleware are what
+    // actually stop the request.
     Route::prefix('admin')->middleware(['auth:sanctum', 'admin'])->group(function () {
+        // Every admin role can see the overview.
         Route::get('dashboard', [DashboardController::class, 'index']);
 
-        Route::apiResource('products', AdminProductController::class)->except(['show']);
-        Route::apiResource('categories', AdminCategoryController::class)->except(['show']);
+        // Catalog & customizer configuration: content-focused roles.
+        Route::middleware('role:super_admin,admin,content_manager')->group(function () {
+            Route::apiResource('products', AdminProductController::class)->except(['show']);
+            Route::apiResource('categories', AdminCategoryController::class)->except(['show']);
+            Route::apiResource('collections', AdminCollectionController::class)->except(['show']);
 
-        Route::prefix('customizer')->group(function () {
-            Route::apiResource('fabrics', AdminFabricController::class)->except(['show']);
-            Route::apiResource('colors', AdminColorController::class)->except(['show']);
-            Route::apiResource('sizes', AdminSizeController::class)->except(['show']);
-            Route::apiResource('print-positions', AdminPrintPositionController::class)
-                ->parameters(['print-positions' => 'print_position'])
-                ->except(['show']);
-            Route::apiResource('embroidery-positions', AdminEmbroideryPositionController::class)
-                ->parameters(['embroidery-positions' => 'embroidery_position'])
-                ->except(['show']);
-            Route::apiResource('patches', AdminPatchController::class)->except(['show']);
+            Route::prefix('customizer')->group(function () {
+                Route::apiResource('fabrics', AdminFabricController::class)->except(['show']);
+                Route::apiResource('colors', AdminColorController::class)->except(['show']);
+                Route::apiResource('sizes', AdminSizeController::class)->except(['show']);
+                Route::apiResource('print-positions', AdminPrintPositionController::class)
+                    ->parameters(['print-positions' => 'print_position'])
+                    ->except(['show']);
+                Route::apiResource('embroidery-positions', AdminEmbroideryPositionController::class)
+                    ->parameters(['embroidery-positions' => 'embroidery_position'])
+                    ->except(['show']);
+                Route::apiResource('patches', AdminPatchController::class)->except(['show']);
+            });
         });
 
-        Route::get('orders', [AdminOrderController::class, 'index']);
-        Route::get('orders/{order}', [AdminOrderController::class, 'show']);
-        Route::patch('orders/{order}/status', [AdminOrderController::class, 'updateStatus']);
+        // Orders: fulfilment-focused roles (production needs visibility too).
+        Route::middleware('role:super_admin,admin,order_manager,production_manager')->group(function () {
+            Route::get('orders', [AdminOrderController::class, 'index']);
+            Route::get('orders/{order}', [AdminOrderController::class, 'show']);
+            Route::patch('orders/{order}/status', [AdminOrderController::class, 'updateStatus']);
+        });
 
-        Route::apiResource('coupons', AdminCouponController::class)->except(['show']);
+        // Coupons & customers: commercial/order-management roles.
+        Route::middleware('role:super_admin,admin,order_manager')->group(function () {
+            Route::apiResource('coupons', AdminCouponController::class)->except(['show']);
+
+            Route::prefix('customers')->group(function () {
+                Route::get('/', [AdminCustomerController::class, 'index']);
+                Route::get('{customer}', [AdminCustomerController::class, 'show']);
+                Route::delete('{customer}', [AdminCustomerController::class, 'disable']);
+                Route::post('{customer}/restore', [AdminCustomerController::class, 'restore']);
+            });
+        });
     });
 });

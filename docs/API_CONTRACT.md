@@ -121,13 +121,39 @@ Named profiles (e.g. "Office Fit", "Gym Fit"), selectable during customization.
 ### Coupons (validation only from customer side; admin manages elsewhere)
 Handled via `/cart/coupon` above.
 
-### Admin — `/api/v1/admin` (auth + role: admin|super_admin)
+### Admin — `/api/v1/admin` (auth + any admin role, further narrowed per resource — see Roles below)
 - `GET /dashboard` -> { revenue_minor, orders_count, pending_orders_count, customers_count, products_count, low_stock: Product[], recent_orders: Order[] }
+  (any admin role)
 - Products: `GET/POST /products`, `PUT/DELETE /products/{id}`
-- Categories: `GET/POST/PUT/DELETE /categories`
+  (role: super_admin, admin, content_manager)
+  - `index` returns `{ data: { data: Product[], meta } } }` (paginated, `withTrashed`, includes inactive)
+  - `store`/`update` body: `{ category_id?, name, slug?, description?, short_description?, base_price_minor, is_customizable?, is_active?, is_featured?, images?: [{url, alt_text?}], variants?: [{id?, color_id?, size_id?, sku, price_delta_minor?, stock?}] }`
+- Categories: `GET/POST/PUT/DELETE /categories` (role: super_admin, admin, content_manager)
+  - `index` returns a flat `CategoryResource[]` (`withTrashed`, nested `children`)
+  - body: `{ parent_id?, name, slug?, description?, image_url?, is_active?, sort_order? }`
+- Collections: `GET/POST/PUT/DELETE /collections` (role: super_admin, admin, content_manager)
+  - `index` returns `CollectionResource[]` (`withTrashed`, each with `products` + `product_ids`)
+  - body: `{ name, slug?, description?, image_url?, is_active?, product_ids?: number[] }` — `product_ids` fully replaces the collection's product set
 - Customizer options: `GET/POST/PUT/DELETE` under `/customizer/{fabrics|colors|sizes|print-positions|embroidery-positions|patches}`
+  (role: super_admin, admin, content_manager)
+  - fabric body: `{ name, slug?, description?, price_delta_minor?, is_active? }`
+  - color body: `{ name, slug?, hex (e.g. #1A2B3C), price_delta_minor?, is_active? }`
+  - size body: `{ label, slug?, price_delta_minor?, sort_order?, is_active? }`
+  - print/embroidery position body: `{ label, slug?, price_minor, x?, y?, anchor?, is_active? }` (x/y are 0-100 canvas-percentage)
+  - patch body: `{ name, slug?, type?, price_minor, image_url?, is_active? }`
 - Orders: `GET /orders`, `GET /orders/{id}`, `PATCH /orders/{id}/status` { status }
-- Coupons: `GET/POST/PUT/DELETE /coupons`
+  (role: super_admin, admin, order_manager, production_manager — production_manager is read/status-update only by convention, not separately enforced)
+  - `index` accepts `?status=` filter, paginated `{ data: { data: Order[], meta } } }`
+  - `show` includes `items`, `user`, `payments`
+- Coupons: `GET/POST/PUT/DELETE /coupons` (role: super_admin, admin, order_manager)
+  - body: `{ code, type: percentage|fixed, value, min_order_minor?, max_discount_minor?, usage_limit?, starts_at?, expires_at?, is_active? }`
+- Customers: `GET /customers`, `GET /customers/{id}`, `DELETE /customers/{id}` (disable), `POST /customers/{id}/restore` (enable)
+  (role: super_admin, admin, order_manager)
+  - `index` accepts `?search=` (matches name/email) and `?per_page=`, paginated `{ data: { data: Customer[], meta } } }`
+  - `Customer` shape: `{ id, name, email, phone, role, is_disabled, created_at, orders_count, designs_count, addresses_count, measurements_count, wishlists_count }`
+  - `show` additionally includes `recent_orders`, `addresses`, `measurements`
+  - `disable` soft-deletes the account (blocked with 422 if the target is any admin role); `restore` un-deletes it
+  - only lists/targets users with role `customer` — admin accounts are managed separately (there is no UI for creating/editing admin accounts in this build; use `php artisan tinker` or a direct DB update to change a user's role)
 
 ## Money
 
@@ -142,3 +168,21 @@ quality_check, ready_to_ship, shipped, delivered, cancelled, refunded
 ## Roles
 
 super_admin, admin, production_manager, order_manager, content_manager, customer
+
+`super_admin` and `admin` can access every admin resource. The other three
+admin roles are scoped by the backend (`role:` middleware in `routes/api.php`,
+enforced server-side — this is not just a frontend nav convenience):
+
+| Resource                                              | content_manager | order_manager | production_manager |
+|--------------------------------------------------------|:---:|:---:|:---:|
+| Dashboard                                               | ✓ | ✓ | ✓ |
+| Products / Categories / Collections / Customizer options| ✓ | – | – |
+| Orders (view + status update)                           | – | ✓ | ✓ |
+| Coupons                                                  | – | ✓ | – |
+| Customers                                                | – | ✓ | – |
+
+A 403 with `{success:false, message:"This action is unauthorized for your role."}`
+means the logged-in admin's role doesn't cover that resource — the admin UI's
+navigation should hide links a role can't use, matching this table exactly,
+but that's for UX only; the table above is enforced on the backend regardless
+of what the frontend shows.
