@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-label="Fabric swatch placeholder">
+  <rect width="400" height="400" fill="#efe9de"/>
+  <g stroke="#d8cfbd" stroke-width="2">
+    <path d="M0 20 H400 M0 60 H400 M0 100 H400 M0 140 H400 M0 180 H400 M0 220 H400 M0 260 H400 M0 300 H400 M0 340 H400 M0 380 H400"/>
+    <path d="M20 0 V400 M60 0 V400 M100 0 V400 M140 0 V400 M180 0 V400 M220 0 V400 M260 0 V400 M300 0 V400 M340 0 V400 M380 0 V400"/>
+  </g>
+</svg>
