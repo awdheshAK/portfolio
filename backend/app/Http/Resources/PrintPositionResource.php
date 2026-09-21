@@ -13,6 +13,9 @@ class PrintPositionResource extends JsonResource
             'id' => $this->id,
             'label' => $this->label,
             'price_minor' => $this->price_minor,
+            'x' => $this->x !== null ? (float) $this->x : null,
+            'y' => $this->y !== null ? (float) $this->y : null,
+            'anchor' => $this->anchor,
         ];
     }
 }

@@ -31,6 +31,23 @@ header) so they can use the cart before logging in.
 - `POST /login` { email, password } -> user + token
 - `POST /logout` (auth) -> null
 - `GET /me` (auth) -> user
+- `POST /forgot-password` { email } -> generic success message, identical whether or not
+  the email exists (no account-existence leak). Sends a real queued email via the
+  Laravel password broker linking to `{FRONTEND_URL}/reset-password?token=...&email=...`.
+- `POST /reset-password` { token, email, password, password_confirmation } -> success;
+  revokes all existing Sanctum tokens for that user.
+
+### Contact / Newsletter (public, rate-limited)
+- `POST /api/v1/contact` { name, email, phone?, message } -> stored, no auth required
+- `POST /api/v1/newsletter/subscribe` { email } -> idempotent success (200/201 either way,
+  never reveals whether the email was already subscribed)
+
+### Measurements — `/api/v1/measurements` (auth required)
+Named profiles (e.g. "Office Fit", "Gym Fit"), selectable during customization.
+- `GET /` -> Measurement[]
+- `POST /` { label, height?, chest?, waist?, hip?, shoulder?, sleeve_length?, neck?, inseam?, outseam?, garment_length? } (all measurements in cm) -> Measurement
+- `PUT /{id}` -> Measurement (403 if not the owner)
+- `DELETE /{id}` -> null (403 if not the owner)
 
 ### Catalog
 - `GET /categories` -> [{ id, name, slug, children: [...] }]
@@ -48,8 +65,8 @@ header) so they can use the cart before logging in.
     fabrics: [{id, name, price_delta_minor}],
     colors: [{id, name, hex, price_delta_minor}],
     sizes: [{id, label, price_delta_minor}],
-    print_positions: [{id, label, price_minor}],
-    embroidery_positions: [{id, label, price_minor}],
+    print_positions: [{id, label, price_minor, x?, y?, anchor?}],
+    embroidery_positions: [{id, label, price_minor, x?, y?, anchor?}],
     patches: [{id, name, type, price_minor}],
   }
 - `POST /price` { garment_id, fabric_id, color_id, size_id, logo: bool, text: {...}|null,

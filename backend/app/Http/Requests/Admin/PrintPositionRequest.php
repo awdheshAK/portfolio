@@ -20,6 +20,9 @@ class PrintPositionRequest extends FormRequest
             'label' => [$sometimes, 'required', 'string', 'max:255'],
             'slug' => ['nullable', 'string', 'max:255', Rule::unique('customizer_print_positions', 'slug')->ignore($this->route('print_position'))],
             'price_minor' => [$sometimes, 'required', 'integer', 'min:0'],
+            'x' => ['nullable', 'numeric'],
+            'y' => ['nullable', 'numeric'],
+            'anchor' => ['nullable', 'string', 'max:16'],
             'is_active' => ['nullable', 'boolean'],
         ];
     }

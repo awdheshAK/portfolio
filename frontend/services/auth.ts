@@ -29,12 +29,17 @@ export function getMe(): Promise<User> {
   return apiFetch<User>("/auth/me");
 }
 
-/**
- * ASSUMPTION: docs/API_CONTRACT.md does not list a password-reset endpoint.
- * The /forgot-password page needs one, so this calls the most conventional
- * Laravel/Sanctum route name. Flag this to the backend team — either confirm
- * this path or update it once the real route is added.
- */
 export function requestPasswordReset(email: string): Promise<null> {
   return apiFetch<null>("/auth/forgot-password", { method: "POST", json: { email }, auth: false });
+}
+
+export interface ResetPasswordPayload {
+  token: string;
+  email: string;
+  password: string;
+  password_confirmation: string;
+}
+
+export function resetPassword(payload: ResetPasswordPayload): Promise<null> {
+  return apiFetch<null>("/auth/reset-password", { method: "POST", json: payload, auth: false });
 }

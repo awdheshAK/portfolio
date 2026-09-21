@@ -10,18 +10,23 @@ use Illuminate\Support\Str;
 
 class CustomizerOptionSeeder extends Seeder
 {
+    /**
+     * x/y are percentages (0-100) of the garment canvas width/height, anchored
+     * at `anchor`, for the frontend to place the print/embroidery layer
+     * precisely without hard-coding coordinates on its own.
+     */
     public const PRINT_POSITIONS = [
-        ['label' => 'Front Center', 'price_minor' => 15000],
-        ['label' => 'Back Center', 'price_minor' => 18000],
-        ['label' => 'Left Chest', 'price_minor' => 10000],
-        ['label' => 'Right Sleeve', 'price_minor' => 8000],
+        ['label' => 'Front Center', 'price_minor' => 15000, 'x' => 50, 'y' => 35, 'anchor' => 'center'],
+        ['label' => 'Back Center', 'price_minor' => 18000, 'x' => 50, 'y' => 30, 'anchor' => 'center'],
+        ['label' => 'Left Chest', 'price_minor' => 10000, 'x' => 30, 'y' => 22, 'anchor' => 'center'],
+        ['label' => 'Right Sleeve', 'price_minor' => 8000, 'x' => 85, 'y' => 40, 'anchor' => 'center'],
     ];
 
     public const EMBROIDERY_POSITIONS = [
-        ['label' => 'Left Chest', 'price_minor' => 25000],
-        ['label' => 'Right Chest', 'price_minor' => 25000],
-        ['label' => 'Back Center', 'price_minor' => 35000],
-        ['label' => 'Cap Front', 'price_minor' => 20000],
+        ['label' => 'Left Chest', 'price_minor' => 25000, 'x' => 30, 'y' => 22, 'anchor' => 'center'],
+        ['label' => 'Right Chest', 'price_minor' => 25000, 'x' => 70, 'y' => 22, 'anchor' => 'center'],
+        ['label' => 'Back Center', 'price_minor' => 35000, 'x' => 50, 'y' => 28, 'anchor' => 'center'],
+        ['label' => 'Cap Front', 'price_minor' => 20000, 'x' => 50, 'y' => 50, 'anchor' => 'center'],
     ];
 
     public const PATCHES = [
@@ -39,6 +44,9 @@ class CustomizerOptionSeeder extends Seeder
                 [
                     'label' => $position['label'],
                     'price_minor' => $position['price_minor'],
+                    'x' => $position['x'],
+                    'y' => $position['y'],
+                    'anchor' => $position['anchor'],
                     'is_active' => true,
                 ]
             );
@@ -50,6 +58,9 @@ class CustomizerOptionSeeder extends Seeder
                 [
                     'label' => $position['label'],
                     'price_minor' => $position['price_minor'],
+                    'x' => $position['x'],
+                    'y' => $position['y'],
+                    'anchor' => $position['anchor'],
                     'is_active' => true,
                 ]
             );

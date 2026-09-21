@@ -16,9 +16,12 @@ use App\Http\Controllers\Api\V1\Auth\AuthController;
 use App\Http\Controllers\Api\V1\CartController;
 use App\Http\Controllers\Api\V1\CategoryController;
 use App\Http\Controllers\Api\V1\CollectionController;
+use App\Http\Controllers\Api\V1\ContactController;
 use App\Http\Controllers\Api\V1\CustomizerController;
 use App\Http\Controllers\Api\V1\DesignController;
 use App\Http\Controllers\Api\V1\FabricController;
+use App\Http\Controllers\Api\V1\MeasurementController;
+use App\Http\Controllers\Api\V1\NewsletterController;
 use App\Http\Controllers\Api\V1\OrderController;
 use App\Http\Controllers\Api\V1\PaymentController;
 use App\Http\Controllers\Api\V1\ProductController;
@@ -31,11 +34,21 @@ Route::prefix('v1')->group(function () {
 
     // Auth
     Route::prefix('auth')->group(function () {
-        Route::post('register', [AuthController::class, 'register'])->middleware('throttle:10,1');
-        Route::post('login', [AuthController::class, 'login'])->middleware('throttle:10,1');
+        Route::post('register', [AuthController::class, 'register'])->middleware('throttle:10,1,register');
+        Route::post('login', [AuthController::class, 'login'])->middleware('throttle:10,1,login');
         Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
         Route::get('me', [AuthController::class, 'me'])->middleware('auth:sanctum');
+        Route::post('forgot-password', [AuthController::class, 'forgotPassword'])->middleware('throttle:5,1,forgot-password');
+        Route::post('reset-password', [AuthController::class, 'resetPassword'])->middleware('throttle:5,1,reset-password');
     });
+
+    // Contact / Newsletter
+    // NOTE: the trailing name segment on `throttle:max,decay,name` is required —
+    // without it, Laravel's basic throttle middleware keys its counter by
+    // domain+IP alone, so every route using the same bare "N,1" pair would
+    // otherwise share one global bucket per visitor.
+    Route::post('contact', [ContactController::class, 'store'])->middleware('throttle:5,1,contact');
+    Route::post('newsletter/subscribe', [NewsletterController::class, 'subscribe'])->middleware('throttle:5,1,newsletter');
 
     // Catalog
     Route::get('categories', [CategoryController::class, 'index']);
@@ -85,6 +98,14 @@ Route::prefix('v1')->group(function () {
         Route::post('addresses', [AddressController::class, 'store']);
         Route::put('addresses/{address}', [AddressController::class, 'update']);
         Route::delete('addresses/{address}', [AddressController::class, 'destroy']);
+    });
+
+    // Measurement profiles (auth)
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::get('measurements', [MeasurementController::class, 'index']);
+        Route::post('measurements', [MeasurementController::class, 'store']);
+        Route::put('measurements/{measurement}', [MeasurementController::class, 'update']);
+        Route::delete('measurements/{measurement}', [MeasurementController::class, 'destroy']);
     });
 
     // Orders / Checkout

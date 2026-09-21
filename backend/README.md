@@ -89,8 +89,53 @@ for all pricing — several fabric/color/size/print/embroidery/patch
 combinations with exact expected totals), cart add/update/remove, coupon
 validation (expired, below minimum order, usage limit exhausted, unknown
 code), and order creation from cart (stock re-validation, order/order-item
-snapshotting, Razorpay order creation, cart clearing). All 32 tests pass at
+snapshotting, Razorpay order creation, cart clearing). All 47 tests pass at
 the time of writing.
+
+## Endpoints beyond the original contract
+
+A handful of endpoints were added after the fact at the frontend team's
+request, once they hit real gaps in the original contract. Same envelope,
+same conventions as everything else:
+
+- `POST /api/v1/contact` — public, rate-limited (`throttle:5,1`). Body:
+  `{name, email, phone?, message}`. Stored in `contact_submissions`
+  (name, email, phone, message, ip, created_at).
+- `POST /api/v1/newsletter/subscribe` — public, rate-limited. Body:
+  `{email}`. Stored in `newsletter_subscribers` (email unique). Idempotent —
+  subscribing an already-subscribed email returns the same success response
+  rather than leaking whether it existed.
+- `POST /api/v1/auth/forgot-password` — public, rate-limited. Body:
+  `{email}`. Uses Laravel's built-in password broker
+  (`Password::sendResetLink`), which queues `App\Notifications\
+  ResetPasswordNotification` (a real, sendable Mail notification) linking to
+  `{FRONTEND_URL}/reset-password?token=...&email=...`. Always returns the
+  same generic success message whether or not the email exists.
+- `POST /api/v1/auth/reset-password` — public, rate-limited. Body:
+  `{token, email, password, password_confirmation}`. Completes the reset via
+  `Password::reset`, revokes all of the user's existing Sanctum tokens, and
+  fires the standard `PasswordReset` event.
+- Measurement profiles (auth required) — `GET/POST /api/v1/measurements`,
+  `PUT/DELETE /api/v1/measurements/{id}`. Table `measurements` (user_id,
+  label, height, chest, waist, hip, shoulder, sleeve_length, neck, inseam,
+  outseam, garment_length — all nullable decimals in cm), unique per
+  `(user_id, label)` so a customer can save named profiles like "Office Fit"
+  / "Gym Fit" instead of only keeping them in browser localStorage.
+
+Also: `customizer/print-positions` and `customizer/embroidery-positions`
+(both the public `/customizer/options` listing and the admin CRUD) now carry
+optional `x`, `y` (0–100, percentage of the garment canvas) and `anchor`
+coordinate fields for precise canvas placement, seeded with sensible
+defaults for every seeded position.
+
+**Rate-limiting gotcha worth knowing about**: Laravel's bare
+`throttle:N,decay` middleware keys its counter by domain+IP *only* — it does
+**not** factor in the route itself. Every route in this app that uses it
+therefore passes a third "name" segment (e.g. `throttle:5,1,contact`) so
+that, say, hammering `/contact` doesn't also burn through the limit for
+`/newsletter/subscribe` or `/auth/login` for the same visitor. This was
+caught by hand during manual curl verification (worth knowing if you add
+more throttled routes later).
 
 ## Payments — Razorpay
 
@@ -187,4 +232,4 @@ PostgreSQL database, `php artisan serve`, and a battery of `curl` requests
 against every major endpoint (auth, catalog, customizer pricing, cart,
 coupons, checkout up to the Razorpay API boundary, wishlist, reviews, and
 admin CRUD + RBAC) were all run and verified working during development.
-`php artisan test` passes 32/32 tests.
+`php artisan test` passes 47/47 tests (covering the new contact/newsletter/password-reset/measurements endpoints too).
