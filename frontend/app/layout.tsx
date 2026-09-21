@@ -3,10 +3,7 @@ import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/config/site";
 import { Providers } from "@/app/providers";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
-import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
-import { CartDrawer } from "@/components/cart/CartDrawer";
+import { SiteChrome } from "@/components/layout/SiteChrome";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -54,13 +51,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Skip to content
         </a>
         <Providers>
-          <AnnouncementBar />
-          <Header />
-          <main id="main-content" className="flex-1">
-            {children}
-          </main>
-          <Footer />
-          <CartDrawer />
+          <SiteChrome>
+            <main id="main-content" className="flex-1">
+              {children}
+            </main>
+          </SiteChrome>
         </Providers>
       </body>
     </html>

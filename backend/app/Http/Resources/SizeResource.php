@@ -12,7 +12,10 @@ class SizeResource extends JsonResource
         return [
             'id' => $this->id,
             'label' => $this->label,
+            'slug' => $this->slug,
             'price_delta_minor' => $this->price_delta_minor,
+            'sort_order' => $this->sort_order,
+            'is_active' => $this->is_active,
         ];
     }
 }

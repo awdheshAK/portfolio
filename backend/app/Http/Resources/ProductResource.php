@@ -17,7 +17,9 @@ class ProductResource extends JsonResource
             'short_description' => $this->short_description,
             'base_price_minor' => $this->base_price_minor,
             'is_customizable' => $this->is_customizable,
+            'is_active' => $this->is_active,
             'is_featured' => $this->is_featured,
+            'category_id' => $this->category_id,
             'rating_avg' => (float) $this->rating_avg,
             'rating_count' => $this->rating_count,
             'category' => $this->whenLoaded('category', fn () => [
@@ -29,6 +31,7 @@ class ProductResource extends JsonResource
             'variants' => ProductVariantResource::collection($this->whenLoaded('variants')),
             'reviews' => ReviewResource::collection($this->whenLoaded('reviews')),
             'created_at' => $this->created_at,
+            'deleted_at' => $this->deleted_at,
         ];
     }
 }

@@ -22,6 +22,13 @@ class OrderResource extends JsonResource
             'billing_address' => $this->billing_address,
             'notes' => $this->notes,
             'items' => OrderItemResource::collection($this->whenLoaded('items')),
+            'user' => $this->whenLoaded('user', fn () => [
+                'id' => $this->user->id,
+                'name' => $this->user->name,
+                'email' => $this->user->email,
+                'phone' => $this->user->phone,
+            ]),
+            'payments' => PaymentResource::collection($this->whenLoaded('payments')),
             'placed_at' => $this->placed_at,
             'created_at' => $this->created_at,
         ];

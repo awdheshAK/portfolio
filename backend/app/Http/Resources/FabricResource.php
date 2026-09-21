@@ -15,6 +15,7 @@ class FabricResource extends JsonResource
             'slug' => $this->slug,
             'description' => $this->description,
             'price_delta_minor' => $this->price_delta_minor,
+            'is_active' => $this->is_active,
         ];
     }
 }

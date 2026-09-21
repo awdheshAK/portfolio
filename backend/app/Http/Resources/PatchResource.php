@@ -12,9 +12,11 @@ class PatchResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'slug' => $this->slug,
             'type' => $this->type,
             'price_minor' => $this->price_minor,
             'image_url' => $this->image_url,
+            'is_active' => $this->is_active,
         ];
     }
 }

@@ -346,6 +346,7 @@ export interface Order {
   total_minor: number;
   currency: string;
   shipping_address?: Address;
+  billing_address?: Address | null;
   billing_same_as_shipping?: boolean;
   notes?: string;
   created_at: string;
@@ -383,4 +384,322 @@ export interface RazorpayVerifyPayload {
 export interface WishlistItem {
   product: Product;
   added_at?: string;
+}
+
+// ---------------------------------------------------------------------------
+// Admin
+// ---------------------------------------------------------------------------
+//
+// NOTE on backend gaps found while wiring this up (see final report): a few
+// admin JSON resources on the backend do not yet serialize every field their
+// own store/update validation accepts, or that docs/API_CONTRACT.md
+// documents. Where that's true the field below is typed optional and every
+// admin screen reads it defensively (`?? fallback`) rather than assuming
+// it's present. Concretely:
+// - ProductResource never returns `is_active`, `category_id` or
+//   `deleted_at`, though the Product model has all three and admin
+//   store/update accept `is_active`.
+// - CategoryResource never returns `is_active` or `sort_order`, though the
+//   model has both and admin store/update accept them.
+// - FabricResource never returns `is_active`. ColorResource never returns
+//   `slug` or `is_active`. SizeResource never returns `slug`, `sort_order`
+//   or `is_active`. Print/EmbroideryPositionResource never return `slug` or
+//   `is_active`. PatchResource never returns `slug` or `is_active`.
+// - OrderResource never returns `user` or `payments`, even though the admin
+//   controller eager-loads both relations and the contract's "Orders" entry
+//   says `show` includes `items`, `user`, `payments`.
+
+export interface AdminProductImage {
+  id?: number;
+  url: string;
+  alt_text?: string | null;
+  sort_order?: number;
+}
+
+export interface AdminProductVariant {
+  id?: number;
+  color_id?: number | null;
+  size_id?: number | null;
+  color?: ProductColorOption | null;
+  size?: ProductSizeOption | null;
+  sku: string;
+  price_delta_minor?: number;
+  price_minor?: number | null;
+  stock?: number;
+  is_active?: boolean;
+}
+
+export interface AdminProduct {
+  id: number;
+  name: string;
+  slug: string;
+  description?: string | null;
+  short_description?: string | null;
+  base_price_minor: number;
+  is_customizable?: boolean;
+  /** Not currently serialized by the backend — see note above. Treat as unknown, not false. */
+  is_active?: boolean;
+  is_featured?: boolean;
+  rating_avg?: number;
+  rating_count?: number;
+  category?: { id: number; name: string; slug: string } | null;
+  images: AdminProductImage[];
+  variants: AdminProductVariant[];
+  created_at?: string;
+}
+
+export interface AdminProductPayload {
+  category_id?: number | null;
+  name: string;
+  slug?: string;
+  description?: string;
+  short_description?: string;
+  base_price_minor: number;
+  is_customizable?: boolean;
+  is_active?: boolean;
+  is_featured?: boolean;
+  images?: Array<{ url: string; alt_text?: string }>;
+  variants?: Array<{
+    id?: number;
+    color_id?: number | null;
+    size_id?: number | null;
+    sku: string;
+    price_delta_minor?: number;
+    stock?: number;
+  }>;
+}
+
+export interface AdminCategory {
+  id: number;
+  name: string;
+  slug: string;
+  description?: string | null;
+  image_url?: string | null;
+  parent_id?: number | null;
+  /** Not currently serialized by the backend — see note above. */
+  is_active?: boolean;
+  sort_order?: number;
+  children?: AdminCategory[];
+}
+
+export interface AdminCategoryPayload {
+  parent_id?: number | null;
+  name: string;
+  slug?: string;
+  description?: string;
+  image_url?: string;
+  is_active?: boolean;
+  sort_order?: number;
+}
+
+export interface AdminCollection {
+  id: number;
+  name: string;
+  slug: string;
+  description?: string | null;
+  image_url?: string | null;
+  is_active: boolean;
+  deleted_at?: string | null;
+  products?: Product[];
+  product_ids: number[];
+}
+
+export interface AdminCollectionPayload {
+  name: string;
+  slug?: string;
+  description?: string;
+  image_url?: string;
+  is_active?: boolean;
+  product_ids?: number[];
+}
+
+export interface AdminFabric {
+  id: number;
+  name: string;
+  slug: string;
+  description?: string | null;
+  price_delta_minor: number;
+  /** Not currently serialized by the backend — see note above. */
+  is_active?: boolean;
+}
+
+export interface AdminFabricPayload {
+  name: string;
+  slug?: string;
+  description?: string;
+  price_delta_minor?: number;
+  is_active?: boolean;
+}
+
+export interface AdminColor {
+  id: number;
+  name: string;
+  /** Not currently serialized by the backend — see note above. */
+  slug?: string;
+  hex: string;
+  price_delta_minor: number;
+  /** Not currently serialized by the backend — see note above. */
+  is_active?: boolean;
+}
+
+export interface AdminColorPayload {
+  name: string;
+  slug?: string;
+  hex: string;
+  price_delta_minor?: number;
+  is_active?: boolean;
+}
+
+export interface AdminSize {
+  id: number;
+  label: string;
+  /** Not currently serialized by the backend — see note above. */
+  slug?: string;
+  price_delta_minor: number;
+  /** Not currently serialized by the backend — see note above. */
+  sort_order?: number;
+  /** Not currently serialized by the backend — see note above. */
+  is_active?: boolean;
+}
+
+export interface AdminSizePayload {
+  label: string;
+  slug?: string;
+  price_delta_minor?: number;
+  sort_order?: number;
+  is_active?: boolean;
+}
+
+export type CustomizerPositionKind = "print-positions" | "embroidery-positions";
+
+export interface AdminPosition {
+  id: number;
+  label: string;
+  /** Not currently serialized by the backend — see note above. */
+  slug?: string;
+  price_minor: number;
+  x?: number | null;
+  y?: number | null;
+  anchor?: string | null;
+  /** Not currently serialized by the backend — see note above. */
+  is_active?: boolean;
+}
+
+export interface AdminPositionPayload {
+  label: string;
+  slug?: string;
+  price_minor: number;
+  x?: number;
+  y?: number;
+  anchor?: string;
+  is_active?: boolean;
+}
+
+export interface AdminPatch {
+  id: number;
+  name: string;
+  /** Not currently serialized by the backend — see note above. */
+  slug?: string;
+  type?: string | null;
+  price_minor: number;
+  image_url?: string | null;
+  /** Not currently serialized by the backend — see note above. */
+  is_active?: boolean;
+}
+
+export interface AdminPatchPayload {
+  name: string;
+  slug?: string;
+  type?: string;
+  price_minor: number;
+  image_url?: string;
+  is_active?: boolean;
+}
+
+export interface Payment {
+  id: number;
+  gateway: string;
+  gateway_order_id?: string | null;
+  gateway_payment_id?: string | null;
+  status: string;
+  amount_minor: number;
+  currency: string;
+  created_at?: string;
+}
+
+export interface AdminOrder extends Order {
+  order_number?: string;
+  /** Not currently serialized by OrderResource despite being eager-loaded — see note above. */
+  user?: Pick<User, "id" | "name" | "email"> | null;
+  /** Not currently serialized by OrderResource despite being eager-loaded — see note above. */
+  payments?: Payment[];
+}
+
+export interface Measurement {
+  id: number;
+  label: string;
+  height?: number | null;
+  chest?: number | null;
+  waist?: number | null;
+  hip?: number | null;
+  shoulder?: number | null;
+  sleeve_length?: number | null;
+  neck?: number | null;
+  inseam?: number | null;
+  outseam?: number | null;
+  garment_length?: number | null;
+}
+
+export interface Customer {
+  id: number;
+  name: string;
+  email: string;
+  phone?: string | null;
+  role: UserRole;
+  is_disabled: boolean;
+  created_at?: string;
+  orders_count?: number;
+  designs_count?: number;
+  addresses_count?: number;
+  measurements_count?: number;
+  wishlists_count?: number;
+  recent_orders?: AdminOrder[];
+  addresses?: Address[];
+  measurements?: Measurement[];
+}
+
+export interface Coupon {
+  id: number;
+  code: string;
+  type: "percentage" | "fixed";
+  value: number;
+  min_order_minor?: number;
+  max_discount_minor?: number | null;
+  usage_limit?: number | null;
+  used_count: number;
+  starts_at?: string | null;
+  expires_at?: string | null;
+  is_active: boolean;
+}
+
+export interface CouponPayload {
+  code: string;
+  type: "percentage" | "fixed";
+  value: number;
+  min_order_minor?: number;
+  max_discount_minor?: number;
+  usage_limit?: number;
+  starts_at?: string;
+  expires_at?: string;
+  is_active?: boolean;
+}
+
+export interface DashboardStats {
+  revenue_minor: number;
+  orders_count: number;
+  pending_orders_count: number;
+  customers_count: number;
+  products_count: number;
+  low_stock: AdminProduct[];
+  recent_orders: AdminOrder[];
 }

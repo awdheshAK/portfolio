@@ -16,6 +16,8 @@ class CategoryResource extends JsonResource
             'description' => $this->description,
             'image_url' => $this->image_url,
             'parent_id' => $this->parent_id,
+            'is_active' => $this->is_active,
+            'sort_order' => $this->sort_order,
             'children' => CategoryResource::collection($this->whenLoaded('children')),
         ];
     }
