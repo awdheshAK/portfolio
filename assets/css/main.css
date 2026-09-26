@@ -1712,19 +1712,21 @@ body.lightbox-open { overflow: hidden; }
    primary navy/off-white palette. Never used as large fill areas.
    ------------------------------------------------------------------------- */
 :root {
-  /* Sampled from the M.J. Oswal Group visiting card's four-colour "MJO"
-     mark (coral / blue / green / purple-magenta on the pinwheel logo). */
-  --accent-blue: #7fa0d6;
-  --accent-pink: #e6b4c9;
-  --accent-green: #8fc47c;
-  --accent-coral: #ee9268;
-  --accent-purple: #b15aa0;
+  /* Exact colours sampled from the real M.J. Oswal Group logo mark (the
+     four-colour "MJO" pinwheel: coral / blue / mint-green / magenta) —
+     --accent-pink is a lighter tint of the same magenta wedge, added for
+     a 5th cycling slot, not a separate hue from the logo. */
+  --accent-blue: #85a3cb;
+  --accent-pink: #f3b2e9;
+  --accent-green: #cefbc6;
+  --accent-coral: #f9a098;
+  --accent-purple: #f197f4;
 }
-.product-grid .product-card:nth-child(5n+1) .product-card__category { color: #6f93b8; }
-.product-grid .product-card:nth-child(5n+2) .product-card__category { color: #bd7f92; }
-.product-grid .product-card:nth-child(5n+3) .product-card__category { color: #5f8f6e; }
-.product-grid .product-card:nth-child(5n+4) .product-card__category { color: #bb7654; }
-.product-grid .product-card:nth-child(5n+5) .product-card__category { color: #8571a3; }
+.product-grid .product-card:nth-child(5n+1) .product-card__category { color: #5e85ba; }
+.product-grid .product-card:nth-child(5n+2) .product-card__category { color: #e03bc7; }
+.product-grid .product-card:nth-child(5n+3) .product-card__category { color: #20990b; }
+.product-grid .product-card:nth-child(5n+4) .product-card__category { color: #f34333; }
+.product-grid .product-card:nth-child(5n+5) .product-card__category { color: #e228e8; }
 .product-grid .product-card:nth-child(5n+1):hover { border-color: var(--accent-blue); }
 .product-grid .product-card:nth-child(5n+2):hover { border-color: var(--accent-pink); }
 .product-grid .product-card:nth-child(5n+3):hover { border-color: var(--accent-green); }
