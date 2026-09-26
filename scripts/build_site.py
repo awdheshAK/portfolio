@@ -970,10 +970,6 @@ def render_header(current_path="/", overlay=False):
         </div>
       </div>
     </div>
-
-    <button type="button" class="site-nav__close" data-menu-close aria-label="Close menu">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-    </button>
   </nav>
   <div class="site-nav__overlay" data-nav-overlay></div>
 """
@@ -1394,12 +1390,33 @@ def certificate_carousel_item(c):
             </div>'''
 
 
-def partner_carousel_item(p):
-    return f'''            <div class="carousel__item carousel__item--logo">
-              <div class="partner-card">
-                <img src="{p['logo']}" alt="{esc(p['name'])}" width="400" height="200" loading="lazy">
-              </div>
-            </div>'''
+def partner_marquee_tile(p):
+    return f'''          <div class="partners-marquee__tile">
+            <img src="{p['logo']}" alt="{esc(p['name'])}" width="400" height="200" loading="lazy">
+          </div>'''
+
+
+def block_partners_marquee(title_html, items):
+    """Continuous, slow auto-scrolling logo strip (not the discrete dot-
+    paginated block_carousel used elsewhere) — the track is the same list
+    of logos rendered twice back to back, then animated exactly -50% of
+    its own width in a linear loop, so the seam between the end of the
+    first copy and the start of the second is invisible and the strip
+    reads as one endless line of logos, the way a "brands we stock" strip
+    does on a retailer site."""
+    tiles = "\n".join(partner_marquee_tile(p) for p in items)
+    return f'''    <section class="section partners-marquee-section">
+      <div class="container">
+{title_html}
+      </div>
+      <div class="partners-marquee" role="group" aria-label="Our partners">
+        <div class="partners-marquee__track">
+{tiles}
+{tiles}
+        </div>
+      </div>
+    </section>
+'''
 
 
 # --- Machinery 3D flip-card slider ---------------------------------------------------
@@ -1899,8 +1916,7 @@ def body_home():
           <h2 class="section-head__title" data-reveal="fade-up" data-reveal-delay="80">Our Partners</h2>
           <p class="section-head__text" data-reveal="fade-up" data-reveal-delay="140">This section is ready to display verified, publication-cleared partner logos as they are confirmed.</p>
         </div>'''
-    out += block_carousel("partners", partner_title, [partner_carousel_item(p) for p in PARTNERS],
-                           per_view="partners", autoplay_ms=3000, aria_label="Our Partners")
+    out += block_partners_marquee(partner_title, PARTNERS)
 
     # 12 — Why MJ Oswal Exports
     out += '''    <section class="why" aria-labelledby="why-heading">

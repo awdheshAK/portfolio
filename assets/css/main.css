@@ -62,6 +62,13 @@
 *, *::before, *::after { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 html, body { height: 100%; }
+/* .site-header is position:fixed — without this, jumping to any in-page
+   anchor (nav links, "skip to content", browser back/forward with a #hash)
+   lands the target flush with the real document top, so the header covers
+   its first ~80px and clips the top of whatever text sits there. Applies
+   to every element with an id, not just specific sections, since anchors
+   can point anywhere. */
+[id] { scroll-margin-top: calc(var(--header-h) + 1.5rem); }
 body {
   margin: 0;
   font-family: var(--font-body);
@@ -222,10 +229,13 @@ input, textarea { font: inherit; }
 .site-header {
   /* Default state: solid. Every interior page (no full-bleed hero behind
      the header) uses this as-is with zero JS. Only .site-header--overlay
-     (the homepage, over the hero slider) starts transparent instead. */
+     (the homepage, over the hero slider) starts transparent instead.
+     z-index sits above .site-nav (600) so the logo and the menu toggle
+     (which morphs into the close "X") stay visible and usable the whole
+     time the full-screen nav is open, instead of being covered by it. */
   position: fixed;
   inset: 0 0 auto 0;
-  z-index: 500;
+  z-index: 700;
   height: var(--header-h);
   display: flex;
   align-items: center;
@@ -475,24 +485,6 @@ input, textarea { font: inherit; }
 }
 .site-nav__card-eyebrow { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--color-gold-light); }
 .site-nav__card-title { font-family: var(--font-display); font-size: 1.4rem; }
-
-.site-nav__close {
-  position: absolute;
-  top: 1.9rem;
-  right: var(--gutter);
-  z-index: 10;
-  width: 44px;
-  height: 44px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  border: 1px solid var(--color-line);
-  transition: transform var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
-}
-.site-nav__close svg { width: 18px; height: 18px; }
-.site-nav__close:hover,
-.site-nav__close:focus-visible { background: var(--color-navy); color: var(--color-white); transform: rotate(90deg); }
 
 /* -------------------------------------------------------------------------
    6. HERO
@@ -1289,6 +1281,52 @@ a.contact-info-card__value:hover, a.contact-info-card__value:focus-visible { col
 }
 .partner-card:hover img { filter: grayscale(0); opacity: 1; }
 
+/* Continuous auto-scrolling partner-logo strip — plain CSS keyframe loop,
+   no JS. The track holds the logo list twice back to back (see
+   block_partners_marquee in build_site.py); animating it exactly -50% of
+   its own width loops the second copy seamlessly into the first copy's
+   starting position, reading as one endless line. */
+.partners-marquee-section { overflow: hidden; }
+.partners-marquee {
+  position: relative;
+  margin-top: clamp(2rem, 4vw, 3rem);
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+}
+.partners-marquee__track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  animation: partners-marquee-scroll 42s linear infinite;
+}
+.partners-marquee:hover .partners-marquee__track { animation-play-state: paused; }
+.partners-marquee__tile {
+  flex: 0 0 auto;
+  width: 220px;
+  height: 120px;
+  margin-right: 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+}
+.partners-marquee__tile img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  filter: grayscale(1);
+  opacity: 0.65;
+  transition: filter var(--dur-fast) var(--ease-out), opacity var(--dur-fast) var(--ease-out);
+}
+.partners-marquee__tile:hover img { filter: grayscale(0); opacity: 1; }
+@keyframes partners-marquee-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
 /* -------------------------------------------------------------------------
    21. MACHINERY 3D FLIP CARD
    ------------------------------------------------------------------------- */
@@ -1792,6 +1830,30 @@ body.lightbox-open { overflow: hidden; }
   .sustainability { min-height: 60vh; }
   .hero-slider__controls { flex-wrap: wrap; }
   .hero-slider__nav-btn { width: 40px; height: 40px; }
+  /* All 5 hero photos are wide landscape shots (aspect ~1.6–2.2). At full
+     100svh on a narrow phone (aspect ~0.5–0.6) object-fit:cover has to crop
+     away most of the photo's width to fill that tall a box, cutting the
+     subject off on both sides. Capping the height on mobile brings the
+     container's aspect ratio much closer to the source photos', so far
+     more of each image actually shows. */
+  .hero-slider { min-height: 78svh; }
+  /* Content is bottom-anchored (align-items:flex-end) inside a container
+     with overflow:hidden, so on a shorter mobile hero the full paragraph
+     can push the headline up past the top edge and get clipped there.
+     Clamp the paragraph to 3 lines on mobile (full text stays on tablet/
+     desktop, where there's room) and drop the prev/next arrows — swipe
+     and the dots already cover navigation — so everything comfortably
+     fits above the fold. */
+  .hero-slider__text {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 1.2em;
+  }
+  .hero-slider__headline { margin-bottom: 0.4em; }
+  .hero-slider__nav { display: none; }
+  .partners-marquee__tile { width: 160px; height: 90px; margin-right: 1.1rem; padding: 1rem; }
   .flip-card { height: 340px; }
   .product-grid { grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
   .product-gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
@@ -1815,6 +1877,7 @@ body.lightbox-open { overflow: hidden; }
 }
 
 @media (max-width: 576px) {
+  .hero-slider { min-height: 68svh; }
   .hero-slider__actions { flex-direction: column; align-items: stretch; }
   .hero-slider__actions .btn { justify-content: center; }
   .project-card { flex-basis: 86vw; }
