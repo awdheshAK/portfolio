@@ -763,6 +763,10 @@ add(path="/quality/", title="Quality", kind="detail", category=None,
         "Across the production floor, quality is checked at every critical stage: fabric inspection, cutting, stitching, pressing, inspection, packing, a final quality check, and dispatch.",
         "We believe every garment should not only look right, but also feel right, perform consistently and meet the standard our customers expect — consistency, control and confidence, built into every stage.",
     ],
+    steps=[(step, PRODUCTION_STEP_TEXT[step]) for step in ["Fabric Inspection", "Cutting", "Stitching", "Inspection", "Packing", "Dispatch"]],
+    steps_eyebrow="On the Floor", steps_heading="Checked at Every Stage of Production",
+    gallery=[IMAGES["facility"]["quality-control"], IMAGES["manufacturing"]["overview"], IMAGES["team"]["quality-team"]],
+    gallery_eyebrow="Quality", gallery_heading="Consistency, Checked",
     related=[{"title": "Facility: Quality Control", "href": "/facility/quality-control/"}, {"title": "Certifications", "href": "/certifications/"}, {"title": "Quality Team", "href": "/about/quality-team/"}])
 
 # --- SUSTAINABILITY -----------------------------------------------------------------
@@ -778,6 +782,8 @@ add(path="/sustainability/environment/", title="Environment — Sustainability",
     lede="[Add MJ Oswal Exports' verified environmental commitments and initiatives here.]",
     highlights=[{"title": "[Initiative]", "text": "[Add verified detail once confirmed.]"}],
     body=["No specific environmental claims are made until verified information is provided."],
+    gallery=[IMAGES["facility"]["overview"], IMAGES["facility"]["technology"], IMAGES["manufacturing"]["overview"]],
+    gallery_eyebrow="Our Facility", gallery_heading="Ludhiana, Punjab",
     related=[{"title": "People", "href": "/sustainability/people/"}, {"title": "Quality", "href": "/quality/"}])
 add(path="/sustainability/people/", title="People — Sustainability", kind="detail", category="sustainability",
     heading="People", eyebrow="Sustainability", hero_image=IMAGES["team"]["our-people"]["src"],
@@ -787,6 +793,13 @@ add(path="/sustainability/people/", title="People — Sustainability", kind="det
         {"title": "Departments", "text": "8 integrated manufacturing departments"},
     ],
     body=["[Add verified workplace, safety and people-development initiatives here.]"],
+    steps=[("General Management & Department Heads", "Direction, planning and operational leadership across all eight departments."),
+           ("Managers & Technical Teams", "Ensure every process is executed with discipline and consistency, floor by floor."),
+           ("Design, Quality & Production", "Turn a confirmed order into a finished, quality-checked garment."),
+           ("Accounts, Merchandising & Support", "Keep every order moving on schedule, order after order.")],
+    steps_eyebrow="Our Workforce", steps_heading="How Our 700+ People Are Organised",
+    gallery=[IMAGES["team"]["our-people"], IMAGES["team"]["production-team"], IMAGES["team"]["quality-team"]],
+    gallery_eyebrow="Our People", gallery_heading="700+ People, One Team",
     related=[{"title": "Environment", "href": "/sustainability/environment/"}, {"title": "Our People", "href": "/about/our-people/"}])
 
 # --- PROJECTS -----------------------------------------------------------------------
@@ -805,6 +818,13 @@ for i, pr in enumerate(PROJECTS_DATA):
         hero_image=IMAGES["projects"][i]["src"],
         highlights=[{"title": "Scope", "text": "[Add verified scope of work.]"}, {"title": "Category", "text": "[Add verified product category.]"}],
         body=["[Add verified project detail here once available.]"],
+        steps=[("Design & Pattern", "A confirmed design is turned into a production-ready pattern."),
+               ("Cutting & Stitching", "Panels are cut to pattern and stitched on our main production line."),
+               ("Quality Check", "The finished garment is checked against measurements, construction and finishing standards."),
+               ("Pack & Dispatch", "Assortment and labelling are verified, then the order is packed and dispatched.")],
+        steps_eyebrow="How We Work", steps_heading="Our Process on Every Project",
+        gallery=[IMAGES["projects"][1 - i], IMAGES["manufacturing"]["overview"], IMAGES["facility"]["production"]],
+        gallery_eyebrow="Our Work", gallery_heading="On the Floor",
         related=[{"title": pr2["title"], "href": f"/projects/{pr2['slug']}/"} for pr2 in PROJECTS_DATA if pr2["slug"] != pr["slug"]])
 
 # --- CERTIFICATIONS / PARTNERS / EXPORTS ---------------------------------------------
@@ -813,6 +833,13 @@ add(path="/certifications/", title="Certifications", kind="detail", category=Non
     lede="This page is structured and ready to present our certifications. No certificate names, issuing bodies or years are shown until verified.",
     highlights=[{"title": c["name"], "text": f'{c["issuer"]} · {c["year"]}'} for c in CERTIFICATES],
     body=["[Add verified certification names, issuing organisations and years to complete this page.]"],
+    steps=[("Fabric Quality", "Construction, GSM, width, hand feel, colour and performance are checked before cutting."),
+           ("Production Control", "In-line checks run at every department, not only at the end of the line."),
+           ("Garment Quality", "Measurements, stitching, construction and finishing are checked against defined standards."),
+           ("Final Inspection & Packing", "A structured final check runs before packing, covering assortment, labelling and presentation.")],
+    steps_eyebrow="What Our Process Covers", steps_heading="Quality Standards Behind Certification",
+    gallery=[IMAGES["facility"]["quality-control"], IMAGES["manufacturing"]["overview"], IMAGES["team"]["quality-team"]],
+    gallery_eyebrow="Quality", gallery_heading="Checked at Every Stage",
     related=[{"title": "Quality", "href": "/quality/"}, {"title": "Facility: Quality Control", "href": "/facility/quality-control/"}])
 
 add(path="/partners/", title="Our Partners", kind="detail", category=None,
@@ -820,6 +847,13 @@ add(path="/partners/", title="Our Partners", kind="detail", category=None,
     lede="This page is structured and ready to present our partners. No partner or client names are shown until verified and cleared for publication.",
     highlights=[{"title": p["name"], "text": "[Verified relationship detail pending.]"} for p in PARTNERS[:4]],
     body=["[Add verified, publication-cleared partner or client names and logos to complete this page.]"],
+    steps=[("Vertically Integrated", "Knitting, cutting, printing, embroidery, stitching, finishing and dispatch all run under one roof."),
+           ("Production at Scale", "30,000 pieces a day on stitching, backed by around 9 tons of in-house fabric production."),
+           ("Checked at Every Stage", "Fabric, in-line production and the finished garment are each checked against defined standards."),
+           ("Domestic & Export Ready", "The same production line and quality checks serve both domestic and export orders.")],
+    steps_eyebrow="Why Partner With Us", steps_heading="What We Bring to a Partnership",
+    gallery=[IMAGES["facility"]["overview"], IMAGES["manufacturing"]["overview"], IMAGES["team"]["our-people"]],
+    gallery_eyebrow="MJ Oswal Exports", gallery_heading="Our Facility",
     related=[{"title": "Exports", "href": "/exports/"}, {"title": "About", "href": "/about/"}])
 
 add(path="/exports/", title="Exports", kind="detail", category=None,
@@ -831,6 +865,13 @@ add(path="/exports/", title="Exports", kind="detail", category=None,
         {"title": "Logistics", "text": "[Add verified logistics and shipping detail here.]"},
     ],
     body=["No specific export countries, client names or shipment volumes are claimed until verified."],
+    steps=[("Production", "The order runs through our own knitting, cutting, printing, embroidery and stitching departments."),
+           ("Quality Check", "Fabric, in-line production and the finished garment are each checked against defined standards."),
+           ("Packing", "Assortment and labelling are verified, then the order is packed for transit."),
+           ("Dispatch Ready", "Cartons are scheduled out to hit the delivery window agreed for domestic or export shipment.")],
+    steps_eyebrow="How an Order Ships", steps_heading="From Floor to Dispatch",
+    gallery=[IMAGES["manufacturing"]["packing"], IMAGES["manufacturing"]["dispatch"], IMAGES["facility"]["overview"]],
+    gallery_eyebrow="Exports", gallery_heading="Ready for Dispatch",
     related=[{"title": "Facility: Capacity", "href": "/facility/capacity/"}, {"title": "Contact", "href": "/contact/"}])
 
 # --- INSIGHTS -----------------------------------------------------------------------
@@ -860,6 +901,13 @@ add(path="/careers/", title="Careers", kind="detail", category=None,
         {"title": "Open Roles", "text": "[Add verified current openings here.]"},
     ],
     body=["[Add verified current job openings, application process and contact details here.]"],
+    steps=[("Knitting, Cutting & Printing", "Machine operators, fitters and technical roles running our fabric and cutting floor."),
+           ("Embroidery & Stitching", "Skilled machine roles on our multi-head embroidery and main stitching lines."),
+           ("Finishing, Packing & Dispatch", "Roles covering pressing, inspection, packing and scheduled dispatch."),
+           ("Design, Quality & Merchandising", "Office and technical roles supporting production from design through to final inspection.")],
+    steps_eyebrow="Where You'd Work", steps_heading="Eight Departments, One Team",
+    gallery=[IMAGES["team"]["manufacturing-team"], IMAGES["team"]["production-team"], IMAGES["facility"]["overview"]],
+    gallery_eyebrow="Careers", gallery_heading="Our Team at Work",
     related=[{"title": "Our People", "href": "/about/our-people/"}, {"title": "Contact", "href": "/contact/"}])
 
 add(path="/contact/", title="Contact Us", kind="contact", category=None,
