@@ -216,6 +216,13 @@ add(path="/about/capabilities/", title="Capabilities — About", kind="detail", 
         "Flexible & Dependable — from small logos to complex, multicolour designs and detailed embroidery, our production line is built to handle a wide range of styles and value additions.",
         "Customer Focused — every stage of our process, from pattern to packing, is checked against defined standards so customers receive the product they approved.",
     ],
+    steps=[("Capacity Planning", "An order is scheduled against real machine and workforce capacity — 30,000 pieces a day on stitching — not an estimate."),
+           ("Integrated Execution", "Knitting, cutting, printing, embroidery, stitching, finishing and value addition run as one line, in-house."),
+           ("Checked at Every Stage", "Fabric, in-line production, and the finished garment are each checked against defined standards."),
+           ("Delivered on Schedule", "A production line organised for dependable, on-time turnaround, order after order.")],
+    steps_eyebrow="How It Works", steps_heading="Capability in Practice",
+    gallery=[IMAGES["team"]["our-people"], IMAGES["manufacturing"]["overview"], IMAGES["facility"]["technology"]],
+    gallery_eyebrow="Built for Scale", gallery_heading="Capacity On the Floor",
     related=[{"title": "Manufacturing", "href": "/manufacturing/"}, {"title": "Quality", "href": "/quality/"}, {"title": "Design & Development", "href": "/about/design-and-development/"}])
 
 add(path="/about/design-and-development/", title="Design & Development — About", kind="detail", category="about",
@@ -236,6 +243,13 @@ add(path="/about/design-and-development/", title="Design & Development — About
         "Technical Development — our development process combines creative direction with technical understanding, ensuring designs are not only visually strong but also manufacturable, repeatable and commercially practical.",
         "Our strength lies in bringing design and manufacturing together. Because our capabilities extend from fabric to finished garment, we can experiment, develop and execute complex products while maintaining control over quality and consistency — where ideas are developed into garments.",
     ],
+    steps=[("Fabric & Silhouette", "Construction, weight, texture and finish are chosen alongside the garment's silhouette, not after it."),
+           ("Print & Surface Design", "Graphics and surface treatments are developed with a focus on precision and placement."),
+           ("Sampling", "Ideas become samples, tested for fit, fabric behaviour and finishing before production."),
+           ("Production-Ready", "A design is confirmed only once it's manufacturable, repeatable and commercially practical.")],
+    steps_eyebrow="Our Process", steps_heading="From Idea to Garment",
+    gallery=[IMAGES["manufacturing"]["designing"], IMAGES["team"]["our-people"], IMAGES["facility"]["technology"]],
+    gallery_eyebrow="Design in Practice", gallery_heading="From Sketch to Sample",
     related=[{"title": "Design Team", "href": "/about/design-team/"}, {"title": "Capabilities", "href": "/about/capabilities/"}, {"title": "Manufacturing", "href": "/manufacturing/"}])
 
 add(path="/about/company/", title="Company — About", kind="detail", category="about",
@@ -256,6 +270,13 @@ add(path="/about/company/", title="Company — About", kind="detail", category="
         "Our mission is straightforward: manufacture apparel that meets consistent quality and delivery standards, through a production line that keeps knitting, design, cutting, printing, embroidery, stitching, finishing and dispatch under one roof.",
         "At MJ Oswal, quality is not simply an end result — it is a standard built into every stage of the process, from the first metre of fabric to the last piece packed for dispatch.",
     ],
+    steps=[(f"{FOUNDED_YEAR} — Fabric Manufacturing", "MJ Oswal begins as a fabric manufacturing company, building a foundation in textiles and materials."),
+           ("2010 — Entered Garments", "The company moves into garment manufacturing, starting with tops, bottoms and Indian casual wear."),
+           ("Vertical Integration", "Knitting, cutting, printing, embroidery, stitching, finishing and packing are brought under one system."),
+           ("Today", "An export-oriented manufacturer of circular knitted garments, for domestic and export customers alike.")],
+    steps_eyebrow="Our Story", steps_heading="How We Got Here",
+    gallery=[IMAGES["facility"]["overview"], IMAGES["manufacturing"]["overview"], IMAGES["team"]["leadership"]],
+    gallery_eyebrow="At MJ Oswal", gallery_heading="The Company Today",
     related=[{"title": "Capabilities", "href": "/about/capabilities/"}, {"title": "Leadership", "href": "/about/leadership/"}, {"title": "Our Manufacturing", "href": "/manufacturing/"}])
 
 add(path="/about/leadership/", title="Leadership — About", kind="detail", category="about",
@@ -266,6 +287,13 @@ add(path="/about/leadership/", title="Leadership — About", kind="detail", cate
         {"title": "[Leadership Name]", "text": "[Title / Role — to be confirmed]"},
     ],
     body=["This page is ready to present verified leadership profiles. [Provide names, titles and short biographies to complete this page.]"],
+    steps=[("General Management", "Sets direction and planning across the whole facility."),
+           ("Department Heads", "Own outcomes for each of the eight manufacturing departments."),
+           ("Managers & Technical Leads", "Ensure every process on the floor is executed with discipline and consistency."),
+           ("Design, Quality & Production Teams", "Turn that direction into a finished, quality-checked garment, order after order.")],
+    steps_eyebrow="Structure", steps_heading="How Leadership Is Organised",
+    gallery=[IMAGES["team"]["our-people"], IMAGES["facility"]["overview"], IMAGES["team"]["manufacturing-team"]],
+    gallery_eyebrow="At MJ Oswal", gallery_heading="Our Team",
     related=[{"title": "Company", "href": "/about/company/"}, {"title": "Our People", "href": "/about/our-people/"}])
 
 add(path="/about/our-people/", title="Our People — About", kind="detail", category="about",
@@ -281,6 +309,13 @@ add(path="/about/our-people/", title="Our People — About", kind="detail", cate
         "Our management and department heads provide direction, planning and operational leadership, while our managers and technical teams ensure that processes are executed with discipline and consistency. Our design and development teams bring creativity and product understanding; our production and quality teams turn these ideas into finished garments, while our accounts, merchandising and support functions keep the business moving efficiently.",
         "With more than 700 employees, we believe our strength comes not only from our infrastructure and technology, but from the people who operate it every day — one integrated team, working to one shared standard.",
     ],
+    steps=[("Design & Merchandising", "Ideas are shaped into commercially viable, manufacturable products."),
+           ("Production", "Managers and technical teams turn a confirmed design into finished garments, department by department."),
+           ("Quality", "In-line and final checks run alongside production, not after it."),
+           ("Accounts & Support", "Merchandising, accounts and support functions keep every order moving on schedule.")],
+    steps_eyebrow="How We Work", steps_heading="One Team, One Standard",
+    gallery=[IMAGES["team"]["production-team"], IMAGES["team"]["design-team"], IMAGES["team"]["quality-team"]],
+    gallery_eyebrow="Our People", gallery_heading="Across the Floor",
     related=[{"title": "Manufacturing Team", "href": "/about/manufacturing-team/"}, {"title": "Design Team", "href": "/about/design-team/"}, {"title": "Quality Team", "href": "/about/quality-team/"}])
 
 add(path="/about/design-team/", title="Design Team — About", kind="detail", category="about",
@@ -293,6 +328,13 @@ add(path="/about/design-team/", title="Design Team — About", kind="detail", ca
         {"title": "Sampling & Prototyping", "text": "Ideas translated into samples, tested and refined before production"},
     ],
     body=["Our design process combines creative direction with technical understanding, so every design is not only visually strong but also manufacturable, repeatable and commercially practical — full detail on our Design & Development page."],
+    steps=[("Fabric Exploration", "Constructions, weights, textures and finishes are explored for the desired look and performance."),
+           ("Silhouette Development", "Fit, proportions, construction and functionality are worked out for tops, bottoms and coordinated sets."),
+           ("Print & Surface Design", "Graphics and surface treatments are developed with precision, placement and consistency."),
+           ("Sampling & Refinement", "Ideas are sampled, tested and refined before a design is cleared for production.")],
+    steps_eyebrow="Day to Day", steps_heading="What the Design Team Does",
+    gallery=[IMAGES["manufacturing"]["designing"], IMAGES["team"]["our-people"], IMAGES["facility"]["technology"]],
+    gallery_eyebrow="Design Team", gallery_heading="From Concept to Sample",
     related=[{"title": "Design & Development", "href": "/about/design-and-development/"}, {"title": "Quality Team", "href": "/about/quality-team/"}])
 
 add(path="/about/quality-team/", title="Quality Team — About", kind="detail", category="about",
@@ -304,6 +346,13 @@ add(path="/about/quality-team/", title="Quality Team — About", kind="detail", 
         {"title": "Standard", "text": "Consistency, control and confidence — from fabric to pack"},
     ],
     body=["Full detail on how quality is checked at every stage is covered on our Quality page."],
+    steps=[("Fabric Quality", "Construction, GSM, width, hand feel, colour and performance are checked before cutting."),
+           ("Production Control", "In-line checks catch variation before it reaches the finished garment."),
+           ("Garment Quality", "Measurements, stitching, construction and finishing are checked against defined standards."),
+           ("Final Inspection & Packing", "A structured final check runs before packing, covering assortment, labelling and presentation.")],
+    steps_eyebrow="Checkpoints", steps_heading="Where the Quality Team Checks",
+    gallery=[IMAGES["facility"]["quality-control"], IMAGES["manufacturing"]["overview"], IMAGES["team"]["production-team"]],
+    gallery_eyebrow="Quality Team", gallery_heading="Checked at Every Stage",
     related=[{"title": "Quality", "href": "/quality/"}, {"title": "Facility: Quality Control", "href": "/facility/quality-control/"}])
 
 add(path="/about/production-team/", title="Production Team — About", kind="detail", category="about",
@@ -315,6 +364,13 @@ add(path="/about/production-team/", title="Production Team — About", kind="det
         {"title": "Fabric Production", "text": "Approximately 9 tons per day"},
     ],
     body=["Managers and technical teams ensure every stage — from fabric to finished garment — is executed to the same standard, in sequence, across our integrated production line."],
+    steps=[("Fabric Inspection & Cutting", "Every roll is checked, then panels are cut to pattern for consistent sizing."),
+           ("Stitching & Pressing", "The main line runs stitching and pressing in sequence, on a 30,000-piece-a-day capacity."),
+           ("Inspection", "A completed garment is checked against construction and finishing standards."),
+           ("Packing & Dispatch", "Assortment and labelling are verified before a carton is packed and scheduled out.")],
+    steps_eyebrow="On the Floor", steps_heading="How the Production Team Runs a Day",
+    gallery=[IMAGES["manufacturing"]["overview"], IMAGES["manufacturing"]["stitching"], IMAGES["facility"]["production"]],
+    gallery_eyebrow="Production Team", gallery_heading="Running the Floor",
     related=[{"title": "Manufacturing", "href": "/manufacturing/"}, {"title": "Facility: Production", "href": "/facility/production/"}])
 
 add(path="/about/manufacturing-team/", title="Manufacturing Team — About", kind="detail", category="about",
@@ -325,6 +381,13 @@ add(path="/about/manufacturing-team/", title="Manufacturing Team — About", kin
         {"title": "Departments", "text": "Knitting, Cutting, Printing, Embroidery, Stitching, Finishing, Value Addition, Packing & Dispatch"},
     ],
     body=["Explore each department individually on our Manufacturing page for department-specific detail and figures."],
+    steps=[("Knitting", "Circular, interlock and flat knitting machines produce our own fabric in-house."),
+           ("Cutting, Printing & Embroidery", "Panels are cut to pattern, then printed and embroidered where a design calls for it."),
+           ("Stitching & Finishing", "Panels become a finished garment, pressed and inspected before packing."),
+           ("Value Addition & Dispatch", "Labels, logos and patches are applied, then the order is packed and dispatched.")],
+    steps_eyebrow="Eight Departments", steps_heading="One Connected Line",
+    gallery=[IMAGES["manufacturing"]["overview"], IMAGES["facility"]["machinery"], IMAGES["team"]["production-team"]],
+    gallery_eyebrow="Manufacturing Team", gallery_heading="Across Every Department",
     related=[{"title": "Manufacturing Overview", "href": "/manufacturing/"}, {"title": "Facility", "href": "/facility/"}])
 
 # --- BUSINESSES ------------------------------------------------------------------
@@ -341,6 +404,37 @@ BUSINESS_SUB = [
     ("knitwear", "Knitwear", "Knitted garment manufacturing", "Our knitwear production starts on our own knitting floor — 20 circular and 2 interlock knitting machines, plus 4 flat knitting machines — feeding directly into our cutting and stitching lines."),
     ("garments", "Garments", "End-to-end garment manufacturing", "From raw fabric through to a packed, dispatch-ready garment, our eight manufacturing departments work as one integrated production line."),
 ]
+BUSINESS_BODY = {
+    "apparel": [
+        "Our apparel business covers the full Men's and Women's range — track suits, lounge wear, T-shirts, polos, sweatshirts, suits and outerwear for men; tops, dresses, athleisure, onesies and lounge wear for women — all manufactured through the same integrated production line.",
+        "Because design, cutting, printing and stitching all run in-house, an apparel order isn't handed between separate vendors for each stage. The same team that develops the pattern also cuts the fabric, prints or embroiders it, and stitches it into the finished piece.",
+        "That integration is what lets us hold consistent quality across a large order — every T-shirt in a 5,000-piece run is cut, printed and stitched against the same approved sample, not a slightly different one from a subcontractor.",
+    ],
+    "knitwear": [
+        "Knitwear is where our production starts. Our own knitting floor runs 20 circular and 2 interlock knitting machines for core fabric, plus 4 flat knitting machines for ribs, collars and finer structures — producing roughly 9 tons of circular knitted fabric a day.",
+        "Because we knit our own fabric rather than buying it in, construction, GSM and hand-feel are set and checked at the source, on 3 automatic checking tables, before a roll is ever cleared for cutting.",
+        "That in-house fabric supply is what lets cutting and stitching run on our own schedule — knitwear production doesn't wait on an outside fabric supplier's lead time.",
+    ],
+    "garments": [
+        "Garments is the end-to-end business: fabric goes in one end of the facility and a packed, dispatch-ready product comes out the other, without leaving the building in between.",
+        "Eight departments — knitting, cutting, printing, embroidery, stitching, finishing, value addition and dispatch — hand off to each other in sequence, each one checking its own work before the next department picks it up.",
+        "That single-roof structure is what supports a 30,000-piece-a-day stitching capacity while still holding the same quality standard across every department, on every order.",
+    ],
+}
+BUSINESS_STEPS = {
+    "apparel": [("Design & Pattern", "A design is developed and turned into a pattern ready for cutting."),
+                ("Cutting & Printing", "Panels are cut to pattern, then printed or embroidered where the design calls for it."),
+                ("Stitching", "Panels are stitched into the finished garment on our main production line."),
+                ("Finishing & Pack", "The garment is pressed, inspected and packed for dispatch.")],
+    "knitwear": [("Yarn Feeding", "Yarn is fed into the knitting machines under controlled tension."),
+                 ("Knitting", "Circular, interlock and flat machines knit fabric to the specified construction."),
+                 ("Automatic Checking", "Every roll passes an automatic checking table for defects."),
+                 ("Cleared for Cutting", "Approved fabric moves directly into our own cutting department.")],
+    "garments": [("Fabric In", "Knitted fabric enters the facility from our own knitting floor."),
+                 ("Cut, Print & Stitch", "Panels are cut, printed or embroidered, then stitched into a finished garment."),
+                 ("Finish & Inspect", "The garment is pressed and checked against our quality standards."),
+                 ("Pack & Dispatch", "Assortment and labelling are verified, then the order is packed and dispatched.")],
+}
 for slug, title, heading, lede in BUSINESS_SUB:
     add(path=f"/businesses/{slug}/", title=f"{title} — Businesses", kind="detail", category="businesses",
         heading=heading, eyebrow="Our Businesses", lede=lede, hero_image=IMAGES["businesses"][slug]["src"],
@@ -349,7 +443,10 @@ for slug, title, heading, lede in BUSINESS_SUB:
             {"title": "Production Capacity", "text": "30,000 pieces per day"},
             {"title": "Fabric Production", "text": "Approximately 9 tons of circular knitted fabric per day"},
         ],
-        body=[f"See our Manufacturing page for a full, department-by-department breakdown of how our {title.lower()} business area operates."],
+        body=BUSINESS_BODY[slug],
+        steps=BUSINESS_STEPS[slug], steps_eyebrow="How It Works", steps_heading=f"{title} — Step by Step",
+        gallery=[IMAGES["manufacturing"]["overview"], IMAGES["facility"]["production"], IMAGES["manufacturing"]["fabric" if slug == "knitwear" else "stitching"]],
+        gallery_eyebrow=title, gallery_heading="On the Production Line",
         related=[{"title": t, "href": f"/businesses/{s}/"} for s, t, *_ in BUSINESS_SUB if s != slug])
 
 # --- PRODUCTS ---------------------------------------------------------------------
@@ -510,7 +607,38 @@ MFG_DEPT_STEPS = {
                          ("Production Control", "In-line checks catch variation before it reaches the finished garment."),
                          ("Garment Quality", "Measurements, stitching, construction and finishing are checked against defined standards."),
                          ("Final Inspection & Packing", "A structured final check runs before packing, covering assortment, labelling and presentation.")],
+    "embroidery": [("Design Digitising", "The approved design is digitised once into a stitch file the machines read."),
+                   ("Hooping", "Garment panels are hooped and positioned so every repeat lands in the same place."),
+                   ("Multi-Head Stitching", "Multi-head machines run several identical repeats side by side."),
+                   ("Thread & Finish Check", "Stitch density, thread tension and colour placement are checked before the piece moves on.")],
+    "finishing": [("Steaming", "Crease lines from stitching and pressing are steamed out."),
+                  ("Thread Cleaning", "Loose threads are trimmed by hand across every piece."),
+                  ("Pressing", "Seams and panels are pressed to the shape the garment will hold."),
+                  ("Final Inspection", "Every piece is checked against standard before it's cleared for packing.")],
+    "value-addition": [("Base Quality Check", "The garment is checked for quality before any value-add is applied."),
+                        ("Design Preparation", "The label, logo or patch design is prepared for its specific technique — DTF, heat label, laser-cut or sticker."),
+                        ("Application", "The value-add is applied using the matched technique — printed, heat-pressed or laser-cut onto the garment."),
+                        ("Final Check", "The finished detail is inspected for placement and durability before the garment moves to packing.")],
+    "dispatch": [("Assortment Check", "Each carton is checked against the order for correct sizes, colours and quantities."),
+                 ("Labelling Check", "Labelling is matched against the order before anything is sealed."),
+                 ("Packing", "Product is packed carefully enough to protect it in transit without over-packing."),
+                 ("Scheduled Dispatch", "Cartons are dispatched against the delivery window the customer was quoted.")],
 }
+# Gallery images per department — the department's own hero photo plus 2-3
+# complementary real photos from elsewhere in the facility (never the same
+# file as that department's own hero_image, so a page never shows one photo
+# twice).
+MFG_GALLERY = {
+    "knitting": ["fabric", "production", "overview"],
+    "cutting": ["fabric", "designing", "production"],
+    "printing": ["designing", "heat-label", "technology"],
+    "embroidery": ["designing", "stitching", "production"],
+    "stitching": ["cutting", "pressing", "production"],
+    "finishing": ["packing", "dispatch", "overview"],
+    "value-addition": ["packing", "designing", "technology"],
+    "dispatch": ["packing", "overview", "production"],
+}
+MFG_OR_FACILITY_IMG = {**IMAGES["manufacturing"], **{k: v for k, v in IMAGES["facility"].items() if isinstance(v, dict) and "src" in v}}
 for slug, title, heading, lede, stats in MFG_DEPTS:
     others = [(s, t) for s, t, *_ in MFG_DEPTS if s != slug][:3]
     add(path=f"/manufacturing/{slug}/", title=f"{title} — Manufacturing", kind="detail", category="manufacturing",
@@ -518,6 +646,8 @@ for slug, title, heading, lede, stats in MFG_DEPTS:
         highlights=[{"title": k, "text": v} for k, v in stats],
         body=MFG_DEPT_BODY.get(slug, ["Figures on this page are drawn directly from our company profile document."]),
         steps=MFG_DEPT_STEPS.get(slug), steps_eyebrow="Step by Step", steps_heading=f"How {title} Works",
+        gallery=[MFG_OR_FACILITY_IMG[k] for k in MFG_GALLERY[slug]],
+        gallery_eyebrow="On the Floor", gallery_heading=f"{title} — In Pictures",
         related=[{"title": t, "href": f"/manufacturing/{s}/"} for s, t in others] + [{"title": "Facility", "href": "/facility/"}])
 
 # --- FACILITY ------------------------------------------------------------------
@@ -577,6 +707,22 @@ PRODUCTION_STEP_TEXT = {
 FACILITY_STEPS = {
     "production": [(step, PRODUCTION_STEP_TEXT[step]) for step in MFG_PROCESS],
     "quality-control": MFG_DEPT_STEPS["quality-control"],
+    "overview": [("Raw Material In", "Yarn and fabric inputs enter the facility at the knitting department."),
+                 ("Eight Departments, One Roof", "Knitting, cutting, printing, embroidery, stitching, finishing, value addition and dispatch all run inside the same building."),
+                 ("In-Line Handoffs", "Each department hands off to the next only once its own check has passed, same day."),
+                 ("Dispatch Out", "A packed, quality-checked garment leaves the facility ready for delivery.")],
+    "machinery": [("Knitting Machines", "20 circular, 2 interlock and 4 flat knitting machines produce our own fabric in-house."),
+                  ("Cutting Machines", "Hand-guided round-knife cutters, automatic computerised cutting and a laser cutter, matched to the run."),
+                  ("Printing & Embroidery", "11 automatic screen printing machines plus curing, fusing and multi-head embroidery machines."),
+                  ("Stitching & Finishing", "Single-needle lockstitch machines for main seams, with dedicated collar/cuff and drawstring machines.")],
+    "technology": [("Computerised Machinery", "Circular knitting, automatic cutting and multi-head embroidery machines hold construction and sizing consistent across a run."),
+                   ("Real-Time Monitoring", "Integrated systems track a garment's progress through the production line, department by department."),
+                   ("Manual Verification", "Every roll and every finished garment still passes a human check — monitoring supports inspection, it doesn't replace it."),
+                   ("Continuous Improvement", "Figures from the floor feed back into how each department is run, order after order.")],
+    "capacity": [("Fabric Production", "Approximately 9 tons of in-house circular knitted fabric per day."),
+                 ("Stitching Capacity", "30,000 pieces per day on the main stitching line."),
+                 ("Printing Capacity", "Roughly 5,000 pieces across around 20 print tables, run on its own schedule."),
+                 ("Confirmed Per Order", "Exact lead time and minimum quantities are confirmed against your specific product.")],
 }
 for slug, title, heading, lede in FACILITY_SUB:
     stats = {
@@ -592,6 +738,7 @@ for slug, title, heading, lede in FACILITY_SUB:
         highlights=[{"title": k, "text": v} for k, v in stats],
         body=FACILITY_BODY.get(slug, ["Full department-by-department detail is available on our Manufacturing page."]),
         steps=FACILITY_STEPS.get(slug), steps_eyebrow="Step by Step", steps_heading=f"{title} in Detail",
+        gallery=IMAGES["facility"]["gallery"], gallery_eyebrow="Our Facility", gallery_heading="Inside the Floor",
         related=[{"title": t2, "href": f"/facility/{s2}/"} for s2, t2, *_ in FACILITY_SUB if s2 != slug][:3])
 
 # --- QUALITY ----------------------------------------------------------------------
@@ -1124,6 +1271,28 @@ def block_body(paragraphs):
 '''
 
 
+def block_gallery(images, eyebrow, heading, text=None):
+    """Small real-photo gallery grid, reusing the homepage facility gallery's
+    look. images: list of {"src", "alt"} dicts (2-4 items)."""
+    tiles = "\n".join(f'''          <figure class="facility-gallery__item" data-reveal="fade-up" data-reveal-delay="{i * 60}">
+            <img src="{g['src']}" alt="{esc(g.get('alt', ''))}" width="900" height="700" loading="lazy">
+          </figure>''' for i, g in enumerate(images))
+    text_html = f'<p class="section-head__text" data-reveal="fade-up" data-reveal-delay="120">{esc(text)}</p>' if text else ""
+    return f'''    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow" data-reveal="fade-up">{esc(eyebrow)}</p>
+          <h2 class="section-head__title" data-reveal="fade-up" data-reveal-delay="80">{esc(heading)}</h2>
+          {text_html}
+        </div>
+        <div class="facility-gallery">
+{tiles}
+        </div>
+      </div>
+    </section>
+'''
+
+
 def block_related(items, heading="Related"):
     if not items:
         return ""
@@ -1565,6 +1734,8 @@ def body_detail(page):
         out += block_body(page["body"])
     if page.get("steps"):
         out += block_numbered_steps(page.get("steps_eyebrow", "In Detail"), page.get("steps_heading", "Step by Step"), page["steps"])
+    if page.get("gallery"):
+        out += block_gallery(page["gallery"], page.get("gallery_eyebrow", "In Pictures"), page.get("gallery_heading", "See It On the Floor"), page.get("gallery_text"))
     if page.get("related"):
         out += block_related(page["related"], f'More from {CATEGORY_LABEL.get(page.get("category"), SITE_NAME)}')
     out += block_cta()
